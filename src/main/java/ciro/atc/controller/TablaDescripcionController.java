@@ -2,6 +2,7 @@ package ciro.atc.controller;
 
 import ciro.atc.dao.service.TablaDescripcionService;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
+import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
 import ciro.atc.model.dto.TablaLista.TablaListaGetDTO;
@@ -56,6 +57,11 @@ public class TablaDescripcionController {
     @GetMapping("/mostrar/{id}")
     public TablaDescripcionGetDTO getEntidadByById(@PathVariable(value = "id") Long id) {
         return tablaDescripcionService.findTablaDescripcionByID(id);
+    }
+
+    @GetMapping("/mostrar2/{id}")
+    public TablaDescripcionGetDTO2 getEntidadByById2(@PathVariable(value = "id") Long id) {
+        return tablaDescripcionService.findTablaDescripcionByID2(id);
     }
 
     @DeleteMapping("/eliminar/{id}")

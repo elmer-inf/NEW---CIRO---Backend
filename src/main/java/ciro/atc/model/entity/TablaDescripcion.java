@@ -1,5 +1,8 @@
 package ciro.atc.model.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Setter
 @Getter
@@ -33,6 +37,24 @@ public class TablaDescripcion implements Serializable {
     // FK de Usuario
     @Column(name = "des_usuario_id", length = 10)
     private int usuario_id;
+
+
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "agenciaId")
+    private List<EventoRiesgo> eventoRiesgo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "ciudadId")
+    private List<EventoRiesgo> eventoRiesgo1;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "areaID")
+    private List<EventoRiesgo> eventoRiesgo2;
+
+
+
 
     @ManyToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "des_tabla_id", nullable = true)

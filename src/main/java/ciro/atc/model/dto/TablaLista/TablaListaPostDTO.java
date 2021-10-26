@@ -11,5 +11,8 @@ import java.sql.Timestamp;
 public class TablaListaPostDTO {
 
     private String nombre_tabla;
+    private int nivel2;
+    private int nivel3;
+
 
 }

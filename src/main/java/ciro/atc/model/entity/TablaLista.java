@@ -34,6 +34,12 @@ public class TablaLista {
     @OneToMany(mappedBy = "tablaLista", cascade = CascadeType.ALL)
     private List<TablaDescripcion> tablaDescripcion;//private Set<Card> cards;
 
+    @Column(name = "lis_nivel2", nullable = true, length = 10)
+    private int nivel2;
+
+    @Column(name = "lis_nivel3", nullable = true, length = 10)
+    private int nivel3;
+
     @CreationTimestamp
     @Column(name = "lis_dateTimeCreate", nullable = true)
     private Timestamp created;
@@ -49,8 +55,6 @@ public class TablaLista {
         this.deleted = true;
         return this;
     }
-
-
 
 }
 

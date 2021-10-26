@@ -3,6 +3,7 @@ package ciro.atc.dao.service;
 import ciro.atc.config.log.Log;
 import ciro.atc.exception.DBException;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
+import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
 import ciro.atc.model.dto.TablaLista.TablaListaGetDTO;
@@ -72,10 +73,40 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
         return tablaDescripcionGetDTO;
     }
 
+    public TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id){
+
+        Optional<TablaDescripcion> tablaDescripcion = tablaDescripcionRepository.findById(id);
+        TablaDescripcionGetDTO tablaDescripcionGetDTO = new TablaDescripcionGetDTO();
+        BeanUtils.copyProperties(tablaDescripcion.get(), tablaDescripcionGetDTO);
+
+
+        TablaDescripcionGetDTO2  objeto = new TablaDescripcionGetDTO2();
+
+        //BeanUtils.copyProperties(tablaDescripcionGetDTO, objeto);
+
+        int nivel2 = tablaDescripcionGetDTO.getNivel2_id();
+        if(nivel2 != 0) {
+            Optional<TablaDescripcion> findNivel2 = tablaDescripcionRepository.findById(new Long(nivel2));
+            objeto.setNivel2_id(findNivel2.get());
+        }
+
+        int nivel3 = tablaDescripcionGetDTO.getNivel3_id();
+        if(nivel3 != 0) {
+            Optional<TablaDescripcion> findNivel3 = tablaDescripcionRepository.findById(new Long(nivel3));
+            objeto.setNivel3_id(findNivel3.get());
+        }
+        BeanUtils.copyProperties(tablaDescripcion.get(), objeto);
+        return objeto;
+    }
+
+
     public TablaDescripcion deleteById(Long id) {
         TablaDescripcion tablaDescripcionToDelete = tablaDescripcionRepository.findByIdAndDeleted(id, false).get();
         return tablaDescripcionRepository.save(delete(tablaDescripcionToDelete));
     }
+
+
+
 
     final public <T extends Object> T delete(T obj) {
         try {
@@ -88,6 +119,11 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
             throw new RuntimeException(ex.getMessage());
         }
         return obj;
+    }
+
+    public TablaDescripcion findByIdTablaDesc(Long id){
+        Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
+        return founded.get();
     }
 }
 
