@@ -10,6 +10,6 @@ public class ArchivoPostDTO {
 
     private String archivo;
     private Long eventoId;
-    private int usuario_id;
+    private int usuarioId;
 
 }

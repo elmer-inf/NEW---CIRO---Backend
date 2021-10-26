@@ -15,31 +15,31 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "tbl_tabla_archivo")
+@Table(name = "tbl_archivo")
 
 public class Archivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "arc_id", nullable = false)
+    @Column(name = "arc_id")
     private Long id;
 
-    @Column(name = "arc_archivo", nullable = true)
+    @Column(name = "arc_archivo")
     private String archivo;
 
     @ManyToOne
-    @JoinColumn(name = "arc_evento_id", nullable = true)
+    @JoinColumn(name = "arc_evento_id")
     private EventoRiesgo eventoId;
 
-    @Column(name = "arc_usuario_id", nullable = true, length = 10)
+    @Column(name = "arc_usuario_id", length = 10)
     private int usuarioId;
 
     @CreationTimestamp
-    @Column(name = "arc_dateTimeCreate", nullable = true)
+    @Column(name = "arc_dateTimeCreate")
     private Timestamp created;
 
     @UpdateTimestamp
-    @Column(name = "arc_dateTimeUpdate", nullable = true)
+    @Column(name = "arc_dateTimeUpdate")
     private Timestamp updated;
 
     @Column(name = "arc_delete")

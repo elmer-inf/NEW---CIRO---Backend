@@ -79,10 +79,7 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
         TablaDescripcionGetDTO tablaDescripcionGetDTO = new TablaDescripcionGetDTO();
         BeanUtils.copyProperties(tablaDescripcion.get(), tablaDescripcionGetDTO);
 
-
         TablaDescripcionGetDTO2  objeto = new TablaDescripcionGetDTO2();
-
-        //BeanUtils.copyProperties(tablaDescripcionGetDTO, objeto);
 
         int nivel2 = tablaDescripcionGetDTO.getNivel2_id();
         if(nivel2 != 0) {
@@ -105,9 +102,6 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
         return tablaDescripcionRepository.save(delete(tablaDescripcionToDelete));
     }
 
-
-
-
     final public <T extends Object> T delete(T obj) {
         try {
             Class<?> cls = obj.getClass();
@@ -122,9 +116,18 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
     }
 
     public TablaDescripcion findByIdTablaDesc(Long id){
-        Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
-        return founded.get();
+        //System.out.println("ID: " + id);
+        try {
+            Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
+            System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
+
+            return founded.get();
+        }catch (Exception e){
+            Log.log("Error : " , e);
+        }
+        return null;
     }
+
 }
 
 

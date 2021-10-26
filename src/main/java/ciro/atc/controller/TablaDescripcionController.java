@@ -55,12 +55,12 @@ public class TablaDescripcionController {
     }
 
     @GetMapping("/mostrar/{id}")
-    public TablaDescripcionGetDTO getEntidadByById(@PathVariable(value = "id") Long id) {
+    public TablaDescripcionGetDTO getTablaDescripcionByById(@PathVariable(value = "id") Long id) {
         return tablaDescripcionService.findTablaDescripcionByID(id);
     }
 
     @GetMapping("/mostrar2/{id}")
-    public TablaDescripcionGetDTO2 getEntidadByById2(@PathVariable(value = "id") Long id) {
+    public TablaDescripcionGetDTO2 getTablaDscripcionByById2(@PathVariable(value = "id") Long id) {
         return tablaDescripcionService.findTablaDescripcionByID2(id);
     }
 

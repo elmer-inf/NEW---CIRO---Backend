@@ -38,7 +38,6 @@ public class TablaListaServiceImpl implements TablaListaService {
         //return tablaListaRepository.findAll();
     }
 
-
     public TablaListaGetDTO updateById (Long id, TablaListaPutDTO data){
         TablaLista tablaLista = tablaListaRepository.findById(id).orElseThrow(()-> new DBException("Tabla Lista", id));
         TablaListaGetDTO tablaListaGetDTO = new TablaListaGetDTO();

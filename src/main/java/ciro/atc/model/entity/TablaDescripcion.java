@@ -1,8 +1,6 @@
 package ciro.atc.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +20,7 @@ public class TablaDescripcion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "des_id", nullable = false)
+    @Column(name = "des_id")
     private Long id;
 
     @Column(name = "des_clave", length = 20)
@@ -34,31 +32,157 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_descripcion", length = 500)
     private String descripcion;
 
-    // FK de Usuario
-    @Column(name = "des_usuario_id", length = 10)
-    private int usuario_id;
 
-
-
-
+    /* -------- RELACION DE PARAMETROS --------- */
     @JsonIgnore
     @OneToMany(mappedBy = "agenciaId")
-    private List<EventoRiesgo> eventoRiesgo;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "ciudadId")
     private List<EventoRiesgo> eventoRiesgo1;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "areaID")
+    @OneToMany(mappedBy = "ciudadId")
     private List<EventoRiesgo> eventoRiesgo2;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "areaID")
+    private List<EventoRiesgo> eventoRiesgo3;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "unidadId")
+    private List<EventoRiesgo> eventoRiesgo4;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "entidadId")
+    private List<EventoRiesgo> eventoRiesgo5;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cargoId")
+    private List<EventoRiesgo> eventoRiesgo6;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "fuenteInfId")
+    private List<EventoRiesgo> eventoRiesgo7;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "canalAsfiId")
+    private List<EventoRiesgo> eventoRiesgo8;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "subcategorizacionId")
+    private List<EventoRiesgo> eventoRiesgo9;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tipoEventoPerdidaId")
+    private List<EventoRiesgo> eventoRiesgo10;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "subEventoId")
+    private List<EventoRiesgo> eventoRiesgo11;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "claseEventoId")
+    private List<EventoRiesgo> eventoRiesgo12;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "factorRiesgoId")
+    private List<EventoRiesgo> eventoRiesgo13;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "procesoId")
+    private List<EventoRiesgo> eventoRiesgo14;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "procedimientoId")
+    private List<EventoRiesgo> eventoRiesgo15;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "lineaAsfiId")
+    private List<EventoRiesgo> eventoRiesgo16;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "operacionId")
+    private List<EventoRiesgo> eventoRiesgo17;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "efectoPerdidaId")
+    private List<EventoRiesgo> eventoRiesgo18;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "opeProSerId")
+    private List<EventoRiesgo> eventoRiesgo19;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tipoServicioId")
+    private List<EventoRiesgo> eventoRiesgo20;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "descServicioId")
+    private List<EventoRiesgo> eventoRiesgo21;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tasaCambioId")
+    private List<EventoRiesgo> eventoRiesgo22;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "monedaId")
+    private List<EventoRiesgo> eventoRiesgo23;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "impactoId")
+    private List<EventoRiesgo> eventoRiesgo24;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "polizaSeguroId")
+    private List<EventoRiesgo> eventoRiesgo25;
 
 
 
-    @ManyToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "des_tabla_id", nullable = true)
-    //@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @JsonIgnore
+    @OneToMany(mappedBy = "operativoId")
+    private List<EventoRiesgo> eventoRiesgo26;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "seguridadId")
+    private List<EventoRiesgo> eventoRiesgo27;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "liquidezId")
+    private List<EventoRiesgo> eventoRiesgo28;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "lgiId")
+    private List<EventoRiesgo> eventoRiesgo29;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "fraudeId")
+    private List<EventoRiesgo> eventoRiesgo30;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "legalId")
+    private List<EventoRiesgo> eventoRiesgo31;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "reputacionalId")
+    private List<EventoRiesgo> eventoRiesgo32;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cumplimientoId")
+    private List<EventoRiesgo> eventoRiesgo33;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "estrategicoId")
+    private List<EventoRiesgo> eventoRiesgo34;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "gobiernoId")
+    private List<EventoRiesgo> eventoRiesgo35;
+    /* -------- FIN RELACION DE PARAMETROS  --------- */
+
+
+    @Column(name = "des_usuario_id", length = 10)
+    private int usuario_id;
+
+    @ManyToOne
+    @JoinColumn(name = "des_tabla_id")
     private TablaLista tablaLista;
 
     @Column(name = "des_nivel2_id", length = 500)
@@ -77,11 +201,11 @@ public class TablaDescripcion implements Serializable {
     private TablaLista tablaLista;*/
 
     @CreationTimestamp
-    @Column(name = "des_dateTimeCreate", nullable = true)
+    @Column(name = "des_dateTimeCreate")
     private Timestamp created;
 
     @UpdateTimestamp
-    @Column(name = "des_dateTimeUpdate", nullable = true)
+    @Column(name = "des_dateTimeUpdate")
     private Timestamp updated;
 
     @Column(name = "des_delete")
