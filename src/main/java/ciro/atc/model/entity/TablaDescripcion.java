@@ -29,7 +29,7 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_nombre", length = 500)
     private String nombre;
 
-    @Column(name = "des_descripcion", length = 500)
+    @Column(name = "des_descripcion", length = 1000)
     private String descripcion;
 
 
@@ -175,20 +175,21 @@ public class TablaDescripcion implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "gobiernoId")
     private List<EventoRiesgo> eventoRiesgo35;
+
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
 
-    @Column(name = "des_usuario_id", length = 10)
+    @Column(name = "des_usuario_id")
     private int usuario_id;
 
     @ManyToOne
     @JoinColumn(name = "des_tabla_id")
     private TablaLista tablaLista;
 
-    @Column(name = "des_nivel2_id", length = 500)
+    @Column(name = "des_nivel2_id")
     private int nivel2_id;
 
-    @Column(name = "des_nivel3_id", length = 500)
+    @Column(name = "des_nivel3_id")
     private int nivel3_id;
 
     /*@ManyToOne(fetch = FetchType.LAZY, optional=true)

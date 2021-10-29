@@ -27,16 +27,19 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_id")
     private Long id;
 
-    @Column(name = "eve_codigo")
+    @Column(name = "eve_codigo", length = 20)
     private String codigo;
 
-    @Column(name = "eve_tipo_evento")
+    @Column(name = "eve_id_area_correlativo")
+    private int idAreaCorrelativo;
+
+    @Column(name = "eve_tipo_evento", length = 10)
     private String tipoEvento;
 
-    @Column(name = "eve_estado_registro")
+    @Column(name = "eve_estado_registro", length = 30)
     private String estadoRegistro; // Pendiente, observado, autorizado, descartado
 
-    @Column(name = "eve_estado_evento")
+    @Column(name = "eve_estado_evento", length = 30)
     private String estadoEvento; // Investigacion, seguimiento y Resuelto
 
     @Column(name = "eve_fecha_ini")
@@ -63,68 +66,67 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_comercio_afectado")
     private Boolean comercioAfectado;
 
-    @Column(name = "eve_estado_reportado")
+    @Column(name = "eve_estado_reportado", length = 50)
     private String estadoReportado; // reportado, no reportado
 
-    @Column(name = "eve_descripcion")
+    @Column(name = "eve_descripcion", length = 500)
     private String descripcion;
 
-    @Column(name = "eve_descripcion_completa")
+    @Column(name = "eve_descripcion_completa", length = 1000)
     private String descripcionCompleta;
 
-    @Column(name = "eve_codigo_inicial")
+    @Column(name = "eve_codigo_inicial", length = 50)
     private String codigoInicial;
 
-    @Column(name = "eve_trimestre")
+    @Column(name = "eve_trimestre", length = 50)
     private String trimestre;
 
-    @Column(name = "eve_detalle_evento_critico")
+    @Column(name = "eve_detalle_evento_critico", length = 1000)
     private String detalleEventoCritico;
 
-    @Column(name = "eve_evento_critico")
+    @Column(name = "eve_evento_critico", length = 100)
     private String eventoCritico;
 
-    @Column(name = "eve_linea_negocio")
+    @Column(name = "eve_linea_negocio", length = 100)
     private String lineaNegocio;
 
             // Relacion con Matriz de Riesgos por definir
-    @Column(name = "eve_riesgo_relaciionado")
+    @Column(name = "eve_riesgo_relaciionado", length = 100)
     private String riesgoRelacionado;
             // FIN Relacion con Matriz de Riesgos por definir
 
-    @Column(name = "eve_detalle_estado")
+    @Column(name = "eve_detalle_estado", length = 1000)
     private String detalleEstado;
 
-    @Column(name = "eve_monto_perdida")
+    @Column(name = "eve_monto_perdida", length = 20)
     private Float montoPerdida;
 
-    @Column(name = "eve_monto_perdida_riesgo")
+    @Column(name = "eve_monto_perdida_riesgo", length = 20)
     private Float montoPerdidaRiesgo;
 
-    @Column(name = "eve_gasto_asociado")
+    @Column(name = "eve_gasto_asociado", length = 20)
     private Float gastoAsociado;
 
-    @Column(name = "eve_monto_recuperado")
+    @Column(name = "eve_monto_recuperado", length = 20)
     private Float montoRecuperado;
 
     @Column(name = "eve_cobertura_seguro")
     private Boolean coberturaSeguro;
 
-    @Column(name = "eve_monto_recuperado_seguro")
+    @Column(name = "eve_monto_recuperado_seguro", length = 20)
     private Float montoRecuperadoSeguro;
 
-    @Column(name = "eve_recuperacion_activo")
+    @Column(name = "eve_recuperacion_activo", length = 500)
     private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
 
-    @Column(name = "eve_perdida_mercado")
+    @Column(name = "eve_perdida_mercado", length = 20)
     private Float perdidaMercado;
 
-    @Column(name = "eve_total_perdida")
+    @Column(name = "eve_total_perdida", length = 20)
     private Float totalPerdida;
 
-    @Column(name = "eve_otros")
+    @Column(name = "eve_otros", length = 500)
     private String otros; // POR CONFIRMAR A QUE SELECT PERTENECE
-
 
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
@@ -139,113 +141,144 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_area_id")
     private TablaDescripcion areaID;
 
-    @Column(name = "eve_unidad_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_unidad_id")
     private TablaDescripcion unidadId;
 
-    @Column(name = "eve_entidad_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_entidad_id")
     private TablaDescripcion entidadId;
 
-    @Column(name = "eve_cargo_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_cargo_id")
     private TablaDescripcion cargoId;
 
-    @Column(name = "eve_fuente_inf_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_fuente_inf_id")
     private TablaDescripcion fuenteInfId;
 
-    @Column(name = "eve_canal_asfi_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_canal_asfi_id")
     private TablaDescripcion canalAsfiId;
 
-    @Column(name = "eve_subcategorizacion_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_subcategorizacion_id")
     private TablaDescripcion subcategorizacionId;
 
-    @Column(name = "eve_tipo_evento_perdida_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_tipo_evento_perdida_id")
     private TablaDescripcion tipoEventoPerdidaId;
 
-    @Column(name = "eve_sub_evento_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_sub_evento_id")
     private TablaDescripcion subEventoId;
 
-    @Column(name = "eve_clase_evento_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_clase_evento_id")
     private TablaDescripcion claseEventoId;
 
-    @Column(name = "eve_factor_riesgo_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_factor_riesgo_id")
     private TablaDescripcion factorRiesgoId;
 
-    @Column(name = "eve_proceso_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_proceso_id")
     private TablaDescripcion procesoId;
 
-    @Column(name = "eve_procedimiento_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_procedimiento_id")
     private TablaDescripcion procedimientoId;
 
-    @Column(name = "eve_linea_asfi_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_linea_asfi_id")
     private TablaDescripcion lineaAsfiId;
 
-    @Column(name = "eve_operacion_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_operacion_id")
     private TablaDescripcion operacionId;
 
-    @Column(name = "eve_efecto_perdida_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_efecto_perdida_id")
     private TablaDescripcion efectoPerdidaId;
 
-    @Column(name = "eve_ope_pro_ser_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_ope_pro_ser_id")
     private TablaDescripcion opeProSerId;
 
-    @Column(name = "eve_tipo_servicio_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_tipo_servicio_id")
     private TablaDescripcion tipoServicioId;
 
-    @Column(name = "eve_desc_servicio_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_desc_servicio_id")
     private TablaDescripcion descServicioId;
 
-    @Column(name = "eve_tasa_cambio_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_tasa_cambio_id")
     private TablaDescripcion tasaCambioId;
 
-    @Column(name = "eve_moneda_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_moneda_id")
     private TablaDescripcion monedaId;
 
-    @Column(name = "eve_impacto_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_impacto_id")
     private TablaDescripcion impactoId;
 
-    @Column(name = "eve_poliza_seguro_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_poliza_seguro_id")
     private TablaDescripcion polizaSeguroId;
 
-
-    @Column(name = "eve_operativo_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_operativo_id")
     private TablaDescripcion operativoId;
 
-    @Column(name = "eve_seguridad_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_seguridad_id")
     private TablaDescripcion seguridadId;
 
-    @Column(name = "eve_liquidez_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_liquidez_id")
     private TablaDescripcion liquidezId;
 
-    @Column(name = "eve_lgi_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_lgi_id")
     private TablaDescripcion lgiId;
 
-    @Column(name = "eve_fraude_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_fraude_id")
     private TablaDescripcion fraudeId;
 
-    @Column(name = "eve_legal_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_legal_id")
     private TablaDescripcion legalId;
 
-    @Column(name = "eve_reputacional_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_reputacional_id")
     private TablaDescripcion reputacionalId;
 
-    @Column(name = "eve_cumplimiento_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_cumplimiento_id")
     private TablaDescripcion cumplimientoId;
 
-    @Column(name = "eve_estrategico_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_estrategico_id")
     private TablaDescripcion estrategicoId;
 
-    @Column(name = "eve_gobierno_id")
+    @ManyToOne
+    @JoinColumn(name = "eve_gobierno_id")
     private TablaDescripcion gobiernoId;
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
-
-    /* -------- ARCHIVO --------- */
     @JsonIgnore
     @OneToMany(mappedBy = "eventoId")
     private List<Archivo> archivoId;
-    /* -------- FIN ARCHIVO --------- */
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "eventoId")
+    private List<Observacion> observacionId;
 
-    @Column(name = "des_usuario_id", length = 10)
+    @Column(name = "des_usuario_id")
     private int usuario_id;
 
     @CreationTimestamp

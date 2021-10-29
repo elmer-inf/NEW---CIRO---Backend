@@ -12,7 +12,7 @@ import java.sql.Time;
 
 public class EventoRiesgoPostDTO {
 
-    private String codigo;
+
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;
@@ -83,6 +83,7 @@ public class EventoRiesgoPostDTO {
     private Long estrategicoId;
     private Long gobiernoId;
 
+    private int usuario_id;
     private Long archivoId;
 
 }

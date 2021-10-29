@@ -5,6 +5,7 @@ import java.sql.Time;
 
 import ciro.atc.model.entity.Archivo;
 import ciro.atc.model.entity.TablaDescripcion;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class EventoRiesgoGetDTO {
 
     private Long id;
     private String codigo;
+    private int idAreaCorrelativo;
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;

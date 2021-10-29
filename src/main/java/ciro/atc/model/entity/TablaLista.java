@@ -27,17 +27,17 @@ public class TablaLista implements Serializable  {
     private String nombre_tabla;
 
     // FK de Usuario
-    @Column(name = "lis_usuario_id", length = 10)
+    @Column(name = "lis_usuario_id")
     private int usuario_id;
 
     @JsonIgnore
     @OneToMany(mappedBy = "tablaLista", cascade = CascadeType.ALL)
     private List<TablaDescripcion> tablaDescripcion;//private Set<Card> cards;
 
-    @Column(name = "lis_nivel2", length = 10)
+    @Column(name = "lis_nivel2")
     private int nivel2;
 
-    @Column(name = "lis_nivel3", length = 10)
+    @Column(name = "lis_nivel3")
     private int nivel3;
 
     @CreationTimestamp

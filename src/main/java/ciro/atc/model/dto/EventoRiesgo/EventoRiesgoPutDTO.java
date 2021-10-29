@@ -11,9 +11,7 @@ import lombok.Setter;
 
 public class EventoRiesgoPutDTO {
 
-    private String codigo;
     private String tipoEvento;
-    private String estadoRegistro;
     private String estadoEvento;
     private Date fechaIni;
     private Time horaIni;

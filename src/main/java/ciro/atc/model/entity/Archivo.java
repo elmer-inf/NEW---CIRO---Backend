@@ -24,14 +24,14 @@ public class Archivo {
     @Column(name = "arc_id")
     private Long id;
 
-    @Column(name = "arc_archivo")
+    @Column(name = "arc_archivo", length = 200)
     private String archivo;
 
     @ManyToOne
     @JoinColumn(name = "arc_evento_id")
     private EventoRiesgo eventoId;
 
-    @Column(name = "arc_usuario_id", length = 10)
+    @Column(name = "arc_usuario_id")
     private int usuarioId;
 
     @CreationTimestamp
@@ -49,7 +49,5 @@ public class Archivo {
         this.deleted = true;
         return this;
     }
-
-
 
 }

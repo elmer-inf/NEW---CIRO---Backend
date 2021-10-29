@@ -6,8 +6,6 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
-import ciro.atc.model.dto.TablaLista.TablaListaGetDTO;
-import ciro.atc.model.dto.TablaLista.TablaListaPutDTO;
 import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaLista;
 import ciro.atc.model.repository.TablaDescripcionRepository;
@@ -119,8 +117,7 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
         //System.out.println("ID: " + id);
         try {
             Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
-            System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
-
+            //System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
             return founded.get();
         }catch (Exception e){
             Log.log("Error : " , e);
