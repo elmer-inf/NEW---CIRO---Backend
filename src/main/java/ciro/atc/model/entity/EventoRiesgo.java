@@ -229,6 +229,7 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_poliza_seguro_id")
     private TablaDescripcion polizaSeguroId;
 
+
     @ManyToOne
     @JoinColumn(name = "eve_operativo_id")
     private TablaDescripcion operativoId;

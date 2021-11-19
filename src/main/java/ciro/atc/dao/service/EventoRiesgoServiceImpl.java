@@ -12,10 +12,13 @@ import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.repository.EventoRiesgoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -283,53 +286,60 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return null;
     }*/
 
-    public void evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data){
+    public ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data){
+        HttpHeaders responseHeaders = new HttpHeaders();
         EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).get();
 
-        if(data.getEstadoRegistro().equals("Autorizado")){
-            if(eventoRiesgo.getCodigo() == null || eventoRiesgo.getCodigo().isEmpty()){
-                String codigo = generaCodigo(id);
-                //System.out.println("CODIGO DE EVENTO :   " + codigo);
-                int ultimoIdArea = 0;
-                int countCodigoArea = eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave());
-                if(countCodigoArea > 0){
-                    ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
-                    eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
-                    eventoRiesgo.setCodigo(codigo);
-                }else{
-                    ultimoIdArea = 1;
-                    eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea); // Se guarda el ID correlativo con 1 del Evento al autorizar
-                    eventoRiesgo.setCodigo(codigo);
+        try {
+            if(data.getEstadoRegistro().equals("Autorizado")){
+                if(eventoRiesgo.getCodigo() == null || eventoRiesgo.getCodigo().isEmpty()){
+                    String codigo = generaCodigo(id);
+                    //System.out.println("CODIGO DE EVENTO :   " + codigo);
+                    int ultimoIdArea = 0;
+                    int countCodigoArea = eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave());
+                    if(countCodigoArea > 0){
+                        ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
+                        eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
+                        eventoRiesgo.setCodigo(codigo);
+                    }else{
+                        ultimoIdArea = 1;
+                        eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea); // Se guarda el ID correlativo con 1 del Evento al autorizar
+                        eventoRiesgo.setCodigo(codigo);
+                    }
+                }
+                eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
+                eventoRiesgoRepository.save(eventoRiesgo);
+            }
+            if(data.getEstadoRegistro().equals("Observado")){
+                if(!eventoRiesgo.getEstadoRegistro().equals("Autorizado")){
+                    if(data.getListaObservacion() != null && data.getNota() != null && data.getEstado() != null){
+                        ObservacionPostDTO observacionPostDTO = new ObservacionPostDTO();
+                        observacionPostDTO.setListaObservacion(data.getListaObservacion());
+                        observacionPostDTO.setNota(data.getNota());
+                        observacionPostDTO.setEstado(data.getEstado());
+                        observacionService.create(observacionPostDTO, id);
+
+                        eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
+                        eventoRiesgoRepository.save(eventoRiesgo);
+                    }
                 }
             }
-            eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
-            eventoRiesgoRepository.save(eventoRiesgo);
-        }
-        if(data.getEstadoRegistro().equals("Observado")){
-            if(!eventoRiesgo.getEstadoRegistro().equals("Autorizado")){
-                if(data.getListaObservacion() != null && data.getNota() != null && data.getEstado() != null){
-                    ObservacionPostDTO observacionPostDTO = new ObservacionPostDTO();
-                    observacionPostDTO.setListaObservacion(data.getListaObservacion());
-                    observacionPostDTO.setNota(data.getNota());
-                    observacionPostDTO.setEstado(data.getEstado());
-                    observacionService.create(observacionPostDTO, id);
 
+            if(data.getEstadoRegistro().equals("Pendiente") || data.getEstadoRegistro().equals("Descartado")){
+                if(!eventoRiesgo.getEstadoRegistro().equals("Autorizado")){
                     eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
                     eventoRiesgoRepository.save(eventoRiesgo);
                 }
             }
+        }catch (Exception e){
+            Log.log("Error al evaluar evento =>", e);
+            return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
-
-        if(data.getEstadoRegistro().equals("Pendiente") || data.getEstadoRegistro().equals("Descartado")){
-            if(!eventoRiesgo.getEstadoRegistro().equals("Autorizado")){
-                eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
-                eventoRiesgoRepository.save(eventoRiesgo);
-            }
-        }
+        return ResponseEntity.ok().headers(responseHeaders).body(eventoRiesgo);
     }
 
 
-    public String generaCodigo (Long id){
+    private String generaCodigo (Long id){
         EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).get();
 
         String siglaArea = eventoRiesgo.getAreaID().getClave();

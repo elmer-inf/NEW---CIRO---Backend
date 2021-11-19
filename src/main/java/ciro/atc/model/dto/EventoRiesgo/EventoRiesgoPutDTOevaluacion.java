@@ -11,10 +11,7 @@ import java.sql.Date;
 
 public class EventoRiesgoPutDTOevaluacion {
 
-    private String codigo;
-    private int idAreaCorrelativo;
     private String estadoRegistro;
-    private Date fechaIni;
 
     private String listaObservacion;
     private String nota;

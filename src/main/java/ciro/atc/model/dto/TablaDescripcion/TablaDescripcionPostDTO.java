@@ -15,5 +15,4 @@ public class TablaDescripcionPostDTO {
     private Long tablaLista;
     private int nivel2_id;
     private int nivel3_id;
-
 }

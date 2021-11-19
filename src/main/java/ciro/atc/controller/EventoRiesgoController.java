@@ -10,6 +10,7 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
 import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,8 +36,8 @@ public class EventoRiesgoController {
     }
 
     @PutMapping("/evaluaEvento/{id}")
-    public void evaluaEvento (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTOevaluacion data){
-        eventoRiesgoService.evaluaEvento(id, data);
+    public ResponseEntity<EventoRiesgo> evaluaEvento (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTOevaluacion data){
+        return eventoRiesgoService.evaluaEvento(id, data);
     }
 
     @GetMapping("/mostrar/{id}")

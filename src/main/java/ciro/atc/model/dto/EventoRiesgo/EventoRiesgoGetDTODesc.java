@@ -48,7 +48,6 @@ public class EventoRiesgoGetDTODesc {
     private Float totalPerdida;
     private String otros; // POR CONFIRMAR A QUE SELECT PERTENECE
 
-
     private TablaDescripcionGetDTO3 agenciaId;
     private TablaDescripcionGetDTO3 ciudadId;
     private TablaDescripcionGetDTO3 areaID;
