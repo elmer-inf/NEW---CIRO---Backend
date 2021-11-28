@@ -3,13 +3,10 @@ package ciro.atc.model.dto.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-
 @Setter
 @Getter
 
-public class TablaDescripcionMatrizRiesgoPostDTO {
-
+public class TablaDescripcionMatrizRiesgoPutDTO {
     private String nombre;
     private String campoA;
     private String campoB;

@@ -23,26 +23,29 @@ public class TablaDescripcionMatrizRiesgo implements Serializable {
     @Column(name = "des_id")
     private Long id;
 
-    @Column(name = "des_nombre", length = 500)
+    @Column(name = "des_nombre", length = 1000)
     private String nombre;
 
-    @Column(name = "des_campo_a", length = 500)
+    @Column(name = "des_campo_a", length = 1000)
     private String campoA;
 
-    @Column(name = "des_campo_b", length = 500)
+    @Column(name = "des_campo_b", length = 1000)
     private String campoB;
 
-    @Column(name = "des_campo_c", length = 500)
+    @Column(name = "des_campo_c", length = 1000)
     private String campoC;
 
-    @Column(name = "des_campo_d", length = 500)
+    @Column(name = "des_campo_d", length = 1000)
     private String campoD;
 
-    @Column(name = "des_campo_e", length = 500)
+    @Column(name = "des_campo_e", length = 1000)
     private Float campoE;
 
-    @Column(name = "des_campo_f", length = 500)
+    @Column(name = "des_campo_f", length = 1000)
     private Float campoF;
+
+    @Column(name = "des_campo_g", length = 1000)
+    private String campoG;
 
 
     /* -------- RELACION DE PARAMETROS --------- */

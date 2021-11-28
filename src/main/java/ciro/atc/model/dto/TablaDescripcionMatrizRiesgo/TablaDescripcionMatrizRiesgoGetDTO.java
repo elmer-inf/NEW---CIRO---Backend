@@ -1,15 +1,14 @@
 package ciro.atc.model.dto.TablaDescripcionMatrizRiesgo;
 
+import ciro.atc.model.entity.TablaListaMatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
 
 @Setter
 @Getter
 
-public class TablaDescripcionMatrizRiesgoPostDTO {
-
+public class TablaDescripcionMatrizRiesgoGetDTO {
+    private Long id;
     private String nombre;
     private String campoA;
     private String campoB;
@@ -19,5 +18,5 @@ public class TablaDescripcionMatrizRiesgoPostDTO {
     private Float campoF;
     private String campoG;
     private int usuarioId;
-    private Long tablaId;
+    private TablaListaMatrizRiesgo tablaId;
 }

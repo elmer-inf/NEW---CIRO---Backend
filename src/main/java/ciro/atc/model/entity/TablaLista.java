@@ -32,7 +32,7 @@ public class TablaLista implements Serializable  {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tablaLista", cascade = CascadeType.ALL)
-    private List<TablaDescripcion> tablaDescripcion;//private Set<Card> cards;
+    private List<TablaDescripcion> tablaDescripcion;
 
     @Column(name = "lis_nivel2")
     private int nivel2;

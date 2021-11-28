@@ -6,7 +6,9 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPutDTO;
 import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import ciro.atc.model.entity.TablaLista;
@@ -54,37 +56,29 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
         return tablaDescripcionMatrizRiesgoRepository.findNivel1(id);
     }
 
-   /*
-
-
-
-    public List<TablaDescripcion> findTablaNivel2(Long id, int id2){
-        return tablaDescripcionRepository.findNivel2(id, id2);
-    }
-
-    public List<TablaDescripcion> findTablaNivel3(Long id, int id2, int id3){
-        return tablaDescripcionRepository.findNivel3(id, id2, id3);
-    }
-
-    public TablaDescripcionGetDTO updateById (Long id, TablaDescripcionPutDTO data){
-        TablaDescripcion tablaDescripcion = tablaDescripcionRepository.findById(id).orElseThrow(()-> new DBException("Tabla Descripcion", id));
-        TablaDescripcionGetDTO tablaDescripcionGetDTO = new TablaDescripcionGetDTO();
+    public ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById (Long id, TablaDescripcionMatrizRiesgoPutDTO data){
+        HttpHeaders responseHeaders = new HttpHeaders();
+        TablaDescripcionMatrizRiesgo tablaDescripcionMatrizR = tablaDescripcionMatrizRiesgoRepository.findById(id).orElseThrow(()-> new DBException("Tabla Descripcion", id));
+        TablaDescripcionMatrizRiesgoGetDTO tablaDescripcionMatrizRGetDTO = new TablaDescripcionMatrizRiesgoGetDTO();
         try{
-            BeanUtils.copyProperties(data, tablaDescripcion);
-            tablaDescripcionRepository.save(tablaDescripcion);
-            BeanUtils.copyProperties(tablaDescripcion, tablaDescripcionGetDTO);
+            BeanUtils.copyProperties(data, tablaDescripcionMatrizR);
+            tablaDescripcionMatrizRiesgoRepository.save(tablaDescripcionMatrizR);
+            BeanUtils.copyProperties(tablaDescripcionMatrizR, tablaDescripcionMatrizRGetDTO);
         } catch (Exception e){
             Log.log("Tabla Descripcion actualizada =>", e);
+            return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
-        return tablaDescripcionGetDTO;
+        return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizRGetDTO);
     }
 
-    public TablaDescripcionGetDTO findTablaDescripcionByID(Long id){
-        Optional<TablaDescripcion> tablaDescripcion = tablaDescripcionRepository.findById(id);
-        TablaDescripcionGetDTO tablaDescripcionGetDTO = new TablaDescripcionGetDTO();
-        BeanUtils.copyProperties(tablaDescripcion.get(), tablaDescripcionGetDTO);
-        return tablaDescripcionGetDTO;
+    public TablaDescripcionMatrizRiesgoGetDTO findTablaDescripcionByID(Long id){
+        Optional<TablaDescripcionMatrizRiesgo> tablaDescripcionMatrizR = tablaDescripcionMatrizRiesgoRepository.findById(id);
+        TablaDescripcionMatrizRiesgoGetDTO tablaDescripcionMatrizRGetDTO = new TablaDescripcionMatrizRiesgoGetDTO();
+        BeanUtils.copyProperties(tablaDescripcionMatrizR.get(), tablaDescripcionMatrizRGetDTO);
+        return tablaDescripcionMatrizRGetDTO;
     }
+
+   /*
 
     public TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id){
 

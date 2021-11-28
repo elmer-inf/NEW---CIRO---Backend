@@ -46,7 +46,7 @@ public class EventoRiesgoGetDTODesc {
     private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
     private Float perdidaMercado;
     private Float totalPerdida;
-    private String otros; // POR CONFIRMAR A QUE SELECT PERTENECE
+    private String otros;
 
     private TablaDescripcionGetDTO3 agenciaId;
     private TablaDescripcionGetDTO3 ciudadId;
@@ -69,7 +69,7 @@ public class EventoRiesgoGetDTODesc {
     private TablaDescripcionGetDTO3 opeProSerId;
     private TablaDescripcionGetDTO3 tipoServicioId;
     private TablaDescripcionGetDTO3 descServicioId;
-    private TablaDescripcionGetDTO3 tasaCambioId;
+    private String tasaCambioId;
     private TablaDescripcionGetDTO3 monedaId;
     private TablaDescripcionGetDTO3 impactoId;
     private TablaDescripcionGetDTO3 polizaSeguroId;

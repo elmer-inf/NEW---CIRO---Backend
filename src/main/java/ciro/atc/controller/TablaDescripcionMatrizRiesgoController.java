@@ -6,7 +6,9 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPutDTO;
 import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,29 +42,17 @@ public class TablaDescripcionMatrizRiesgoController {
         return tablaDescripcionMatrizRiesgoService.findTablaNivel1(id);
     }
 
-   /*
-
-
-
-    @GetMapping("/listarNivel2/{id}/{id2}")
-    public List<TablaDescripcion> listNivel2(@PathVariable(value = "id") Long id, @PathVariable(value = "id2") int id2) {
-        return tablaDescripcionService.findTablaNivel2(id, id2);
-    }
-
-    @GetMapping("/listarNivel3/{id}/{id2}/{id3}")
-    public List<TablaDescripcion> listNivel3(@PathVariable(value = "id") Long id, @PathVariable(value = "id2") int id2, @PathVariable(value = "id3") int id3) {
-        return tablaDescripcionService.findTablaNivel3(id, id2, id3);
-    }
-
     @PutMapping("/editar/{id}")
-    public TablaDescripcionGetDTO updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody TablaDescripcionPutDTO data) {
-        return tablaDescripcionService.updateById(id, data);
+    public ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody TablaDescripcionMatrizRiesgoPutDTO data) {
+        return tablaDescripcionMatrizRiesgoService.updateById(id, data);
     }
 
     @GetMapping("/mostrar/{id}")
-    public TablaDescripcionGetDTO getTablaDescripcionByById(@PathVariable(value = "id") Long id) {
-        return tablaDescripcionService.findTablaDescripcionByID(id);
+    public TablaDescripcionMatrizRiesgoGetDTO getTablaDescripcionByById(@PathVariable(value = "id") Long id) {
+        return tablaDescripcionMatrizRiesgoService.findTablaDescripcionByID(id);
     }
+
+   /*
 
     @GetMapping("/mostrar2/{id}")
     public TablaDescripcionGetDTO2 getTablaDscripcionByById2(@PathVariable(value = "id") Long id) {

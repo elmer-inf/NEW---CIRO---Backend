@@ -23,15 +23,26 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_id")
     private Long id;
 
-    @Column(name = "des_clave", length = 20)
+    @Column(name = "des_clave", length = 50)
     private String clave;
 
-    @Column(name = "des_nombre", length = 500)
+    @Column(name = "des_nombre", length = 1000)
     private String nombre;
 
     @Column(name = "des_descripcion", length = 1000)
     private String descripcion;
 
+    @Column(name = "des_campo_a", length = 1000)
+    private String campoA;
+
+    @Column(name = "des_campo_b", length = 1000)
+    private String campoB;
+
+    @Column(name = "des_campo_c", length = 1000)
+    private String campoC;
+
+    @Column(name = "des_campo_d", length = 1000)
+    private String campoD;
 
     /* -------- RELACION DE PARAMETROS --------- */
     @JsonIgnore
@@ -135,46 +146,45 @@ public class TablaDescripcion implements Serializable {
     private List<EventoRiesgo> eventoRiesgo25;
 
 
-
     @JsonIgnore
     @OneToMany(mappedBy = "operativoId")
     private List<EventoRiesgo> eventoRiesgo26;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "seguridadId")
+    @OneToMany(mappedBy = "liquidezId")
     private List<EventoRiesgo> eventoRiesgo27;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "liquidezId")
+    @OneToMany(mappedBy = "fraudeId")
     private List<EventoRiesgo> eventoRiesgo28;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "lgiId")
+    @OneToMany(mappedBy = "legalId")
     private List<EventoRiesgo> eventoRiesgo29;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "fraudeId")
+    @OneToMany(mappedBy = "reputacionalId")
     private List<EventoRiesgo> eventoRiesgo30;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "legalId")
+    @OneToMany(mappedBy = "cumplimientoId")
     private List<EventoRiesgo> eventoRiesgo31;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "reputacionalId")
+    @OneToMany(mappedBy = "estrategicoId")
     private List<EventoRiesgo> eventoRiesgo32;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cumplimientoId")
+    @OneToMany(mappedBy = "gobiernoId")
     private List<EventoRiesgo> eventoRiesgo33;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "estrategicoId")
+    /*@JsonIgnore
+    @OneToMany(mappedBy = "seguridadId")
     private List<EventoRiesgo> eventoRiesgo34;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "gobiernoId")
-    private List<EventoRiesgo> eventoRiesgo35;
+    @OneToMany(mappedBy = "lgiId")
+    private List<EventoRiesgo> eventoRiesgo35;*/
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 

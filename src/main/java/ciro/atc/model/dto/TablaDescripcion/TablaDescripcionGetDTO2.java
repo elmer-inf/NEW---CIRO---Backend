@@ -14,6 +14,11 @@ public class TablaDescripcionGetDTO2 {
     private String clave;
     private String nombre;
     private String descripcion;
+    private String campoA;
+    private String campoB;
+    private String campoC;
+    private String campoD;
+
     private int usuario_id;
     private TablaLista tablaLista;
     private TablaDescripcion nivel2_id;

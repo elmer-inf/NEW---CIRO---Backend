@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @Entity
-@Table(name = "tbl_observacion_evento")
+@Table(name = "tbl_observacion")
 
 public class Observacion implements Serializable {
 
@@ -30,9 +30,15 @@ public class Observacion implements Serializable {
     @Column(name = "obs_estado", length = 50)
     private String estado;
 
+    // Obesrvaciones de Eventos de riesgo
     @ManyToOne
-    @JoinColumn(name = "obs_evento_id")
+    @JoinColumn(name = "obs_evento_id", nullable = true)
     private EventoRiesgo eventoId;
+
+    // Observaciones de Matriz de riesgo
+    @ManyToOne
+    @JoinColumn(name = "obs_matriz_riesgo_id", nullable = true)
+    private MatrizRiesgo matrizRiesgoId;
 
     @Column(name = "obs_usuario_id")
     private int usuarioId;

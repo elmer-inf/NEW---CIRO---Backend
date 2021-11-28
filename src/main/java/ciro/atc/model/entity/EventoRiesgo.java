@@ -126,7 +126,7 @@ public class EventoRiesgo implements Serializable {
     private Float totalPerdida;
 
     @Column(name = "eve_otros", length = 500)
-    private String otros; // POR CONFIRMAR A QUE SELECT PERTENECE
+    private String otros;
 
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
@@ -213,9 +213,10 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_desc_servicio_id")
     private TablaDescripcion descServicioId;
 
-    @ManyToOne
-    @JoinColumn(name = "eve_tasa_cambio_id")
-    private TablaDescripcion tasaCambioId;
+   // @ManyToOne
+    //@JoinColumn(name = "eve_tasa_cambio_id")
+   @Column(name = "eve_tasa_cambio_id", length = 5)
+   private String tasaCambioId;
 
     @ManyToOne
     @JoinColumn(name = "eve_moneda_id")
@@ -230,21 +231,14 @@ public class EventoRiesgo implements Serializable {
     private TablaDescripcion polizaSeguroId;
 
 
+
     @ManyToOne
     @JoinColumn(name = "eve_operativo_id")
     private TablaDescripcion operativoId;
 
     @ManyToOne
-    @JoinColumn(name = "eve_seguridad_id")
-    private TablaDescripcion seguridadId;
-
-    @ManyToOne
     @JoinColumn(name = "eve_liquidez_id")
     private TablaDescripcion liquidezId;
-
-    @ManyToOne
-    @JoinColumn(name = "eve_lgi_id")
-    private TablaDescripcion lgiId;
 
     @ManyToOne
     @JoinColumn(name = "eve_fraude_id")
@@ -269,6 +263,15 @@ public class EventoRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "eve_gobierno_id")
     private TablaDescripcion gobiernoId;
+
+    /*@ManyToOne
+    @JoinColumn(name = "eve_seguridad_id")
+    private TablaDescripcion seguridadId;
+
+    @ManyToOne
+    @JoinColumn(name = "eve_lgi_id")
+    private TablaDescripcion lgiId;*/
+
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
     @JsonIgnore

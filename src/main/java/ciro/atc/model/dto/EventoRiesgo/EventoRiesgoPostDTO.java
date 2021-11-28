@@ -12,7 +12,6 @@ import java.sql.Time;
 
 public class EventoRiesgoPostDTO {
 
-
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;
@@ -43,7 +42,7 @@ public class EventoRiesgoPostDTO {
     private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
     private Float perdidaMercado;
     private Float totalPerdida;
-    private String otros; // POR CONFIRMAR A QUE SELECT PERTENECE
+    private String otros;
 
 
     private Long agenciaId;
@@ -67,7 +66,7 @@ public class EventoRiesgoPostDTO {
     private Long opeProSerId;
     private Long tipoServicioId;
     private Long descServicioId;
-    private Long tasaCambioId;
+    private String tasaCambioId;
     private Long monedaId;
     private Long impactoId;
     private Long polizaSeguroId;
