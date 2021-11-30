@@ -1,5 +1,6 @@
 package ciro.atc.controller;
 
+import ciro.atc.auth.Controller;
 import ciro.atc.dao.service.TablaDescripcionService;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
@@ -12,6 +13,7 @@ import ciro.atc.model.entity.TablaLista;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @RequestMapping("/v1/tablaDescripcion")
 @CrossOrigin(origins = "*", maxAge = 20000)
 
-public class TablaDescripcionController {
+public class TablaDescripcionController extends Controller {
 
     @Autowired
     TablaDescripcionService tablaDescripcionService;
@@ -67,6 +69,19 @@ public class TablaDescripcionController {
     @DeleteMapping("/eliminar/{id}")
     public TablaDescripcion delete(@PathVariable Long id){
         return tablaDescripcionService.deleteById(id);
+    }
+
+
+
+    @GetMapping({"/{page}/{size}/{order}", "/{page}/{size}"})
+    public Object filterBy(
+            @PathVariable(value = "page") int page,
+            @PathVariable(value = "size") int size,
+            @PathVariable(value = "order", required = false) String order,
+            HttpServletRequest request) {
+
+        return createHQL(TablaDescripcion.class).order(order)
+                .map(request).paging(page, size);
     }
 
 
