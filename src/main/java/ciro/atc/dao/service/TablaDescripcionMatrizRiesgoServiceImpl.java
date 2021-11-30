@@ -78,6 +78,17 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
         return tablaDescripcionMatrizRGetDTO;
     }
 
+    public TablaDescripcionMatrizRiesgo findByIdTablaDesc(Long id){
+        try {
+            Optional<TablaDescripcionMatrizRiesgo> founded = tablaDescripcionMatrizRiesgoRepository.findById(id);
+            return founded.get();
+        }catch (Exception e){
+            Log.log("Error : " , e);
+        }
+        return null;
+    }
+
+
    /*
 
     public TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id){
@@ -124,15 +135,7 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
 
     */
 
-    public TablaDescripcionMatrizRiesgo findByIdTablaDesc(Long id){
-        try {
-            Optional<TablaDescripcionMatrizRiesgo> founded = tablaDescripcionMatrizRiesgoRepository.findById(id);
-            return founded.get();
-        }catch (Exception e){
-            Log.log("Error : " , e);
-        }
-        return null;
-    }
+
 
 }
 

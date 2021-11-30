@@ -1,5 +1,7 @@
 package ciro.atc.model.dto.MatrizRiesgo;
 
+import ciro.atc.model.entity.TablaDescripcion;
+import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +17,10 @@ public class MatrizRiesgoPostDTO {
     private String definicion;
     private String causa;
     private String consecuencia;
+    private String defConcatenado;
     private Boolean monetario;
+    private Integer riesgoInherente;
+    private String valorRiesgoInherente;
 
     private Long areaID;
     private Long unidadId;
@@ -23,8 +28,12 @@ public class MatrizRiesgoPostDTO {
     private Long procedimientoId;
     private Long duenoCargoId;
     private Long responsableCargoId;
+    private Long identificadoId;
     private Long efectoPerdidaId;
+    private Long perdidaAsfiId;
     private Long factorRiesgoId;
+    private Long probabilidadId;
+    private Long impactoId;
 
     private int usuario_id;
 }

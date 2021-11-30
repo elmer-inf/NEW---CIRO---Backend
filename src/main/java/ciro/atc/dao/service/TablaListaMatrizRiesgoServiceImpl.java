@@ -6,6 +6,7 @@ import ciro.atc.model.dto.TablaLista.TablaListaGetDTO;
 import ciro.atc.model.dto.TablaLista.TablaListaPostDTO;
 import ciro.atc.model.dto.TablaLista.TablaListaPutDTO;
 import ciro.atc.model.dto.TablaListaMatrizRiesgo.TablaListaMatrizRiesgoPostDTO;
+import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaLista;
 import ciro.atc.model.entity.TablaListaMatrizRiesgo;
 import ciro.atc.model.repository.TablaListaMatrizRiesgoRepository;
@@ -42,8 +43,13 @@ public class TablaListaMatrizRiesgoServiceImpl implements TablaListaMatrizRiesgo
     }
 
     public TablaListaMatrizRiesgo findByIdTabla(Long id){
-        Optional<TablaListaMatrizRiesgo> founded = tablaListaMatrizRiesgoRepository.findById(id);
-        return founded.get();
+        try {
+            Optional<TablaListaMatrizRiesgo> founded = tablaListaMatrizRiesgoRepository.findById(id);
+            return founded.get();
+        }catch (Exception e){
+            Log.log("Error : " , e);
+        }
+        return null;
     }
 
     public List<TablaListaMatrizRiesgo> listTabla(){

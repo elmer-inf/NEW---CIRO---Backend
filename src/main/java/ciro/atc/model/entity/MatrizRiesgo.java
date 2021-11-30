@@ -54,6 +54,12 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_monetario")
     private Boolean monetario;
 
+    @Column(name = "rie_riesgo_inherente")
+    private Integer riesgoInherente;
+
+    @Column(name = "rie_valor_riesgo_inherente")
+    private String valorRiesgoInherente;
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "rie_area_id")
@@ -80,6 +86,10 @@ public class MatrizRiesgo implements Serializable {
     private TablaDescripcion responsableCargoId;
 
     @ManyToOne
+    @JoinColumn(name = "rie_identificado_id")
+    private TablaDescripcionMatrizRiesgo identificadoId;
+
+    @ManyToOne
     @JoinColumn(name = "rie_efecto_perdida_id")
     private TablaDescripcion efectoPerdidaId;
 
@@ -92,8 +102,12 @@ public class MatrizRiesgo implements Serializable {
     private TablaDescripcion factorRiesgoId;
 
     @ManyToOne
-    @JoinColumn(name = "rie_prob_tiempo_id")
-    private TablaDescripcionMatrizRiesgo probTiempoId;
+    @JoinColumn(name = "rie_probabilidad_id")
+    private TablaDescripcionMatrizRiesgo probabilidadId;
+
+    @ManyToOne
+    @JoinColumn(name = "rie_impacto_id")
+    private TablaDescripcionMatrizRiesgo impactoId;
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 

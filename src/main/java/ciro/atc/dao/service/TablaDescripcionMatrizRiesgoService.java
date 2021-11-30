@@ -3,6 +3,7 @@ package ciro.atc.dao.service;
 import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPutDTO;
+import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.http.ResponseEntity;
 
@@ -15,6 +16,7 @@ public interface TablaDescripcionMatrizRiesgoService {
     List<TablaDescripcionMatrizRiesgo> findTablaNivel1(Long id);
     ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById (Long id, TablaDescripcionMatrizRiesgoPutDTO data);
     TablaDescripcionMatrizRiesgoGetDTO findTablaDescripcionByID(Long id);
+    TablaDescripcionMatrizRiesgo findByIdTablaDesc(Long id);
 
    /*
     TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id);

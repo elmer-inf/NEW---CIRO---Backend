@@ -11,6 +11,7 @@ import ciro.atc.model.dto.Observacion.ObservacionPostDTO;
 import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
+import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import ciro.atc.model.repository.EventoRiesgoRepository;
 import ciro.atc.model.repository.MatrizRiesgoRepository;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +30,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     MatrizRiesgoRepository matrizRiesgoRepository;
     @Autowired
     TablaDescripcionService tablaDescripcionService;
+    @Autowired
+    TablaDescripcionMatrizRiesgoService tablaDescripcionMatrizRiesgoService;
     @Autowired
     ObservacionService observacionService;
 
@@ -56,11 +59,23 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             TablaDescripcion tablaResponsableCargoId = tablaDescripcionService.findByIdTablaDesc(data.getResponsableCargoId());
             matrizRiesgo.setResponsableCargoId(tablaResponsableCargoId);
 
+            TablaDescripcionMatrizRiesgo tablaIdentificadoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getIdentificadoId());
+            matrizRiesgo.setIdentificadoId(tablaIdentificadoId);
+
             TablaDescripcion tablaEfectoPerdidaId = tablaDescripcionService.findByIdTablaDesc(data.getEfectoPerdidaId());
             matrizRiesgo.setEfectoPerdidaId(tablaEfectoPerdidaId);
 
+            TablaDescripcionMatrizRiesgo tablaPerdidaAsfiId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getPerdidaAsfiId());
+            matrizRiesgo.setPerdidaAsfiId(tablaPerdidaAsfiId);
+
             TablaDescripcion tablaFactorRiesgoId = tablaDescripcionService.findByIdTablaDesc(data.getFactorRiesgoId());
             matrizRiesgo.setFactorRiesgoId(tablaFactorRiesgoId);
+
+            TablaDescripcionMatrizRiesgo tablaProbabilidadId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getProbabilidadId());
+            matrizRiesgo.setProbabilidadId(tablaProbabilidadId);
+
+            TablaDescripcionMatrizRiesgo tablaImpactoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getImpactoId());
+            matrizRiesgo.setImpactoId(tablaImpactoId);
 
             matrizRiesgoRepository.save(matrizRiesgo);
         }catch (Exception e) {
