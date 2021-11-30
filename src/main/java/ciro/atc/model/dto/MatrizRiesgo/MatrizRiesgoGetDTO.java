@@ -19,6 +19,7 @@ public class MatrizRiesgoGetDTO {
     private Integer idUnidadCorrelativo;
     private String estadoRegistro;
     private Date fechaEvaluacion;
+    private String identificadoOtro;
     private String definicion;
     private String causa;
     private String consecuencia;

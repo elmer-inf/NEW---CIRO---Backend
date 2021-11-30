@@ -39,6 +39,9 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_fecha_evaluacion")
     private Date fechaEvaluacion;
 
+    @Column(name = "rie_identificado_otro")
+    private String identificadoOtro;
+
     @Column(name = "rie_definicion", length = 500)
     private String definicion;
 
