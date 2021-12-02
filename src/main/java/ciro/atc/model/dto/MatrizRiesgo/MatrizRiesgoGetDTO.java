@@ -27,6 +27,16 @@ public class MatrizRiesgoGetDTO {
     private Boolean monetario;
     private Integer riesgoInherente;
     private String valorRiesgoInherente;
+    private Boolean tieneControles;
+    // Controles
+    private String controlDesc;
+    private String controFormalizado;
+    private String controlNorma;
+    private String controlTipo;
+    private String controlAutomatizacion;
+    private String controlPonderacion;
+    private String controlObjetivo;
+
 
     private TablaDescripcion areaID;
     private TablaDescripcion unidadId;

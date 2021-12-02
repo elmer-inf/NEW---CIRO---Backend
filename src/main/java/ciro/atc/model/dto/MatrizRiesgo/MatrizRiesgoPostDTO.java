@@ -5,6 +5,7 @@ import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.sql.Date;
 
 @Setter
@@ -22,6 +23,15 @@ public class MatrizRiesgoPostDTO {
     private Boolean monetario;
     private Integer riesgoInherente;
     private String valorRiesgoInherente;
+    private Boolean tieneControles;
+    // Controles
+    private String controlDesc;
+    private String controFormalizado;
+    private String controlNorma;
+    private String controlTipo;
+    private String controlAutomatizacion;
+    private String controlPonderacion;
+    private String controlObjetivo;
 
     private Long areaID;
     private Long unidadId;

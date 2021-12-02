@@ -63,6 +63,32 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_valor_riesgo_inherente")
     private String valorRiesgoInherente;
 
+    @Column(name = "rie_control_tiene")
+    private Boolean controlTiene;
+
+    // Controles
+    @Column(name = "rie_control_desc", columnDefinition = "text" )
+    private String controlDesc;
+
+    @Column(name = "rie_control_formalizado", columnDefinition = "text" )
+    private String controFormalizado;
+
+    @Column(name = "rie_control_norma", columnDefinition = "text" )
+    private String controlNorma;
+
+    @Column(name = "rie_control_tipo", columnDefinition = "text" )
+    private String controlTipo;
+
+    @Column(name = "rie_control_automatizacion", columnDefinition = "text" )
+    private String controlAutomatizacion;
+
+    @Column(name = "rie_control_ponderacion", columnDefinition = "text" )
+    private String controlPonderacion;
+
+    @Column(name = "rie_control_Objetivo", columnDefinition = "text" )
+    private String controlObjetivo;
+
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "rie_area_id")
