@@ -67,27 +67,25 @@ public class MatrizRiesgo implements Serializable {
     private Boolean controlTiene;
 
     // Controles
-    @Column(name = "rie_control_desc", columnDefinition = "text" )
-    private String controlDesc;
+    @Column(name = "rie_controles_tiene", columnDefinition = "text" )
+    private String controlesTiene;
 
-    @Column(name = "rie_control_formalizado", columnDefinition = "text" )
-    private String controFormalizado;
+    @Column(name = "rie_controles", columnDefinition = "text" )
+    private String controles;
 
-    @Column(name = "rie_control_norma", columnDefinition = "text" )
-    private String controlNorma;
+    // Planes
+    @Column(name = "rie_planes_accion", columnDefinition = "text" )
+    private String planesAccion;
 
-    @Column(name = "rie_control_tipo", columnDefinition = "text" )
-    private String controlTipo;
+    // Seguimiento
+    @Column(name = "rie_seguimiento_fecha")
+    private Date seguimientoFecha;
 
-    @Column(name = "rie_control_automatizacion", columnDefinition = "text" )
-    private String controlAutomatizacion;
+    @Column(name = "rie_seguimiento_obs")
+    private String seguimientoObs;
 
-    @Column(name = "rie_control_ponderacion", columnDefinition = "text" )
-    private String controlPonderacion;
-
-    @Column(name = "rie_control_Objetivo", columnDefinition = "text" )
-    private String controlObjetivo;
-
+    @Column(name = "rie_seguimiento_comen")
+    private String seguimientoComen;
 
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne

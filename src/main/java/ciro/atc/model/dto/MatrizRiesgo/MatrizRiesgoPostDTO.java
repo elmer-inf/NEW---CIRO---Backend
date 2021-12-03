@@ -25,13 +25,14 @@ public class MatrizRiesgoPostDTO {
     private String valorRiesgoInherente;
     private Boolean tieneControles;
     // Controles
-    private String controlDesc;
-    private String controFormalizado;
-    private String controlNorma;
-    private String controlTipo;
-    private String controlAutomatizacion;
-    private String controlPonderacion;
-    private String controlObjetivo;
+    private String controlesTiene;
+    private String controles;
+    // Planes
+    private String planesAccion;
+    // Seguimiento
+    private Date seguimientoFecha;
+    private String seguimientoObs;
+    private String seguimientoComen;
 
     private Long areaID;
     private Long unidadId;
