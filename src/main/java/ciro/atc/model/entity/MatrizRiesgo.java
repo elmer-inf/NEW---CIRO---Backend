@@ -51,27 +51,24 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_consecuencia", length = 500)
     private String consecuencia;
 
-    @Column(name = "rie_def_concatenado", length = 500)
+    @Column(name = "rie_def_concatenado", length = 2000)
     private String defConcatenado;
 
     @Column(name = "rie_monetario")
     private Boolean monetario;
 
-    @Column(name = "rie_riesgo_inherente")
-    private Integer riesgoInherente;
-
-    @Column(name = "rie_valor_riesgo_inherente")
-    private String valorRiesgoInherente;
-
-    @Column(name = "rie_control_tiene")
-    private Boolean controlTiene;
-
     // Controles
-    @Column(name = "rie_controles_tiene", columnDefinition = "text" )
-    private String controlesTiene;
+    @Column(name = "rie_controles_tiene")
+    private Boolean controlesTiene;
 
     @Column(name = "rie_controles", columnDefinition = "text" )
     private String controles;
+
+    @Column(name = "rie_control_objetivo", length = 100)
+    private String controlObjetivo;
+
+    @Column(name = "rie_control_comentario", length = 1500)
+    private String controlComentario;
 
     // Planes
     @Column(name = "rie_planes_accion", columnDefinition = "text" )
@@ -86,6 +83,16 @@ public class MatrizRiesgo implements Serializable {
 
     @Column(name = "rie_seguimiento_comen")
     private String seguimientoComen;
+
+    // Valoracion
+    @Column(name = "rie_criterio_impacto")
+    private String criterioImpacto;
+
+    @Column(name = "rie_criterio_probabilidad")
+    private String criterioprobabilidad;
+
+    @Column(name = "rie_impacto_usd")
+    private Float impactoUSD;
 
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
@@ -135,6 +142,10 @@ public class MatrizRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "rie_impacto_id")
     private TablaDescripcionMatrizRiesgo impactoId;
+
+    @ManyToOne
+    @JoinColumn(name = "rie_control_id")
+    private TablaDescripcionMatrizRiesgo controlId;
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 

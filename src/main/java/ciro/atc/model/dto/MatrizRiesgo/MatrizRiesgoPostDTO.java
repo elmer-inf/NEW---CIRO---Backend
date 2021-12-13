@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Date;
 
 @Setter
@@ -21,20 +23,27 @@ public class MatrizRiesgoPostDTO {
     private String consecuencia;
     private String defConcatenado;
     private Boolean monetario;
-    private Integer riesgoInherente;
-    private String valorRiesgoInherente;
-    private Boolean tieneControles;
+
     // Controles
-    private String controlesTiene;
+    private Boolean controlesTiene;
     private String controles;
+    private String controlObjetivo;
+    private String controlComentario;
+
     // Planes
     private String planesAccion;
+
     // Seguimiento
     private Date seguimientoFecha;
     private String seguimientoObs;
     private String seguimientoComen;
 
-    private Long areaID;
+    // Valoracion
+    private String criterioImpacto;
+    private String criterioprobabilidad;
+    private Float impactoUSD;
+
+    private Long areaId;
     private Long unidadId;
     private Long procesoId;
     private Long procedimientoId;
@@ -46,6 +55,7 @@ public class MatrizRiesgoPostDTO {
     private Long factorRiesgoId;
     private Long probabilidadId;
     private Long impactoId;
+    private Long controlId;
 
     private int usuario_id;
 }

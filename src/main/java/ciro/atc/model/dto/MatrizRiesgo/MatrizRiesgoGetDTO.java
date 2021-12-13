@@ -25,20 +25,26 @@ public class MatrizRiesgoGetDTO {
     private String consecuencia;
     private String defConcatenado;
     private Boolean monetario;
-    private Integer riesgoInherente;
-    private String valorRiesgoInherente;
-    private Boolean tieneControles;
+
     // Controles
-    private String controlesTiene;
+    private Boolean controlesTiene;
     private String controles;
+    private String controlObjetivo;
+    private String controlComentario;
     // Planes
     private String planesAccion;
+
     // Seguimiento
     private Date seguimientoFecha;
     private String seguimientoObs;
     private String seguimientoComen;
 
-    private TablaDescripcion areaID;
+    // Valoracion
+    private String criterioImpacto;
+    private String criterioprobabilidad;
+    private Float impactoUSD;
+
+    private TablaDescripcion areaId;
     private TablaDescripcion unidadId;
     private TablaDescripcion procesoId;
     private TablaDescripcion procedimientoId;
@@ -50,6 +56,7 @@ public class MatrizRiesgoGetDTO {
     private TablaDescripcion factorRiesgoId;
     private TablaDescripcionMatrizRiesgo probabilidadId;
     private TablaDescripcionMatrizRiesgo impactoId;
+    private TablaDescripcionMatrizRiesgo controlId;
 
     private int usuario_id;
 
