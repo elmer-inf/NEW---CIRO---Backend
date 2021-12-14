@@ -3,6 +3,7 @@ package ciro.atc.controller;
 import ciro.atc.dao.service.MatrizRiesgoService;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
+import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
 import ciro.atc.model.entity.MatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +36,15 @@ public class MatrizRiesgoController {
         return matrizRiesgoService.findMatrizRiesgoByID(id);
     }
 
+    @PutMapping("/evaluaRiesgo/{id}")
+    public ResponseEntity<MatrizRiesgo> evaluaRiesgo (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizRiesgoPutDTOevaluacion data){
+        return matrizRiesgoService.evaluaRiesgo(id, data);
+    }
+
    /* @PutMapping("/editar/{id}")
     public EventoRiesgoGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data){
         return eventoRiesgoService.updateById(id, data);
     }
-
-    @PutMapping("/evaluaEvento/{id}")
-    public ResponseEntity<EventoRiesgo> evaluaEvento (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTOevaluacion data){
-        return eventoRiesgoService.evaluaEvento(id, data);
-    }
-
 
 
     */

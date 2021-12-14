@@ -15,10 +15,10 @@ public interface MatrizRiesgoService {
     ResponseEntity<MatrizRiesgo> create(MatrizRiesgoPostDTO t);
     List<MatrizRiesgo> listMatrizRiesgo();
     MatrizRiesgoGetDTO findMatrizRiesgoByID(Long id);
+    MatrizRiesgo findByIdRiesgo(Long id);
+    ResponseEntity<MatrizRiesgo> evaluaRiesgo (Long id, MatrizRiesgoPutDTOevaluacion data);
 
-    ResponseEntity<MatrizRiesgo> evaluaEvento (Long id, MatrizRiesgoPutDTOevaluacion data);
-
-  /*  EventoRiesgo findByIdEvento(Long id);
+  /*
     EventoRiesgoGetDTO updateById (Long id, EventoRiesgoPutDTO data);
     EventoRiesgoGetDTO findEventoByID(Long id);
    */

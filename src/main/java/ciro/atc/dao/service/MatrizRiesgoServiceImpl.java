@@ -2,19 +2,13 @@ package ciro.atc.dao.service;
 
 import ciro.atc.config.log.Log;
 import ciro.atc.exception.DBException;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
 import ciro.atc.model.dto.Observacion.ObservacionPostDTO;
-import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
-import ciro.atc.model.repository.EventoRiesgoRepository;
 import ciro.atc.model.repository.MatrizRiesgoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,26 +95,29 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         return matrizRiesgoGetDTO;
     }
 
-    public ResponseEntity<MatrizRiesgo> evaluaEvento (Long id, MatrizRiesgoPutDTOevaluacion data){
+    public MatrizRiesgo findByIdRiesgo(Long id){
+        Optional<MatrizRiesgo> founded = matrizRiesgoRepository.findById(id);
+        return founded.get();
+    }
+
+    public ResponseEntity<MatrizRiesgo> evaluaRiesgo (Long id, MatrizRiesgoPutDTOevaluacion data){
         HttpHeaders responseHeaders = new HttpHeaders();
         MatrizRiesgo matrizRiesgo = matrizRiesgoRepository.findById(id).get();
 
-        System.out.println("codigo: " + generaCodigo(new Long(2)));
-/*
         try {
             if(data.getEstadoRegistro().equals("Autorizado")){
                 if(matrizRiesgo.getCodigo() == null || matrizRiesgo.getCodigo().isEmpty()){
                     String codigo = generaCodigo(id);
-                    //System.out.println("CODIGO DE EVENTO :   " + codigo);
-                    int ultimoIdArea = 0;
-                    int countCodigoArea = matrizRiesgoRepository.countEventoCodigo(matrizRiesgo.getAreaID().getClave());
-                    if(countCodigoArea > 0){
-                        ultimoIdArea = matrizRiesgoRepository.findUltimoIdArea(matrizRiesgo.getAreaID().getClave());
-                        matrizRiesgo.setIdAreaCorrelativo(ultimoIdArea + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
+                    //System.out.println("CODIGO DE MATRIZ DE RIESGO :   " + codigo);
+                    int ultimoIdUnidad = 0;
+                    int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave());
+                    if(countCodigoUnidad > 0){
+                        ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(matrizRiesgo.getUnidadId().getClave());
+                        matrizRiesgo.setIdUnidadCorrelativo(ultimoIdUnidad + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
                         matrizRiesgo.setCodigo(codigo);
                     }else{
-                        ultimoIdArea = 1;
-                        matrizRiesgo.setIdAreaCorrelativo(ultimoIdArea); // Se guarda el ID correlativo con 1 del Evento al autorizar
+                        ultimoIdUnidad = 1;
+                        matrizRiesgo.setIdUnidadCorrelativo(ultimoIdUnidad); // Se guarda el ID correlativo con 1 del Evento al autorizar
                         matrizRiesgo.setCodigo(codigo);
                     }
                 }
@@ -134,6 +131,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         observacionPostDTO.setListaObservacion(data.getListaObservacion());
                         observacionPostDTO.setNota(data.getNota());
                         observacionPostDTO.setEstado(data.getEstado());
+                        observacionPostDTO.setModulo(data.getModulo());
                         observacionService.create(observacionPostDTO, id);
 
                         matrizRiesgo.setEstadoRegistro(data.getEstadoRegistro());
@@ -141,20 +139,17 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                     }
                 }
             }
-
             if(data.getEstadoRegistro().equals("Pendiente") || data.getEstadoRegistro().equals("Descartado")){
-                if(!eventoRiesgo.getEstadoRegistro().equals("Autorizado")){
-                    eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());
-                    matrizRiesgoRepository.save(eventoRiesgo);
+                if(!matrizRiesgo.getEstadoRegistro().equals("Autorizado")){
+                    matrizRiesgo.setEstadoRegistro(data.getEstadoRegistro());
+                    matrizRiesgoRepository.save(matrizRiesgo);
                 }
             }
         }catch (Exception e){
-            Log.log("Error al evaluar evento =>", e);
+            Log.log("Error al evaluar Riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
-        return ResponseEntity.ok().headers(responseHeaders).body(eventoRiesgo);*/
-
-        return null;
+        return ResponseEntity.ok().headers(responseHeaders).body(matrizRiesgo);
     }
 
 
@@ -165,14 +160,12 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         String codUnidad = matrizRiesgo.getUnidadId().getClave();
         String codigo = "RO-".concat(codMacro + '-' + codUnidad);
 
+        //System.out.println("COUNT:  " + matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave()));
+        int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave());
 
-
-        //System.out.println("COUNT:  " + eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave()));
-        /*int countCodigoArea = matrizRiesgoRepository.countEventoCodigo(matrizRiesgo.getAreaID().getClave());
-
-        if(countCodigoArea > 0){
-            int ultimoIdArea = matrizRiesgoRepository.findUltimoIdArea(matrizRiesgo.getAreaID().getClave());
-            int idIncrementado = ultimoIdArea + 1; // Id correlativo del Evento para el codigo al autorizar
+        if(countCodigoUnidad > 0){
+            int ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(matrizRiesgo.getUnidadId().getClave());
+            int idIncrementado = ultimoIdUnidad + 1; // Id correlativo del Riesgo para el codigo al autorizar
             String idGenerado = "";
 
             if(idIncrementado < 10){
@@ -184,11 +177,11 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             if(idIncrementado > 99){
                 idGenerado = Integer.toString(idIncrementado);
             }
-            codigo = codigo.concat('-' + idGenerado);
+            codigo = codigo.concat('_' + idGenerado);
         }else{
             String idGenerado = "001";
-            codigo = codigo.concat('-' + idGenerado);
-        }*/
+            codigo = codigo.concat('_' + idGenerado);
+        }
         return codigo;
     }
 
@@ -212,10 +205,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     }
 
 
-    public EventoRiesgo findByIdEvento(Long id){
-        Optional<EventoRiesgo> founded = eventoRiesgoRepository.findById(id);
-        return founded.get();
-    }
+
 
     public EventoRiesgoGetDTO updateById (Long id, EventoRiesgoPutDTO data){
         EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).orElseThrow(()-> new DBException("Evento Riesgo: ", id));

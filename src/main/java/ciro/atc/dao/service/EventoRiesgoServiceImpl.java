@@ -318,6 +318,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
                         observacionPostDTO.setListaObservacion(data.getListaObservacion());
                         observacionPostDTO.setNota(data.getNota());
                         observacionPostDTO.setEstado(data.getEstado());
+                        observacionPostDTO.setModulo(data.getModulo());
                         observacionService.create(observacionPostDTO, id);
 
                         eventoRiesgo.setEstadoRegistro(data.getEstadoRegistro());

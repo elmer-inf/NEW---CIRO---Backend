@@ -11,9 +11,9 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
 
     List<MatrizRiesgo> findAllByDeleted(Boolean deleted);
 
-    @Query(value = "SELECT COUNT(*) FROM MatrizRiesgo e WHERE e.codigo LIKE ?1%")
+    @Query(value = "SELECT COUNT(*) FROM MatrizRiesgo e WHERE e.codigo LIKE %?1%")
     Integer countMatrizRiesgoCodigo(String sigla);
 
-    @Query(value = "SELECT MAX(e.idUnidadCorrelativo) FROM MatrizRiesgo e WHERE e.codigo LIKE ?1%")
-    Integer findUltimoIdCorrelativoUnidad(String sigla);
+    @Query(value = "SELECT MAX(e.idUnidadCorrelativo) FROM MatrizRiesgo e WHERE e.codigo LIKE %?1%")
+    Integer findUltimoIdUnidad(String sigla);
 }

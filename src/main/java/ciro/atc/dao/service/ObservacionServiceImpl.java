@@ -4,6 +4,7 @@ import ciro.atc.config.log.Log;
 import ciro.atc.model.dto.Observacion.ObservacionGetDTO;
 import ciro.atc.model.dto.Observacion.ObservacionPostDTO;
 import ciro.atc.model.entity.EventoRiesgo;
+import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.Observacion;
 import ciro.atc.model.repository.EventoRiesgoRepository;
 import ciro.atc.model.repository.ObservacionRepository;
@@ -21,13 +22,23 @@ public class ObservacionServiceImpl implements ObservacionService {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
     @Autowired
+    MatrizRiesgoService matrizRiesgoService;
+    @Autowired
     EventoRiesgoRepository eventoRiesgoRepository;
 
     public Observacion create(ObservacionPostDTO data, Long id) {
+        System.out.println("daata modulo: "+ data.getModulo());
         Observacion observacion = new Observacion();
         BeanUtils.copyProperties(data, observacion);
-        EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(id);
-        observacion.setEventoId(eventoRiesgo);
+
+        if(data.getModulo().equals("Evento")){
+            EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(id);
+            observacion.setEventoId(eventoRiesgo);
+        }
+        if(data.getModulo().equals("Riesgo")){
+            MatrizRiesgo matrizRiesgo = matrizRiesgoService.findByIdRiesgo(id);
+            observacion.setMatrizRiesgoId(matrizRiesgo);
+        }
         return observacionRepository.save(observacion);
     }
 

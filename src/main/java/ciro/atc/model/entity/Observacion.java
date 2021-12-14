@@ -30,6 +30,9 @@ public class Observacion implements Serializable {
     @Column(name = "obs_estado", length = 50)
     private String estado;
 
+    @Column(name = "obs_modulo", length = 50)
+    private String modulo;
+
     // Obesrvaciones de Eventos de riesgo
     @ManyToOne
     @JoinColumn(name = "obs_evento_id", nullable = true)
