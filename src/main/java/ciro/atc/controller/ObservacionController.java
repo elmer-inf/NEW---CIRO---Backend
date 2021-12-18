@@ -17,9 +17,14 @@ public class ObservacionController {
     @Autowired
     ObservacionService observacionService;
 
-    @GetMapping("/ultimaObservacion/{id}")
+    @GetMapping("/ultimaObservacionEvento/{id}")
     public ObservacionGetDTO getObservacionByById(@PathVariable(value = "id") Long id) {
         return observacionService.ultimaObservacionEvento(id);
+    }
+
+    @GetMapping("/ultimaObservacionRiesgo/{id}")
+    public ObservacionGetDTO getObservacionByByIdRiesgo(@PathVariable(value = "id") Long id) {
+        return observacionService.ultimaObservacionRiesgo(id);
     }
 
 }

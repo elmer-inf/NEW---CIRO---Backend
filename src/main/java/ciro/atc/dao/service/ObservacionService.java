@@ -8,4 +8,5 @@ public interface ObservacionService {
 
     Observacion create(ObservacionPostDTO t, Long id);
     ObservacionGetDTO ultimaObservacionEvento(Long id);
+    ObservacionGetDTO ultimaObservacionRiesgo(Long id);
 }

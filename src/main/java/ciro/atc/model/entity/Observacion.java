@@ -43,6 +43,11 @@ public class Observacion implements Serializable {
     @JoinColumn(name = "obs_matriz_riesgo_id", nullable = true)
     private MatrizRiesgo matrizRiesgoId;
 
+    // Observaciones de Matriz de oportunidades
+    @ManyToOne
+    @JoinColumn(name = "obs_matriz_oportunidad_id", nullable = true)
+    private MatrizOportunidad matrizOportunidadId;
+
     @Column(name = "obs_usuario_id")
     private int usuarioId;
 

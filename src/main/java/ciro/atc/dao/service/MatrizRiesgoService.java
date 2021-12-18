@@ -1,10 +1,9 @@
 package ciro.atc.dao.service;
 
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
+import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
 import ciro.atc.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
-import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.MatrizRiesgo;
 import org.springframework.http.ResponseEntity;
 
@@ -17,10 +16,7 @@ public interface MatrizRiesgoService {
     MatrizRiesgoGetDTO findMatrizRiesgoByID(Long id);
     MatrizRiesgo findByIdRiesgo(Long id);
     ResponseEntity<MatrizRiesgo> evaluaRiesgo (Long id, MatrizRiesgoPutDTOevaluacion data);
+    MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data);
 
-  /*
-    EventoRiesgoGetDTO updateById (Long id, EventoRiesgoPutDTO data);
-    EventoRiesgoGetDTO findEventoByID(Long id);
-   */
 
 }

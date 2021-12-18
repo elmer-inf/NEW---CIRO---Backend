@@ -1,6 +1,5 @@
 package ciro.atc.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,14 +8,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "tbl_tabla_descripcion_matriz_riesgo")
+@Table(name = "tbl_tabla_descripcion_matriz_oportunidad")
 
-public class TablaDescripcionMatrizRiesgo implements Serializable {
+public class TablaDescripcionMatrizOportunidad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +36,6 @@ public class TablaDescripcionMatrizRiesgo implements Serializable {
     @Column(name = "des_campo_d", length = 1000)
     private String campoD;
 
-    @Column(name = "des_campo_e", length = 1000)
-    private Float campoE;
-
-    @Column(name = "des_campo_f", length = 1000)
-    private Float campoF;
-
-    @Column(name = "des_campo_g", length = 1000)
-    private String campoG;
-
 
 
     @Column(name = "des_usuario_id")
@@ -54,7 +43,10 @@ public class TablaDescripcionMatrizRiesgo implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "des_tabla_id")
-    private TablaListaMatrizRiesgo tablaId;
+    private TablaListaMatrizOportunidad tablaId;
+
+    @Column(name = "des_nivel2_id")
+    private int nivel2Id;
 
     @CreationTimestamp
     @Column(name = "des_dateTimeCreate")
@@ -67,7 +59,7 @@ public class TablaDescripcionMatrizRiesgo implements Serializable {
     @Column(name = "des_delete")
     private boolean deleted;
 
-    final public TablaDescripcionMatrizRiesgo deleteOnly() {
+    final public TablaDescripcionMatrizOportunidad deleteOnly() {
         this.deleted = true;
         return this;
     }

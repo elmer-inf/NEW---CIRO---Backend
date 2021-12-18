@@ -32,10 +32,12 @@ public class ObservacionServiceImpl implements ObservacionService {
         BeanUtils.copyProperties(data, observacion);
 
         if(data.getModulo().equals("Evento")){
+            System.out.println("entra como Evento observado");
             EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(id);
             observacion.setEventoId(eventoRiesgo);
         }
         if(data.getModulo().equals("Riesgo")){
+            System.out.println("entra como Riesgo observado");
             MatrizRiesgo matrizRiesgo = matrizRiesgoService.findByIdRiesgo(id);
             observacion.setMatrizRiesgoId(matrizRiesgo);
         }
@@ -61,6 +63,26 @@ public class ObservacionServiceImpl implements ObservacionService {
                 ObservacionGetDTO observacionGetDTO = new ObservacionGetDTO();
                 BeanUtils.copyProperties(observacion.get(), observacionGetDTO);
                 EventoRiesgo x = observacion.get().getEventoId();
+                observacionGetDTO.setEventoId(x.getId());
+
+                return observacionGetDTO;
+            }
+        }catch(Exception e){
+            Log.log("Error al obtener ID de observacion =>", e);
+        }
+        return null;
+    }
+
+    public ObservacionGetDTO ultimaObservacionRiesgo(Long id){
+        try{
+            Integer nroObservaciones = observacionRepository.countObservacionRiesgo(id);
+            if(nroObservaciones > 0){
+                Long idUltimaObsRiesgo = observacionRepository.ultimaObservacionRiesgo(id);
+
+                Optional<Observacion> observacion = observacionRepository.findById(idUltimaObsRiesgo);
+                ObservacionGetDTO observacionGetDTO = new ObservacionGetDTO();
+                BeanUtils.copyProperties(observacion.get(), observacionGetDTO);
+                MatrizRiesgo x = observacion.get().getMatrizRiesgoId();
                 observacionGetDTO.setEventoId(x.getId());
 
                 return observacionGetDTO;
