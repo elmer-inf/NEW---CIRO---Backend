@@ -24,4 +24,10 @@ public interface ObservacionRepository extends BaseRepository<Observacion>{
 
     @Query(value = "SELECT MAX(o.id) FROM Observacion o WHERE o.matrizRiesgoId.id = ?1")
     Long ultimaObservacionRiesgo(Long id);
+
+    @Query(value = "SELECT COUNT(*) FROM Observacion o WHERE o.matrizOportunidadId.id = ?1")
+    Integer countObservacionOportunidad(Long id);
+
+    @Query(value = "SELECT MAX(o.id) FROM Observacion o WHERE o.matrizOportunidadId.id = ?1")
+    Long ultimaObservacionOportunidad(Long id);
 }

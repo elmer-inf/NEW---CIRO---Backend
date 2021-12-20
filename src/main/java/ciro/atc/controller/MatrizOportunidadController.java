@@ -37,10 +37,10 @@ public class MatrizOportunidadController {
         return matrizOportunidadService.findMatrizOportunidadByID(id);
     }
 
-     /* @PutMapping("/evaluaRiesgo/{id}")
-    public ResponseEntity<MatrizOportunidad> evaluaRiesgo (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizOportunidadPutDTOevaluacion data){
-        return matrizOportunidadService.evaluaRiesgo(id, data);
-    }*/
+    @PutMapping("/evaluaOportunidad/{id}")
+    public ResponseEntity<MatrizOportunidad> evaluaOportunidad (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizOportunidadPutDTOevaluacion data){
+        return matrizOportunidadService.evaluaOportunidad(id, data);
+    }
 
     /* No lo probe */
     @PutMapping("/editar/{id}")

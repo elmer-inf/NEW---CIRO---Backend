@@ -15,4 +15,5 @@ public class ObservacionGetDTO {
     private String modulo;
     private Long eventoId;
     private Long matrizRiesgoId;
+    private Long matrizOportunidadId;
 }

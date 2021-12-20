@@ -100,7 +100,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
     }
 
 
-    public MatrizOportunidad findByIdMatrizOportunidad(Long id){
+    public MatrizOportunidad findByIdOportunidad(Long id){
         Optional<MatrizOportunidad> founded = matrizOportunidadRepository.findById(id);
         return founded.get();
     }
@@ -156,7 +156,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
     }
 
 
-   /* public ResponseEntity<MatrizOportunidad> evaluaRiesgo (Long id, MatrizOportunidadPutDTOevaluacion data){
+   public ResponseEntity<MatrizOportunidad> evaluaOportunidad (Long id, MatrizOportunidadPutDTOevaluacion data){
         HttpHeaders responseHeaders = new HttpHeaders();
         MatrizOportunidad matrizOportunidad = matrizOportunidadRepository.findById(id).get();
 
@@ -165,15 +165,15 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
                 if(matrizOportunidad.getCodigo() == null || matrizOportunidad.getCodigo().isEmpty()){
                     String codigo = generaCodigo(id);
                     //System.out.println("CODIGO DE MATRIZ DE RIESGO :   " + codigo);
-                    int ultimoIdUnidad = 0;
-                    int countCodigoUnidad = matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getUnidadId().getClave());
-                    if(countCodigoUnidad > 0){
-                        ultimoIdUnidad = matrizOportunidadRepository.findUltimoIdUnidad(matrizOportunidad.getUnidadId().getClave());
-                        matrizOportunidad.setIdUnidadCorrelativo(ultimoIdUnidad + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
+                    int ultimoIdMacro = 0;
+                    int countCodigoMacro = matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getProcesoId().getClave());
+                    if(countCodigoMacro > 0){
+                        ultimoIdMacro = matrizOportunidadRepository.findUltimoIdMacro(matrizOportunidad.getProcesoId().getClave());
+                        matrizOportunidad.setIdMacroCorrelativo(ultimoIdMacro + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
                         matrizOportunidad.setCodigo(codigo);
                     }else{
-                        ultimoIdUnidad = 1;
-                        matrizOportunidad.setIdUnidadCorrelativo(ultimoIdUnidad); // Se guarda el ID correlativo con 1 del Evento al autorizar
+                        ultimoIdMacro = 1;
+                        matrizOportunidad.setIdMacroCorrelativo(ultimoIdMacro); // Se guarda el ID correlativo con 1 del Evento al autorizar
                         matrizOportunidad.setCodigo(codigo);
                     }
                 }
@@ -189,7 +189,6 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
                         observacionPostDTO.setEstado(data.getEstado());
                         observacionPostDTO.setModulo(data.getModulo());
                         observacionService.create(observacionPostDTO, id);
-                        System.out.println("entra como observado a evaluar");
                         matrizOportunidad.setEstadoRegistro(data.getEstadoRegistro());
                         matrizOportunidadRepository.save(matrizOportunidad);
                     }
@@ -202,7 +201,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
                 }
             }
         }catch (Exception e){
-            Log.log("Error al evaluar Riesgo =>", e);
+            Log.log("Error al evaluar Oportunidad =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizOportunidad);
@@ -213,15 +212,14 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
         MatrizOportunidad matrizOportunidad = matrizOportunidadRepository.findById(id).get();
 
         String codMacro = matrizOportunidad.getProcesoId().getClave();
-        String codUnidad = matrizOportunidad.getUnidadId().getClave();
-        String codigo = "RO-".concat(codMacro + '-' + codUnidad);
+        String codigo = "RO-".concat(codMacro);
 
         //System.out.println("COUNT:  " + matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getUnidadId().getClave()));
-        int countCodigoUnidad = matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getUnidadId().getClave());
+        int countCodigoMacro = matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getProcesoId().getClave());
 
-        if(countCodigoUnidad > 0){
-            int ultimoIdUnidad = matrizOportunidadRepository.findUltimoIdUnidad(matrizOportunidad.getUnidadId().getClave());
-            int idIncrementado = ultimoIdUnidad + 1; // Id correlativo del Riesgo para el codigo al autorizar
+        if(countCodigoMacro > 0){
+            int ultimoIdUnidad = matrizOportunidadRepository.findUltimoIdMacro(matrizOportunidad.getProcesoId().getClave());
+            int idIncrementado = ultimoIdUnidad + 1; // Id correlativo de la Oportunidad para el codigo al autorizar
             String idGenerado = "";
 
             if(idIncrementado < 10){
@@ -240,7 +238,5 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
         }
         return codigo;
     }
-
-*/
 
 }

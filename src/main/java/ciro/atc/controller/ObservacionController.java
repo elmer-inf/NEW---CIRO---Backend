@@ -27,4 +27,8 @@ public class ObservacionController {
         return observacionService.ultimaObservacionRiesgo(id);
     }
 
+    @GetMapping("/ultimaObservacionOportunidad/{id}")
+    public ObservacionGetDTO getObservacionByByIdOportunidad(@PathVariable(value = "id") Long id) {
+        return observacionService.ultimaObservacionOportunidad(id);
+    }
 }

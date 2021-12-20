@@ -14,8 +14,7 @@ public interface MatrizOportunidadService {
     ResponseEntity<MatrizOportunidad> create(MatrizOportunidadPostDTO t);
     List<MatrizOportunidad> listMatrizOportunidad();
     MatrizOportunidadGetDTO findMatrizOportunidadByID(Long id);
-    MatrizOportunidad findByIdMatrizOportunidad(Long id);
+    MatrizOportunidad findByIdOportunidad(Long id);
     MatrizOportunidadGetDTO updateById (Long id, MatrizOportunidadPutDTO data);
-    /*ResponseEntity<MatrizOportunidad> evaluaOportunidad (Long id, MatrizOportunidadPutDTOevaluacion data);*/
-
+    ResponseEntity<MatrizOportunidad> evaluaOportunidad (Long id, MatrizOportunidadPutDTOevaluacion data);
 }

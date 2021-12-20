@@ -4,6 +4,7 @@ import ciro.atc.config.log.Log;
 import ciro.atc.model.dto.Observacion.ObservacionGetDTO;
 import ciro.atc.model.dto.Observacion.ObservacionPostDTO;
 import ciro.atc.model.entity.EventoRiesgo;
+import ciro.atc.model.entity.MatrizOportunidad;
 import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.Observacion;
 import ciro.atc.model.repository.EventoRiesgoRepository;
@@ -24,6 +25,8 @@ public class ObservacionServiceImpl implements ObservacionService {
     @Autowired
     MatrizRiesgoService matrizRiesgoService;
     @Autowired
+    MatrizOportunidadService matrizOportunidadService;
+    @Autowired
     EventoRiesgoRepository eventoRiesgoRepository;
 
     public Observacion create(ObservacionPostDTO data, Long id) {
@@ -32,14 +35,16 @@ public class ObservacionServiceImpl implements ObservacionService {
         BeanUtils.copyProperties(data, observacion);
 
         if(data.getModulo().equals("Evento")){
-            System.out.println("entra como Evento observado");
             EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(id);
             observacion.setEventoId(eventoRiesgo);
         }
         if(data.getModulo().equals("Riesgo")){
-            System.out.println("entra como Riesgo observado");
             MatrizRiesgo matrizRiesgo = matrizRiesgoService.findByIdRiesgo(id);
             observacion.setMatrizRiesgoId(matrizRiesgo);
+        }
+        if(data.getModulo().equals("Oportunidad")){
+            MatrizOportunidad matrizOportunidad = matrizOportunidadService.findByIdOportunidad(id);
+            observacion.setMatrizOportunidadId(matrizOportunidad);
         }
         return observacionRepository.save(observacion);
     }
@@ -83,7 +88,27 @@ public class ObservacionServiceImpl implements ObservacionService {
                 ObservacionGetDTO observacionGetDTO = new ObservacionGetDTO();
                 BeanUtils.copyProperties(observacion.get(), observacionGetDTO);
                 MatrizRiesgo x = observacion.get().getMatrizRiesgoId();
-                observacionGetDTO.setEventoId(x.getId());
+                observacionGetDTO.setMatrizRiesgoId(x.getId());
+
+                return observacionGetDTO;
+            }
+        }catch(Exception e){
+            Log.log("Error al obtener ID de observacion =>", e);
+        }
+        return null;
+    }
+
+    public ObservacionGetDTO ultimaObservacionOportunidad(Long id){
+        try{
+            Integer nroObservaciones = observacionRepository.countObservacionOportunidad(id);
+            if(nroObservaciones > 0){
+                Long idUltimaObsOportunidad = observacionRepository.ultimaObservacionOportunidad(id);
+
+                Optional<Observacion> observacion = observacionRepository.findById(idUltimaObsOportunidad);
+                ObservacionGetDTO observacionGetDTO = new ObservacionGetDTO();
+                BeanUtils.copyProperties(observacion.get(), observacionGetDTO);
+                MatrizOportunidad x = observacion.get().getMatrizOportunidadId();
+                observacionGetDTO.setMatrizOportunidadId(x.getId());
 
                 return observacionGetDTO;
             }
