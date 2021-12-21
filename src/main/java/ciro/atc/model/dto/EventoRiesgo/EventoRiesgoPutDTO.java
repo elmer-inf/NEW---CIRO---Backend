@@ -3,6 +3,7 @@ package ciro.atc.model.dto.EventoRiesgo;
 import java.sql.Date;
 import java.sql.Time;
 
+import ciro.atc.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +42,14 @@ public class EventoRiesgoPutDTO {
     private Float perdidaMercado;
     private Float totalPerdida;
     private String otros;
+
+    // Planes de accion
+    private Long areaResponsableId;
+    private Long cargoResponsableId;
+    private String detallePlan;
+    private Date fechaFinPlan;
+    private String descripcionEstado;
+    private String estadoPlan;
 
 
     private Long agenciaId;

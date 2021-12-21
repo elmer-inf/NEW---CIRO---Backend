@@ -128,6 +128,27 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_otros", length = 500)
     private String otros;
 
+    // Planes de accion
+    @ManyToOne
+    @JoinColumn(name = "eve_area_responsable_id")
+    private TablaDescripcion areaResponsableId;
+
+    @ManyToOne
+    @JoinColumn(name = "eve_cargo_reponsable_id")
+    private TablaDescripcion cargoResponsableId;
+
+    @Column(name = "eve_detalle_plan", length = 1500)
+    private String detallePlan;
+
+    @Column(name = "eve_fecha_fin_plan")
+    private Date fechaFinPlan;
+
+    @Column(name = "eve_descripcion_estado", length = 1000)
+    private String descripcionEstado;
+
+    @Column(name = "eve_estado_plan", length = 100)
+    private String estadoPlan;
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "eve_agencia_id")

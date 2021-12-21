@@ -136,6 +136,13 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         TablaDescripcion tablaGobiernoId = tablaDescripcionService.findByIdTablaDesc(data.getGobiernoId());
         eventoRiesgo.setGobiernoId(tablaGobiernoId);
 
+        // Planes
+        TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
+        eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
+
+        TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
+        eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
+
         /*TablaDescripcion tablaSeguridadId = tablaDescripcionService.findByIdTablaDesc(data.getSeguridadId());
         eventoRiesgo.setSeguridadId(tablaSeguridadId);
 
@@ -255,6 +262,13 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             TablaDescripcion tablaGobiernoId = tablaDescripcionService.findByIdTablaDesc(data.getGobiernoId());
             eventoRiesgo.setGobiernoId(tablaGobiernoId);
+
+            // Planes
+            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
+            eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
+
+            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
+            eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
             /*TablaDescripcion tablaSeguridadId = tablaDescripcionService.findByIdTablaDesc(data.getSeguridadId());
             eventoRiesgo.setSeguridadId(tablaSeguridadId);

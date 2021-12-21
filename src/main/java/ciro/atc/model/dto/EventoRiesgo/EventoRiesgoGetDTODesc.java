@@ -2,6 +2,7 @@ package ciro.atc.model.dto.EventoRiesgo;
 
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO3;
 import ciro.atc.model.entity.Archivo;
+import ciro.atc.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +48,14 @@ public class EventoRiesgoGetDTODesc {
     private Float perdidaMercado;
     private Float totalPerdida;
     private String otros;
+
+    // Planes de accion
+    private TablaDescripcionGetDTO3 areaResponsableId;
+    private TablaDescripcionGetDTO3 cargoResponsableId;
+    private String detallePlan;
+    private Date fechaFinPlan;
+    private String descripcionEstado;
+    private String estadoPlan;
 
     private TablaDescripcionGetDTO3 agenciaId;
     private TablaDescripcionGetDTO3 ciudadId;
