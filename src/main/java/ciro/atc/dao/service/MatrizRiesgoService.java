@@ -17,6 +17,6 @@ public interface MatrizRiesgoService {
     MatrizRiesgo findByIdRiesgo(Long id);
     ResponseEntity<MatrizRiesgo> evaluaRiesgo (Long id, MatrizRiesgoPutDTOevaluacion data);
     MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data);
-
+    List<MatrizRiesgo> getListMatrizInId(List<Long> in);
 
 }

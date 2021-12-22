@@ -58,4 +58,6 @@ public class MatrizRiesgoPostDTO {
     private Long controlId;
 
     private int usuario_id;
+
+    private Long eventoRiesgoId;
 }

@@ -1,10 +1,7 @@
 package ciro.atc.dao.service;
 
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTO;
+import ciro.atc.model.dto.EventoRiesgo.*;
 
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.entity.EventoRiesgo;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +10,9 @@ import java.util.List;
 
 public interface EventoRiesgoService {
 
-    EventoRiesgo create(EventoRiesgoPostDTO t);
+    ResponseEntity<EventoRiesgo> create(EventoRiesgoDTO t);
     EventoRiesgo findByIdEvento(Long id);
-    EventoRiesgoGetDTO updateById (Long id, EventoRiesgoPutDTO data);
+    ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoDTO data);
     ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data);
 
     EventoRiesgoGetDTO findEventoByID(Long id);

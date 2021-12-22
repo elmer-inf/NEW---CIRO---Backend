@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Setter
 @Getter
@@ -91,5 +92,12 @@ public class EventoRiesgoPostDTO {
 
     private int usuario_id;
     private Long archivoId;
+
+    // Relacion con mtriz de riesgos.
+    private List<Long> listMatrizRiesgo;
+
+
+
+
 
 }

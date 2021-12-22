@@ -2,10 +2,7 @@ package ciro.atc.controller;
 
 import ciro.atc.auth.Controller;
 import ciro.atc.dao.service.EventoRiesgoService;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTO;
-import ciro.atc.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
+import ciro.atc.model.dto.EventoRiesgo.*;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
 import ciro.atc.model.entity.EventoRiesgo;
@@ -28,12 +25,12 @@ public class EventoRiesgoController extends Controller {
     EventoRiesgoService eventoRiesgoService;
 
     @PostMapping("/registrar")
-    public EventoRiesgo save (@Valid @RequestBody EventoRiesgoPostDTO data){
+    public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoDTO data){
         return eventoRiesgoService.create(data);
     }
 
     @PutMapping("/editar/{id}")
-    public EventoRiesgoGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data){
+    public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoDTO data){
         return eventoRiesgoService.updateById(id, data);
     }
 

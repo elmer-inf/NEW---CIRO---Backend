@@ -160,6 +160,11 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_usuario_id")
     private int usuario_id;
 
+
+    @Column(name = "rie_evento_riesgo_id")
+    private Long eventoRiesgoId;
+
+
     @CreationTimestamp
     @Column(name = "rie_dateTimeCreate")
     private Timestamp created;
