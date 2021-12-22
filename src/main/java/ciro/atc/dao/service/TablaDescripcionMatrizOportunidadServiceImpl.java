@@ -2,7 +2,10 @@ package ciro.atc.dao.service;
 
 import ciro.atc.config.log.Log;
 import ciro.atc.exception.DBException;
+import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
+import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO2;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPostDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPutDTO;
 import ciro.atc.model.entity.TablaDescripcion;
@@ -73,6 +76,23 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
         TablaDescripcionMatrizOportunidadGetDTO tablaDescripcionMatrizOGetDTO = new TablaDescripcionMatrizOportunidadGetDTO();
         BeanUtils.copyProperties(tablaDescripcionMatrizO.get(), tablaDescripcionMatrizOGetDTO);
         return tablaDescripcionMatrizOGetDTO;
+    }
+
+    public TablaDescripcionMatrizOportunidadGetDTO2 findTablaDescripcionByID2(Long id){
+
+        Optional<TablaDescripcionMatrizOportunidad> tablaDescripcionMatrizOportunidad = tablaDescripcionMatrizOportunidadRepository.findById(id);
+        TablaDescripcionMatrizOportunidadGetDTO tablaDescripcionMatrizOportunidadGetDTO = new TablaDescripcionMatrizOportunidadGetDTO();
+        BeanUtils.copyProperties(tablaDescripcionMatrizOportunidad.get(), tablaDescripcionMatrizOportunidadGetDTO);
+
+        TablaDescripcionMatrizOportunidadGetDTO2  objeto = new TablaDescripcionMatrizOportunidadGetDTO2();
+
+        int nivel2 = tablaDescripcionMatrizOportunidadGetDTO.getNivel2Id();
+        if(nivel2 != 0) {
+            Optional<TablaDescripcionMatrizOportunidad> findNivel2 = tablaDescripcionMatrizOportunidadRepository.findById(new Long(nivel2));
+            objeto.setNivel2Id(findNivel2.get());
+        }
+        BeanUtils.copyProperties(tablaDescripcionMatrizOportunidad.get(), objeto);
+        return objeto;
     }
 
     public TablaDescripcionMatrizOportunidad findByIdTablaDesc(Long id){

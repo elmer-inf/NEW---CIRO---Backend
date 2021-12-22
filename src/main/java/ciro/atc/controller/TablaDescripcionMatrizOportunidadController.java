@@ -1,7 +1,9 @@
 package ciro.atc.controller;
 
 import ciro.atc.dao.service.TablaDescripcionMatrizOportunidadService;
+import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO;
+import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO2;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPostDTO;
 import ciro.atc.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPutDTO;
 import ciro.atc.model.entity.TablaDescripcion;
@@ -50,6 +52,11 @@ public class TablaDescripcionMatrizOportunidadController {
     @GetMapping("/mostrar/{id}")
     public TablaDescripcionMatrizOportunidadGetDTO getTablaDescripcionByById(@PathVariable(value = "id") Long id) {
         return tablaDescripcionMatrizOportunidadService.findTablaDescripcionByID(id);
+    }
+
+    @GetMapping("/mostrar2/{id}")
+    public TablaDescripcionMatrizOportunidadGetDTO2 getTablaDscripcionByById2(@PathVariable(value = "id") Long id) {
+        return tablaDescripcionMatrizOportunidadService.findTablaDescripcionByID2(id);
     }
 
 
