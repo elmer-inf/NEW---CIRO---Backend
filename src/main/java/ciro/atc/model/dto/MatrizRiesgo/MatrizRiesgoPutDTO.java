@@ -52,4 +52,6 @@ public class MatrizRiesgoPutDTO {
     private Long probabilidadId;
     private Long impactoId;
     private Long controlId;
+
+    private Long eventoRiesgoId;
 }

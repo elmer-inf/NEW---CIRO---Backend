@@ -1,19 +1,15 @@
 package ciro.atc.model.dto.EventoRiesgo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-import ciro.atc.model.entity.TablaDescripcion;
-import lombok.Getter;
-import lombok.Setter;
-
 @Setter
 @Getter
-
-public class EventoRiesgoPutDTO {
-
-    private String tipoEvento;
+public class EventoRiesgoDTO {
     private String estadoEvento;
     private Date fechaIni;
     private Time horaIni;
@@ -92,7 +88,5 @@ public class EventoRiesgoPutDTO {
 
     // Relacion con mtriz de riesgos.
     private List<Long> listMatrizRiesgo;
-
-
 
 }

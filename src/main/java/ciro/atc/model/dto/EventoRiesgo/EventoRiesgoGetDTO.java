@@ -2,8 +2,10 @@ package ciro.atc.model.dto.EventoRiesgo;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 import ciro.atc.model.entity.Archivo;
+import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
 
 import lombok.Getter;
@@ -40,7 +42,7 @@ public class EventoRiesgoGetDTO {
     private String detalleEventoCritico;
     private String eventoCritico;
     private String lineaNegocio;
-    private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
+  //  private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
     private String detalleEstado;
     private Float montoPerdida;
     private Float gastoAsociado;
@@ -98,5 +100,5 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion gobiernoId;
 
     private Archivo archivoId;
-
+    private List<MatrizRiesgo> riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
 }

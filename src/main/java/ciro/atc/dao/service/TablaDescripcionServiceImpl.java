@@ -116,11 +116,14 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
     public TablaDescripcion findByIdTablaDesc(Long id){
         //System.out.println("ID: " + id);
         try {
-            Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
-            //System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
-            return founded.get();
+            if(id!=null && id!=0){
+                Optional<TablaDescripcion> founded = tablaDescripcionRepository.findById(id);
+                //System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
+                return founded.get();
+            }
+
         }catch (Exception e){
-            Log.log("Error : " , e);
+            Log.log("Error findByIdTablaDesc: " , e);
         }
         return null;
     }

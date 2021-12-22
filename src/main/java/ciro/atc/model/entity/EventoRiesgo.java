@@ -91,9 +91,20 @@ public class EventoRiesgo implements Serializable {
     private String lineaNegocio;
 
             // Relacion con Matriz de Riesgos por definir
-    @Column(name = "eve_riesgo_relaciionado", length = 100)
-    private String riesgoRelacionado;
+    //@Column(name = "eve_riesgo_relaciionado", length = 100)
+   // private String riesgoRelacionado;
             // FIN Relacion con Matriz de Riesgos por definir
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "eventoriesgo_matriz",
+            joinColumns = @JoinColumn(name = "id_evento_riesgo", nullable = true),
+            inverseJoinColumns = @JoinColumn(name = "id_matriz_riesgo" , nullable = true)
+    )
+    //  @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    private List<MatrizRiesgo> riesgoRelacionado;
+
 
     @Column(name = "eve_detalle_estado", length = 1000)
     private String detalleEstado;

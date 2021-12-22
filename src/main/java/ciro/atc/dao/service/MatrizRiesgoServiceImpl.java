@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -237,5 +238,18 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         }
         return matrizRiesgoGetDTO;
     }
+
+
+    public List<MatrizRiesgo> getListMatrizInId(List<Long> in) {
+        try{
+            return matrizRiesgoRepository.matrizInById(in);
+        }catch (Exception e){
+            Log.log("Error en getListMatrizInId : ", e);
+
+        }
+
+        return new ArrayList<>();
+    }
+
 
 }
