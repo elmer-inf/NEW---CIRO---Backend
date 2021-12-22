@@ -15,6 +15,7 @@ public class TablaDescripcionPutDTO {
     private String campoB;
     private String campoC;
     private String campoD;
+    private String codigoAsfi;
 
     private int usuario_id;
     private Long tablaLista;

@@ -43,14 +43,12 @@ public class EventoRiesgoGetDTO {
     private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
     private String detalleEstado;
     private Float montoPerdida;
-    private Float montoPerdidaRiesgo;
     private Float gastoAsociado;
     private Float montoRecuperado;
     private Boolean coberturaSeguro;
     private Float montoRecuperadoSeguro;
     private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
     private Float perdidaMercado;
-    private Float totalPerdida;
     private String otros;
 
     // Planes de accion
@@ -87,11 +85,11 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion monedaId;
     private TablaDescripcion impactoId;
     private TablaDescripcion polizaSeguroId;
+    private TablaDescripcion recuperacionActivoId;
 
     private TablaDescripcion operativoId;
     private TablaDescripcion seguridadId;
     private TablaDescripcion liquidezId;
-    private TablaDescripcion lgiId;
     private TablaDescripcion fraudeId;
     private TablaDescripcion legalId;
     private TablaDescripcion reputacionalId;

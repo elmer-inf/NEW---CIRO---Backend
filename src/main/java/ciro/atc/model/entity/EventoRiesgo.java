@@ -101,9 +101,6 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_monto_perdida", length = 20)
     private Float montoPerdida;
 
-    @Column(name = "eve_monto_perdida_riesgo", length = 20)
-    private Float montoPerdidaRiesgo;
-
     @Column(name = "eve_gasto_asociado", length = 20)
     private Float gastoAsociado;
 
@@ -121,9 +118,6 @@ public class EventoRiesgo implements Serializable {
 
     @Column(name = "eve_perdida_mercado", length = 20)
     private Float perdidaMercado;
-
-    @Column(name = "eve_total_perdida", length = 20)
-    private Float totalPerdida;
 
     @Column(name = "eve_otros", length = 500)
     private String otros;
@@ -285,13 +279,13 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_gobierno_id")
     private TablaDescripcion gobiernoId;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "eve_seguridad_id")
     private TablaDescripcion seguridadId;
 
     @ManyToOne
-    @JoinColumn(name = "eve_lgi_id")
-    private TablaDescripcion lgiId;*/
+    @JoinColumn(name = "eve_recuperacion_activo_id")
+    private TablaDescripcion recuperacionActivoId;
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 

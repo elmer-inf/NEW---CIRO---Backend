@@ -35,14 +35,12 @@ public class EventoRiesgoPostDTO {
     private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
     private String detalleEstado;
     private Float montoPerdida;
-    private Float montoPerdidaRiesgo;
     private Float gastoAsociado;
     private Float montoRecuperado;
     private Boolean coberturaSeguro;
     private Float montoRecuperadoSeguro;
     private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
     private Float perdidaMercado;
-    private Float totalPerdida;
     private String otros;
 
     // Planes de accion
@@ -79,11 +77,11 @@ public class EventoRiesgoPostDTO {
     private Long monedaId;
     private Long impactoId;
     private Long polizaSeguroId;
+    private Long recuperacionActivoId;
 
     private Long operativoId;
     private Long seguridadId;
     private Long liquidezId;
-    private Long lgiId;
     private Long fraudeId;
     private Long legalId;
     private Long reputacionalId;

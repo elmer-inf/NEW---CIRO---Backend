@@ -16,5 +16,6 @@ public class TablaDescripcionGetDTO3 {
     private String campoB;
     private String campoC;
     private String campoD;
+    private String codigoAsfi;
 
 }

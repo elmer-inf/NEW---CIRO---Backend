@@ -44,6 +44,9 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_campo_d", length = 1000)
     private String campoD;
 
+    @Column(name = "des_codigo_asfi", length = 50)
+    private String codigoAsfi;
+
     /* -------- RELACION DE PARAMETROS --------- */
     @JsonIgnore
     @OneToMany(mappedBy = "agenciaId")
@@ -178,13 +181,13 @@ public class TablaDescripcion implements Serializable {
     @OneToMany(mappedBy = "gobiernoId")
     private List<EventoRiesgo> eventoRiesgo33;
 
-    /*@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "seguridadId")
     private List<EventoRiesgo> eventoRiesgo34;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "lgiId")
-    private List<EventoRiesgo> eventoRiesgo35;*/
+    @OneToMany(mappedBy = "recuperacionActivoId")
+    private List<EventoRiesgo> eventoRiesgo35;
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
