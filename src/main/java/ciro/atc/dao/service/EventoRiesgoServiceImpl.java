@@ -166,9 +166,11 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
     public ResponseEntity<EventoRiesgo> create(EventoRiesgoDTO data) {
         EventoRiesgo eventoRiesgoToSave = new EventoRiesgo();
-        try{
+        try {
             BeanUtils.copyProperties(data, eventoRiesgoToSave);
-            eventoRiesgoToSave= buildEventoToCreateUpdate(eventoRiesgoToSave,data);
+            eventoRiesgoToSave = buildEventoToCreateUpdate(eventoRiesgoToSave, data);
+
+            eventoRiesgoToSave.setEstadoRegistro("Pendiente");
             eventoRiesgoRepository.save(eventoRiesgoToSave);
 
         }catch (Exception e){

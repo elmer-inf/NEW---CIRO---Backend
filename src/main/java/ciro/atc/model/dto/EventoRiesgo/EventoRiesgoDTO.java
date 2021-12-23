@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 public class EventoRiesgoDTO {
+
     private String estadoEvento;
     private Date fechaIni;
     private Time horaIni;

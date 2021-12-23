@@ -26,22 +26,22 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_clave", length = 50)
     private String clave;
 
-    @Column(name = "des_nombre", length = 1000)
+    @Column(name = "des_nombre", length = 1500)
     private String nombre;
 
-    @Column(name = "des_descripcion", length = 1000)
+    @Column(name = "des_descripcion",  columnDefinition = "text")
     private String descripcion;
 
-    @Column(name = "des_campo_a", length = 1000)
+    @Column(name = "des_campo_a", length = 2000)
     private String campoA;
 
-    @Column(name = "des_campo_b", length = 1000)
+    @Column(name = "des_campo_b", length = 2000)
     private String campoB;
 
-    @Column(name = "des_campo_c", length = 1000)
+    @Column(name = "des_campo_c",  columnDefinition = "text")
     private String campoC;
 
-    @Column(name = "des_campo_d", length = 1000)
+    @Column(name = "des_campo_d", columnDefinition = "text")
     private String campoD;
 
     @Column(name = "des_codigo_asfi", length = 50)
