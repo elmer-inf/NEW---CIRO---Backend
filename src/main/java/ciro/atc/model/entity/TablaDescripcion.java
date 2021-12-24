@@ -205,14 +205,6 @@ public class TablaDescripcion implements Serializable {
     @Column(name = "des_nivel3_id")
     private int nivel3_id;
 
-    /*@ManyToOne(fetch = FetchType.LAZY, optional=true)
-    @JoinTable(
-            name = "tbl_lista_descripcion",
-            joinColumns = @JoinColumn(name = "descripcion_id"),
-            inverseJoinColumns = @JoinColumn(name = "lista_id")
-    )
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-    private TablaLista tablaLista;*/
 
     @CreationTimestamp
     @Column(name = "des_dateTimeCreate")

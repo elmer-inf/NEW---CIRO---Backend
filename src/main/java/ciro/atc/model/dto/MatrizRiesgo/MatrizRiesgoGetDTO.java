@@ -58,6 +58,4 @@ public class MatrizRiesgoGetDTO {
     private TablaDescripcionMatrizRiesgo impactoId;
     private TablaDescripcionMatrizRiesgo controlId;
 
-    private int usuario_id;
-
 }
