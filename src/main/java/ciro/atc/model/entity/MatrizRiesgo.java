@@ -39,7 +39,7 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_fecha_evaluacion")
     private Date fechaEvaluacion;
 
-    @Column(name = "rie_identificado_otro")
+    @Column(name = "rie_identificado_otro",  columnDefinition = "text")
     private String identificadoOtro;
 
     @Column(name = "rie_definicion", length = 500)
@@ -61,7 +61,7 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_controles_tiene")
     private Boolean controlesTiene;
 
-    @Column(name = "rie_controles", columnDefinition = "text" )
+    @Column(name = "rie_controles", columnDefinition = "text")
     private String controles;
 
     @Column(name = "rie_control_objetivo", length = 100)
@@ -71,7 +71,7 @@ public class MatrizRiesgo implements Serializable {
     private String controlComentario;
 
     // Planes
-    @Column(name = "rie_planes_accion", columnDefinition = "text" )
+    @Column(name = "rie_planes_accion", columnDefinition = "text")
     private String planesAccion;
 
     // Seguimiento
@@ -160,10 +160,15 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_usuario_id")
     private int usuario_id;
 
+    /* RELACION CON EVENTO DE RIESGO */
+    @Column(name = "rie_evento_materializado")
+    private Boolean eventoMaterializado;
+
 
     @Column(name = "rie_evento_riesgo_id")
     private Long eventoRiesgoId;
 
+    /* FIN RELACION CON EVENTO DE RIESGO */
 
     @CreationTimestamp
     @Column(name = "rie_dateTimeCreate")
