@@ -1,16 +1,14 @@
 package ciro.atc.model.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
@@ -21,28 +19,51 @@ public class Archivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "arc_id")
+    @Column(name = "arch_id")
     private Long id;
 
-    @Column(name = "arc_archivo", length = 200)
-    private String archivo;
+    @Column(name = "arch_nombre_archivo", length = 500)
+    private String nombreArchivo;
 
-    @ManyToOne
-    @JoinColumn(name = "arc_evento_id")
-    private EventoRiesgo eventoId;
+    @Column(name = "arch_tipo", length = 50)
+    private String tipo;
 
-    @Column(name = "arc_usuario_id")
-    private int usuarioId;
+    @Column(name = "arch_size")
+    private Long size;
+
+    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
+    @Column(name = "arch_base64")
+    private byte[] archivoBase64;
+
+    @Column(name="evento_id")
+    private Long eventoId;
+
+    //@ManyToOne
+    //@JoinColumn(name = "arc_evento_id")
+   // private EventoRiesgo eventoId;
+
+    //@Column(name = "arc_usuario_id")
+   // private int usuarioId;
+
+
+
+
+
+
+
+
+
 
     @CreationTimestamp
-    @Column(name = "arc_dateTimeCreate")
+    @Column(name = "arch_dateTimeCreate")
     private Timestamp created;
 
     @UpdateTimestamp
-    @Column(name = "arc_dateTimeUpdate")
+    @Column(name = "arch_dateTimeUpdate")
     private Timestamp updated;
 
-    @Column(name = "arc_delete")
+    @Column(name = "arch_delete")
     private boolean deleted;
 
     final public Archivo deleteOnly() {

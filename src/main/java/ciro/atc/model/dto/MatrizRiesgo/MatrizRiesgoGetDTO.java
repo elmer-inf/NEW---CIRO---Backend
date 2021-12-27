@@ -1,6 +1,7 @@
 package ciro.atc.model.dto.MatrizRiesgo;
 
 import ciro.atc.model.entity.Archivo;
+import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
 import ciro.atc.model.entity.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
@@ -58,4 +59,7 @@ public class MatrizRiesgoGetDTO {
     private TablaDescripcionMatrizRiesgo impactoId;
     private TablaDescripcionMatrizRiesgo controlId;
 
+    // RELACION CON EVENTO DE RIESGO
+    //private Boolean eventoMaterializado;
+   // private EventoRiesgo eventoRiesgoId;
 }

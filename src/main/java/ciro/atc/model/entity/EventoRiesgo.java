@@ -13,7 +13,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
-
+@SuppressWarnings("serial")
 @Setter
 @Getter
 @Entity
@@ -300,8 +300,12 @@ public class EventoRiesgo implements Serializable {
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "eventoId")
+    //@JsonIgnore
+   // @OneToMany(mappedBy = "eventoId")
+   // private List<Archivo> archivoId;
+
+    @OneToMany
+    @JoinColumn(name="evento_id", referencedColumnName="eve_id")
     private List<Archivo> archivoId;
 
     @JsonIgnore

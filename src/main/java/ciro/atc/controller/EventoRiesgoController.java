@@ -1,6 +1,7 @@
 package ciro.atc.controller;
 
 import ciro.atc.auth.Controller;
+import ciro.atc.config.log.Log;
 import ciro.atc.dao.service.EventoRiesgoService;
 import ciro.atc.model.dto.EventoRiesgo.*;
 import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
@@ -8,6 +9,7 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
 import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,13 @@ public class EventoRiesgoController extends Controller {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
-    @PostMapping("/registrar")
-    public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoDTO data){
+    //@PostMapping("/registrar")
+    //@RequestMapping(value = "/registrar" , method = RequestMethod.POST, consumes = { "multipart/form-data" })
+    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoPostDTO data){
+
+        System.out.println("Demooooooooooooooooo: " + Log.toJSON(data));
         return eventoRiesgoService.create(data);
     }
 

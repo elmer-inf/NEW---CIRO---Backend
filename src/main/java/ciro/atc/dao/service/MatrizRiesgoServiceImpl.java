@@ -78,6 +78,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             TablaDescripcionMatrizRiesgo tablaControlId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getControlId());
             matrizRiesgo.setControlId(tablaControlId);
 
+            matrizRiesgo.setEstadoRegistro("Pendiente");
             matrizRiesgoRepository.save(matrizRiesgo);
         }catch (Exception e) {
             Log.log("Guardar Matriz de riesgo =>", e);

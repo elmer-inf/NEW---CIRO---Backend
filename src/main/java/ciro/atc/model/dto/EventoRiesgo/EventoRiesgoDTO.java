@@ -90,4 +90,7 @@ public class EventoRiesgoDTO {
     // Relacion con mtriz de riesgos.
     private List<Long> listMatrizRiesgo;
 
+
+
+
 }

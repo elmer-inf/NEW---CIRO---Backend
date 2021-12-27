@@ -4,6 +4,7 @@ import ciro.atc.model.dto.TablaDescripcion.TablaDescripcionGetDTO3;
 import ciro.atc.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -96,8 +97,8 @@ public class EventoRiesgoPostDTO {
     // Relacion con mtriz de riesgos.
     private List<Long> listMatrizRiesgo;
 
-
-
+    // Upload N files
+    private MultipartFile[] file;
 
 
 }

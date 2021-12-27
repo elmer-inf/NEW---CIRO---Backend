@@ -79,6 +79,9 @@ public class Log {
     final public static void error(String message, Object exception) {
         logger.error(message, exception);
     }
+    final public static void error(String message) {
+        logger.error(message);
+    }
     //</editor-fold>
 
 }
