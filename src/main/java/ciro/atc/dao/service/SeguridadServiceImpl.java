@@ -37,17 +37,17 @@ public class SeguridadServiceImpl implements SeguridadService {
         try{
             BeanUtils.copyProperties(data, seguridad);
 
-            TablaDescripcionSeguridad tablaTipoActivoInteresId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getTipoActivoId());
-            seguridad.setTipoActivoId(tablaTipoActivoInteresId);
+            TablaDescripcionSeguridad tablaTipoActivoId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getTipoActivoId());
+            seguridad.setTipoActivoId(tablaTipoActivoId);
 
             TablaDescripcionSeguridad tablaEstadoId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getEstadoId());
             seguridad.setEstadoId(tablaEstadoId);
 
-            TablaDescripcionMatrizRiesgo tablaImpactoOporId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getNivelRiesgoId());
-            seguridad.setNivelRiesgoId(tablaImpactoOporId);
+            TablaDescripcionMatrizRiesgo tablaNivelRiesgoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getNivelRiesgoId());
+            seguridad.setNivelRiesgoId(tablaNivelRiesgoId);
 
-            TablaDescripcion tablaFortalezaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaId());
-            seguridad.setAreaId(tablaFortalezaId);
+            TablaDescripcion tablaAreaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaId());
+            seguridad.setAreaId(tablaAreaId);
 
             seguridadRepository.save(seguridad);
         }catch (Exception e) {
@@ -63,7 +63,7 @@ public class SeguridadServiceImpl implements SeguridadService {
     }
 
 
-    /*public SeguridadGetDTO findSeguridadByID(Long id){
+    public SeguridadGetDTO findSeguridadByID(Long id){
         Optional<Seguridad> seguridad = seguridadRepository.findById(id);
         SeguridadGetDTO seguridadGetDTO = new SeguridadGetDTO();
         BeanUtils.copyProperties(seguridad.get(), seguridadGetDTO);
@@ -71,35 +71,40 @@ public class SeguridadServiceImpl implements SeguridadService {
     }
 
 
-    public Seguridad findByIdOportunidad(Long id){
+    public Seguridad findByIdSeguridad(Long id){
         Optional<Seguridad> founded = seguridadRepository.findById(id);
         return founded.get();
     }
 
 
     public SeguridadGetDTO updateById (Long id, SeguridadPutDTO data){
-        Seguridad matrizOportunidad = seguridadRepository.findById(id).orElseThrow(()-> new DBException("Matriz de oportunidad: ", id));
-        SeguridadGetDTO matrizOportunidadGetDTO = new SeguridadGetDTO();
+        Seguridad seguridad = seguridadRepository.findById(id).orElseThrow(()-> new DBException("Error al obtener registro de Seguridad: ", id));
+        SeguridadGetDTO seguridadGetDTO = new SeguridadGetDTO();
         try{
-            TablaDescripcionSeguridad tablaGrupoInteresId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getGrupoInteresId());
-            matrizOportunidad.setGrupoInteresId(tablaGrupoInteresId);
+            TablaDescripcionSeguridad tablaTipoActivoId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getTipoActivoId());
+            seguridad.setTipoActivoId(tablaTipoActivoId);
 
-            TablaDescripcionMatrizRiesgo tablaProbabilidadId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getProbabilidadId());
-            matrizOportunidad.setProbabilidadId(tablaProbabilidadId);
+            TablaDescripcionSeguridad tablaEstadoId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getEstadoId());
+            seguridad.setEstadoId(tablaEstadoId);
 
-            TablaDescripcionSeguridad tablaImpactoOporId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getImpactoOporId());
-            matrizOportunidad.setImpactoOporId(tablaImpactoOporId);
+            TablaDescripcionMatrizRiesgo tablaNivelRiesgoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getNivelRiesgoId());
+            seguridad.setNivelRiesgoId(tablaNivelRiesgoId);
 
-            TablaDescripcionSeguridad tablaFortalezaId = tablaDescripcionSeguridadService.findByIdTablaDesc(data.getFortalezaId());
-            matrizOportunidad.setFortalezaId(tablaFortalezaId);
+            TablaDescripcion tablaAreaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaId());
+            seguridad.setAreaId(tablaAreaId);
 
-            BeanUtils.copyProperties(data, matrizOportunidad);
-            seguridadRepository.save(matrizOportunidad);
-            BeanUtils.copyProperties(matrizOportunidad, matrizOportunidadGetDTO);
+            BeanUtils.copyProperties(data, seguridad);
+            seguridadRepository.save(seguridad);
+            BeanUtils.copyProperties(seguridad, seguridadGetDTO);
         } catch (Exception e){
-            Log.log("Matriz de oportunidad actualizado: ", e);
+            Log.log("Error al actualizar registro de Seguridad: ", e);
         }
-        return matrizOportunidadGetDTO;
-    }*/
+        return seguridadGetDTO;
+    }
+
+    public List<Seguridad> groupByArea(){
+        System.out.println("resultado: "+  seguridadRepository.groupByArea());
+        return seguridadRepository.groupByArea();
+    }
 
 }

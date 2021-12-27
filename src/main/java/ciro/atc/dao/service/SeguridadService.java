@@ -10,10 +10,11 @@ import java.util.List;
 
 public interface SeguridadService {
 
-    /*ResponseEntity<Seguridad> create(SeguridadPostDTO t);
+    ResponseEntity<Seguridad> create(SeguridadPostDTO t);
     List<Seguridad> listSeguridad();
     SeguridadGetDTO findSeguridadByID(Long id);
     Seguridad findByIdSeguridad(Long id);
-    SeguridadGetDTO updateById (Long id, SeguridadPutDTO data);*/
+    SeguridadGetDTO updateById (Long id, SeguridadPutDTO data);
+    List<Seguridad> groupByArea();
 
 }

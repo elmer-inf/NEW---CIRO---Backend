@@ -10,4 +10,7 @@ import java.util.List;
 public interface SeguridadRepository extends BaseRepository<Seguridad> {
 
     List<Seguridad> findAllByDeleted(Boolean deleted);
+
+    @Query(value="SELECT count(*) FROM Seguridad s GROUP BY areaId ")
+    List<Seguridad> groupByArea();
 }
