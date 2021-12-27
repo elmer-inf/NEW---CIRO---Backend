@@ -2,8 +2,10 @@ package ciro.atc.dao.service;
 
 import ciro.atc.config.log.Log;
 import ciro.atc.exception.DBException;
+import ciro.atc.model.dto.Archivo.ArchivoPostDTOv2;
 import ciro.atc.model.dto.EventoRiesgo.*;
 import ciro.atc.model.dto.Observacion.ObservacionPostDTO;
+import ciro.atc.model.entity.Archivo;
 import ciro.atc.model.entity.EventoRiesgo;
 import ciro.atc.model.entity.MatrizRiesgo;
 import ciro.atc.model.entity.TablaDescripcion;
@@ -32,6 +34,9 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
     @Autowired
     MatrizRiesgoService matrizRiesgoService;
+
+    @Autowired
+    ArchivoService archivoService;
 
 
     //  public <R extends Object> Long count(Class<R> model)
@@ -164,21 +169,149 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return null;
     }
 
-    public ResponseEntity<EventoRiesgo> create(EventoRiesgoDTO data) {
-        EventoRiesgo eventoRiesgoToSave = new EventoRiesgo();
+    public ResponseEntity<EventoRiesgo> create(EventoRiesgoPostDTO data) {
+        EventoRiesgo eventoRiesgo = new EventoRiesgo();
         try {
-            BeanUtils.copyProperties(data, eventoRiesgoToSave);
-            eventoRiesgoToSave = buildEventoToCreateUpdate(eventoRiesgoToSave, data);
+            BeanUtils.copyProperties(data, eventoRiesgo);
+            //eventoRiesgoToSave = buildEventoToCreateUpdate(eventoRiesgoToSave, data);
 
-            eventoRiesgoToSave.setEstadoRegistro("Pendiente");
-            eventoRiesgoRepository.save(eventoRiesgoToSave);
+            TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
+            eventoRiesgo.setAgenciaId(tablaAgenciaId);
+
+            TablaDescripcion tablaCiudadId = tablaDescripcionService.findByIdTablaDesc(data.getCiudadId());
+            eventoRiesgo.setCiudadId(tablaCiudadId);
+
+            TablaDescripcion tablaAreaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaID());
+            eventoRiesgo.setAreaID(tablaAreaId);
+
+            TablaDescripcion tablaUnidadId = tablaDescripcionService.findByIdTablaDesc(data.getUnidadId());
+            eventoRiesgo.setUnidadId(tablaUnidadId);
+
+            TablaDescripcion tablaEntidadId = tablaDescripcionService.findByIdTablaDesc(data.getEntidadId());
+            eventoRiesgo.setEntidadId(tablaEntidadId);
+
+            TablaDescripcion tablaCargoId = tablaDescripcionService.findByIdTablaDesc(data.getCargoId());
+            eventoRiesgo.setCargoId(tablaCargoId);
+
+            TablaDescripcion tablaFuenteInfId = tablaDescripcionService.findByIdTablaDesc(data.getFuenteInfId());
+            eventoRiesgo.setFuenteInfId(tablaFuenteInfId);
+
+            TablaDescripcion tablaCanalAsfiId = tablaDescripcionService.findByIdTablaDesc(data.getCanalAsfiId());
+            eventoRiesgo.setCanalAsfiId(tablaCanalAsfiId);
+
+            TablaDescripcion tablaSubcategorizacionId = tablaDescripcionService.findByIdTablaDesc(data.getSubcategorizacionId());
+            eventoRiesgo.setSubcategorizacionId(tablaSubcategorizacionId);
+
+            TablaDescripcion tablaEventoPerdidaId = tablaDescripcionService.findByIdTablaDesc(data.getTipoEventoPerdidaId());
+            eventoRiesgo.setTipoEventoPerdidaId(tablaEventoPerdidaId);
+
+            TablaDescripcion tablaSubEventoId = tablaDescripcionService.findByIdTablaDesc(data.getSubEventoId());
+            eventoRiesgo.setSubEventoId(tablaSubEventoId);
+
+            TablaDescripcion tablaClaseEventoId = tablaDescripcionService.findByIdTablaDesc(data.getClaseEventoId());
+            eventoRiesgo.setClaseEventoId(tablaClaseEventoId);
+
+            TablaDescripcion tablaFactorRiesgoId = tablaDescripcionService.findByIdTablaDesc(data.getFactorRiesgoId());
+            eventoRiesgo.setFactorRiesgoId(tablaFactorRiesgoId);
+
+            TablaDescripcion tablaProcesoId = tablaDescripcionService.findByIdTablaDesc(data.getProcesoId());
+            eventoRiesgo.setProcesoId(tablaProcesoId);
+
+            TablaDescripcion tablaProcedimientoId = tablaDescripcionService.findByIdTablaDesc(data.getProcedimientoId());
+            eventoRiesgo.setProcedimientoId(tablaProcedimientoId);
+
+            TablaDescripcion tablaLineaAsfiId = tablaDescripcionService.findByIdTablaDesc(data.getLineaAsfiId());
+            eventoRiesgo.setLineaAsfiId(tablaLineaAsfiId);
+
+            TablaDescripcion tablaOperacionId = tablaDescripcionService.findByIdTablaDesc(data.getOperacionId());
+            eventoRiesgo.setOperacionId(tablaOperacionId);
+
+            TablaDescripcion tablaEfectoPerdidaId = tablaDescripcionService.findByIdTablaDesc(data.getEfectoPerdidaId());
+            eventoRiesgo.setEfectoPerdidaId(tablaEfectoPerdidaId);
+
+            TablaDescripcion tablaOpeProSerId = tablaDescripcionService.findByIdTablaDesc(data.getOpeProSerId());
+            eventoRiesgo.setOpeProSerId(tablaOpeProSerId);
+
+            TablaDescripcion tablaTipoServicioId = tablaDescripcionService.findByIdTablaDesc(data.getTipoServicioId());
+            eventoRiesgo.setTipoServicioId(tablaTipoServicioId);
+
+            TablaDescripcion tablaDescServicioId = tablaDescripcionService.findByIdTablaDesc(data.getDescServicioId());
+            eventoRiesgo.setDescServicioId(tablaDescServicioId);
+
+            // TablaDescripcion tablaTasaCambioId = tablaDescripcionService.findByIdTablaDesc(data.getTasaCambioId());
+            eventoRiesgo.setTasaCambioId(data.getTasaCambioId());
+
+            TablaDescripcion tablaMonedaId = tablaDescripcionService.findByIdTablaDesc(data.getMonedaId());
+            eventoRiesgo.setMonedaId(tablaMonedaId);
+
+            TablaDescripcion tablaImpactoId = tablaDescripcionService.findByIdTablaDesc(data.getImpactoId());
+            eventoRiesgo.setImpactoId(tablaImpactoId);
+
+            TablaDescripcion tablaPolizaSeguroId = tablaDescripcionService.findByIdTablaDesc(data.getPolizaSeguroId());
+            eventoRiesgo.setPolizaSeguroId(tablaPolizaSeguroId);
+
+            TablaDescripcion tablaRecuperacionId = tablaDescripcionService.findByIdTablaDesc(data.getRecuperacionActivoId());
+            eventoRiesgo.setRecuperacionActivoId(tablaRecuperacionId);
+
+
+            TablaDescripcion tablaOperativoId = tablaDescripcionService.findByIdTablaDesc(data.getOperativoId());
+            eventoRiesgo.setOperativoId(tablaOperativoId);
+
+            TablaDescripcion tablaLiquidezId = tablaDescripcionService.findByIdTablaDesc(data.getLiquidezId());
+            eventoRiesgo.setLiquidezId(tablaLiquidezId);
+
+            TablaDescripcion tablaLgiId = tablaDescripcionService.findByIdTablaDesc(data.getFraudeId());
+            eventoRiesgo.setFraudeId(tablaLgiId);
+
+            TablaDescripcion tablaLegalId = tablaDescripcionService.findByIdTablaDesc(data.getLegalId());
+            eventoRiesgo.setLegalId(tablaLegalId);
+
+            TablaDescripcion tablaReputacionalId = tablaDescripcionService.findByIdTablaDesc(data.getReputacionalId());
+            eventoRiesgo.setReputacionalId(tablaReputacionalId);
+
+            TablaDescripcion tablaCumplimientoId = tablaDescripcionService.findByIdTablaDesc(data.getCumplimientoId());
+            eventoRiesgo.setCumplimientoId(tablaCumplimientoId);
+
+            TablaDescripcion tablaEstrategicoId = tablaDescripcionService.findByIdTablaDesc(data.getEstrategicoId());
+            eventoRiesgo.setEstrategicoId(tablaEstrategicoId);
+
+            TablaDescripcion tablaGobiernoId = tablaDescripcionService.findByIdTablaDesc(data.getGobiernoId());
+            eventoRiesgo.setGobiernoId(tablaGobiernoId);
+
+            TablaDescripcion tablaSeguridadId = tablaDescripcionService.findByIdTablaDesc(data.getSeguridadId());
+            eventoRiesgo.setSeguridadId(tablaSeguridadId);
+
+            // Planes
+            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
+            eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
+
+            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
+            eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
+
+
+
+            //Guardando la matriz de riesgos
+            List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());
+            eventoRiesgo.setRiesgoRelacionado(matrizRiesgos);
+
+            eventoRiesgo.setEstadoRegistro("Pendiente");
+
+
+            //List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
+
+
+          //  eventoRiesgo.setArchivoId(archivos);
+
+            eventoRiesgoRepository.save(eventoRiesgo);
+           // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
+
 
         }catch (Exception e){
             Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
 
         }
-       return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoToSave);
+       return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
 
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface EventoRiesgoService {
 
-    ResponseEntity<EventoRiesgo> create(EventoRiesgoDTO t);
+    ResponseEntity<EventoRiesgo> create(EventoRiesgoPostDTO t);
     EventoRiesgo findByIdEvento(Long id);
     ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoDTO data);
     ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data);
