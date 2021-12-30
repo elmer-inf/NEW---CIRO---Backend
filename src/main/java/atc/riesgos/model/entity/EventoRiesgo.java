@@ -90,11 +90,6 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_linea_negocio", length = 100)
     private String lineaNegocio;
 
-            // Relacion con Matriz de Riesgos por definir
-    //@Column(name = "eve_riesgo_relaciionado", length = 100)
-   // private String riesgoRelacionado;
-            // FIN Relacion con Matriz de Riesgos por definir
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -123,9 +118,6 @@ public class EventoRiesgo implements Serializable {
 
     @Column(name = "eve_monto_recuperado_seguro", length = 20)
     private Float montoRecuperadoSeguro;
-
-    @Column(name = "eve_recuperacion_activo", length = 500)
-    private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
 
     @Column(name = "eve_perdida_mercado", length = 20)
     private Float perdidaMercado;

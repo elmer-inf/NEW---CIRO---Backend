@@ -53,6 +53,9 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_def_concatenado", length = 2000)
     private String defConcatenado;
 
+    @Column(name = "rie_efecto_perdida_otro", length = 200)
+    private String efectoPerdidaOtro;
+
     @Column(name = "rie_monetario")
     private Boolean monetario;
 
