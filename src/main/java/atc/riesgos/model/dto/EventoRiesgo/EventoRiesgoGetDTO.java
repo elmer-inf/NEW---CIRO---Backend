@@ -45,7 +45,6 @@ public class EventoRiesgoGetDTO {
     private Float montoRecuperado;
     private Boolean coberturaSeguro;
     private Float montoRecuperadoSeguro;
-    private String recuperacionActivo; // REVISAR CAMPO (QUE CONTIENE - boolean, select, input)
     private Float perdidaMercado;
     private String otros;
 

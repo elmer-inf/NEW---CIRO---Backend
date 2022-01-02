@@ -27,13 +27,12 @@ public class EventoRiesgoController extends Controller {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
-    //@PostMapping("/registrar")
+    @PostMapping("/registrar")
     //@RequestMapping(value = "/registrar" , method = RequestMethod.POST, consumes = { "multipart/form-data" })
-    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+    //MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoPostDTO data){
-
-        System.out.println("Demooooooooooooooooo: " + Log.toJSON(data));
+        //System.out.println("Demooooooooooooooooo: " + Log.toJSON(data));
         return eventoRiesgoService.create(data);
     }
 

@@ -16,6 +16,7 @@ public class MatrizRiesgoPutDTO {
     private String causa;
     private String consecuencia;
     private String defConcatenado;
+    private String efectoPerdidaOtro;
     private Boolean monetario;
 
     // Controles
