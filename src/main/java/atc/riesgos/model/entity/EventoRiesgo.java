@@ -69,10 +69,10 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_estado_reportado", length = 50)
     private String estadoReportado; // reportado, no reportado
 
-    @Column(name = "eve_descripcion", length = 500)
+    @Column(name = "eve_descripcion", columnDefinition = "text")
     private String descripcion;
 
-    @Column(name = "eve_descripcion_completa", length = 1000)
+    @Column(name = "eve_descripcion_completa", columnDefinition = "text")
     private String descripcionCompleta;
 
     @Column(name = "eve_codigo_inicial", length = 50)
@@ -81,13 +81,13 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_trimestre", length = 50)
     private String trimestre;
 
-    @Column(name = "eve_detalle_evento_critico", length = 1000)
+    @Column(name = "eve_detalle_evento_critico", columnDefinition = "text")
     private String detalleEventoCritico;
 
-    @Column(name = "eve_evento_critico", length = 100)
+    @Column(name = "eve_evento_critico", length = 500)
     private String eventoCritico;
 
-    @Column(name = "eve_linea_negocio", length = 100)
+    @Column(name = "eve_linea_negocio", length = 500)
     private String lineaNegocio;
 
 
@@ -101,28 +101,28 @@ public class EventoRiesgo implements Serializable {
     private List<MatrizRiesgo> riesgoRelacionado;
 
 
-    @Column(name = "eve_detalle_estado", length = 1000)
+    @Column(name = "eve_detalle_estado", columnDefinition = "text")
     private String detalleEstado;
 
-    @Column(name = "eve_monto_perdida", length = 20)
+    @Column(name = "eve_monto_perdida") //, length = 20
     private Float montoPerdida;
 
-    @Column(name = "eve_gasto_asociado", length = 20)
+    @Column(name = "eve_gasto_asociado")//, length = 20
     private Float gastoAsociado;
 
-    @Column(name = "eve_monto_recuperado", length = 20)
+    @Column(name = "eve_monto_recuperado")//, length = 20
     private Float montoRecuperado;
 
     @Column(name = "eve_cobertura_seguro")
     private Boolean coberturaSeguro;
 
-    @Column(name = "eve_monto_recuperado_seguro", length = 20)
+    @Column(name = "eve_monto_recuperado_seguro") //, length = 20
     private Float montoRecuperadoSeguro;
 
-    @Column(name = "eve_perdida_mercado", length = 20)
+    @Column(name = "eve_perdida_mercado") //, length = 20
     private Float perdidaMercado;
 
-    @Column(name = "eve_otros", length = 500)
+    @Column(name = "eve_otros", columnDefinition = "text")
     private String otros;
 
     // Planes de accion
@@ -134,16 +134,16 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_cargo_reponsable_id")
     private TablaDescripcion cargoResponsableId;
 
-    @Column(name = "eve_detalle_plan", length = 1500)
+    @Column(name = "eve_detalle_plan", columnDefinition = "text")
     private String detallePlan;
 
     @Column(name = "eve_fecha_fin_plan")
     private Date fechaFinPlan;
 
-    @Column(name = "eve_descripcion_estado", length = 1000)
+    @Column(name = "eve_descripcion_estado", columnDefinition = "text")
     private String descripcionEstado;
 
-    @Column(name = "eve_estado_plan", length = 100)
+    @Column(name = "eve_estado_plan", length = 200)
     private String estadoPlan;
 
     /* -------- RELACION DE PARAMETROS --------- */
