@@ -76,16 +76,6 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_planes_accion", columnDefinition = "text")
     private String planesAccion;
 
-    // Seguimiento
-    @Column(name = "rie_seguimiento_fecha")
-    private Date seguimientoFecha;
-
-    @Column(name = "rie_seguimiento_obs")
-    private String seguimientoObs;
-
-    @Column(name = "rie_seguimiento_comen")
-    private String seguimientoComen;
-
     // Valoracion
     @Column(name = "rie_criterio_impacto")
     private String criterioImpacto;

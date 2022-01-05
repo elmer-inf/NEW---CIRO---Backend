@@ -56,6 +56,21 @@ public class EventoRiesgoController extends Controller {
         return eventoRiesgoService.listEventoRiesgo();
     }
 
+    @GetMapping("/diezDiasAntes")
+    public List<EventoRiesgo> diezDiasAntes() {
+        return eventoRiesgoService.diezDiasAntes();
+    }
+
+    @GetMapping("/cincoDiasAntes")
+    public List<EventoRiesgo> cincoDiasAntes() {
+        return eventoRiesgoService.cincoDiasAntes();
+    }
+
+    @GetMapping("/planVencido")
+    public List<EventoRiesgo> planVencido() {
+        return eventoRiesgoService.planVencido();
+    }
+
 
     @GetMapping({"/{page}/{size}/{order}", "/{page}/{size}"})
     public Object filterBy(

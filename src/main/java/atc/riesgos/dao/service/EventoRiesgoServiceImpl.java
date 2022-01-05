@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -308,10 +309,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         }catch (Exception e){
             Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
-
         }
        return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
-
     }
 
 
@@ -451,6 +450,33 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
     public List<EventoRiesgo> listEventoRiesgo() {
         return eventoRiesgoRepository.findAllByDeleted(false);
+    }
+
+    public List<EventoRiesgo> diezDiasAntes() {
+        try{
+            return eventoRiesgoRepository.diezDiasAntes();
+        }catch (Exception e){
+            Log.log("Error en Funcion diezDiasAntes : ", e);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<EventoRiesgo> cincoDiasAntes() {
+        try{
+            return eventoRiesgoRepository.cincoDiasAntes();
+        }catch (Exception e){
+            Log.log("Error en Funcion cincoDiasAntes : ", e);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<EventoRiesgo> planVencido() {
+        try{
+            return eventoRiesgoRepository.planVencido();
+        }catch (Exception e){
+            Log.log("Error en Funcion planVencido : ", e);
+        }
+        return new ArrayList<>();
     }
 
 
