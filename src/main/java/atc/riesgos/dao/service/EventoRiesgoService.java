@@ -20,9 +20,7 @@ public interface EventoRiesgoService {
 
     EventoRiesgoGetDTO findEventoByID(Long id);
     List<EventoRiesgo> listEventoRiesgo();
-
-    //String countEventoCodigo (String sigla);
-
-
-
+    List<EventoRiesgo> diezDiasAntes();
+    List<EventoRiesgo> cincoDiasAntes();
+    List<EventoRiesgo> planVencido();
 }

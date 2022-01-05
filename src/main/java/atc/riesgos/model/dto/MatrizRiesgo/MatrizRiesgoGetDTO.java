@@ -33,11 +33,6 @@ public class MatrizRiesgoGetDTO {
     // Planes
     private String planesAccion;
 
-    // Seguimiento
-    private Date seguimientoFecha;
-    private String seguimientoObs;
-    private String seguimientoComen;
-
     // Valoracion
     private String criterioImpacto;
     private String criterioprobabilidad;

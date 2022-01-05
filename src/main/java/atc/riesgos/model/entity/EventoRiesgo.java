@@ -75,7 +75,7 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_descripcion_completa", columnDefinition = "text")
     private String descripcionCompleta;
 
-    @Column(name = "eve_codigo_inicial", length = 50)
+    @Column(name = "eve_codigo_inicial", columnDefinition = "text")
     private String codigoInicial;
 
     @Column(name = "eve_trimestre", length = 50)
