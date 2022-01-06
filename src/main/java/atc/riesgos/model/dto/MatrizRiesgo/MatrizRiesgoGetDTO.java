@@ -1,5 +1,6 @@
 package atc.riesgos.model.dto.MatrizRiesgo;
 
+import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
@@ -53,6 +54,6 @@ public class MatrizRiesgoGetDTO {
     private TablaDescripcionMatrizRiesgo controlId;
 
     // RELACION CON EVENTO DE RIESGO
-    //private Boolean eventoMaterializado;
-   // private EventoRiesgo eventoRiesgoId;
+    private Boolean eventoMaterializado;
+    private EventoRiesgo eventoRiesgoId;
 }

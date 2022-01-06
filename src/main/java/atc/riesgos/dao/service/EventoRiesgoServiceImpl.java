@@ -38,7 +38,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     @Autowired
     ArchivoService archivoService;
 
-
     //  public <R extends Object> Long count(Class<R> model)
     private EventoRiesgo buildEventoToCreateUpdate(EventoRiesgo eventoRiesgo, EventoRiesgoDTO data){
         try{
