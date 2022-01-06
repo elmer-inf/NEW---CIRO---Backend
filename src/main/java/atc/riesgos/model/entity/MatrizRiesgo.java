@@ -156,7 +156,6 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_evento_materializado")
     private Boolean eventoMaterializado;
 
-
     @Column(name = "rie_evento_riesgo_id")
     private Long eventoRiesgoId;
 

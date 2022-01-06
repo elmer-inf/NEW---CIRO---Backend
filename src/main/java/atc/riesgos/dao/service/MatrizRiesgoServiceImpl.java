@@ -7,9 +7,11 @@ import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
+import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
+import atc.riesgos.model.repository.EventoRiesgoRepository;
 import atc.riesgos.model.repository.MatrizRiesgoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     TablaDescripcionMatrizRiesgoService tablaDescripcionMatrizRiesgoService;
     @Autowired
     ObservacionService observacionService;
+    @Autowired
+    EventoRiesgoRepository eventoRiesgoRepository;
 
     public ResponseEntity<MatrizRiesgo> create(MatrizRiesgoPostDTO data) {
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -95,6 +99,11 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         Optional<MatrizRiesgo> matrizRiesgo = matrizRiesgoRepository.findById(id);
         MatrizRiesgoGetDTO matrizRiesgoGetDTO = new MatrizRiesgoGetDTO();
         BeanUtils.copyProperties(matrizRiesgo.get(), matrizRiesgoGetDTO);
+
+        if(matrizRiesgo.get().getEventoRiesgoId() != 0){
+            Optional<EventoRiesgo> eventoRiesgo = eventoRiesgoRepository.findById(matrizRiesgo.get().getEventoRiesgoId());
+            matrizRiesgoGetDTO.setEventoRiesgoId(eventoRiesgo.get());
+        }
         return matrizRiesgoGetDTO;
     }
 
