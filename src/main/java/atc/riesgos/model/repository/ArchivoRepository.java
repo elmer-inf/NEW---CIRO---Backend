@@ -8,4 +8,6 @@ import java.util.List;
 public interface ArchivoRepository extends BaseRepository<Archivo> {
 
     List<Archivo> findAllByDeleted(Boolean deleted);
+    List<Archivo> findByEventoId(Long idEvento);
+
 }

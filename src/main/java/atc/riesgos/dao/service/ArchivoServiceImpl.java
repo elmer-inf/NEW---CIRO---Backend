@@ -68,14 +68,14 @@ public class ArchivoServiceImpl implements ArchivoService {
                         archivo.setSize(f.getSize());
                         archivo.setArchivoBase64(f.getBytes());
                         archivo.setTipo(f.getContentType());
-                      // archivo.setEventoId(data.getEventoId());
+                        archivo.setEventoId(data.getEventoId());
                         archivoRepository.save(archivo);
                         archivos.add(archivo);
                         //respaldoRegularizacion.setNombreArchivoCorrelativo("Respaldo" + (i + 1));
 
                         //i++;
                     }
-                } else {
+               } else {
                     Log.error("Superó el límite de archivos a cargar");
                     throw new BadRequestException("Superó el límite de archivos a cargar");
                 }
@@ -100,4 +100,18 @@ public class ArchivoServiceImpl implements ArchivoService {
         return archivos;
 
     }
+
+    public List<Archivo> findAllByEvento(Long id) {
+        List<Archivo> archivos = new ArrayList<>();
+        try {
+            archivos = archivoRepository.findByEventoId(id);
+
+        } catch (Exception e) {
+            Log.error("findAllByEvento => ", e);
+        }
+
+        return archivos;
+    }
+
+
 }
