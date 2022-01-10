@@ -207,7 +207,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
     }
 
 
-    private String generaCodigo (Long id){
+    public String generaCodigo (Long id){
         MatrizOportunidad matrizOportunidad = matrizOportunidadRepository.findById(id).get();
 
         String codMacro = matrizOportunidad.getProcesoId().getClave();

@@ -46,6 +46,11 @@ public class EventoRiesgoController extends Controller {
         return eventoRiesgoService.evaluaEvento(id, data);
     }
 
+    @GetMapping("/generaCodigo/{id}")
+    public String generaCodigo (@PathVariable(value = "id") Long id){
+        return eventoRiesgoService.generaCodigo(id);
+    }
+
     @GetMapping("/mostrar/{id}")
     public EventoRiesgoGetDTO getEventoByById(@PathVariable(value = "id") Long id) {
         return eventoRiesgoService.findEventoByID(id);

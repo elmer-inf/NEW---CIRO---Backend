@@ -165,7 +165,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     }
 
 
-    private String generaCodigo (Long id){
+    public String generaCodigo (Long id){
         MatrizRiesgo matrizRiesgo = matrizRiesgoRepository.findById(id).get();
 
         String codMacro = matrizRiesgo.getProcesoId().getClave();

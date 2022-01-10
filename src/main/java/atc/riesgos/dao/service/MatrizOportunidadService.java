@@ -17,4 +17,5 @@ public interface MatrizOportunidadService {
     MatrizOportunidad findByIdOportunidad(Long id);
     MatrizOportunidadGetDTO updateById (Long id, MatrizOportunidadPutDTO data);
     ResponseEntity<MatrizOportunidad> evaluaOportunidad (Long id, MatrizOportunidadPutDTOevaluacion data);
+    String generaCodigo (Long id);
 }
