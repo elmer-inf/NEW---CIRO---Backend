@@ -44,6 +44,11 @@ public class MatrizOportunidadController extends Controller {
         return matrizOportunidadService.evaluaOportunidad(id, data);
     }
 
+    @GetMapping("/generaCodigo/{id}")
+    public String generaCodigo (@PathVariable(value = "id") Long id){
+        return matrizOportunidadService.generaCodigo(id);
+    }
+
     /* No lo probe */
     @PutMapping("/editar/{id}")
     public MatrizOportunidadGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizOportunidadPutDTO data){

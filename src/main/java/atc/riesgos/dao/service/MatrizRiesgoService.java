@@ -18,5 +18,6 @@ public interface MatrizRiesgoService {
     ResponseEntity<MatrizRiesgo> evaluaRiesgo (Long id, MatrizRiesgoPutDTOevaluacion data);
     MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data);
     List<MatrizRiesgo> getListMatrizInId(List<Long> in);
+    String generaCodigo (Long id);
 
 }

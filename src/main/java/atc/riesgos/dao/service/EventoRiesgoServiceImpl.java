@@ -330,7 +330,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         }
         //return eventoRiesgoGetDTO;
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoGetDTO);
-
     }
 
 
@@ -408,7 +407,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     }
 
 
-    private String generaCodigo(Long id) {
+    public String generaCodigo(Long id) {
         EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).get();
 
         String siglaArea = eventoRiesgo.getAreaID().getClave();

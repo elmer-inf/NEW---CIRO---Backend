@@ -44,6 +44,11 @@ public class MatrizRiesgoController extends Controller {
         return matrizRiesgoService.evaluaRiesgo(id, data);
     }
 
+    @GetMapping("/generaCodigo/{id}")
+    public String generaCodigo (@PathVariable(value = "id") Long id){
+        return matrizRiesgoService.generaCodigo(id);
+    }
+
     /* No lo probe */
     @PutMapping("/editar/{id}")
     public MatrizRiesgoGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizRiesgoPutDTO data){
