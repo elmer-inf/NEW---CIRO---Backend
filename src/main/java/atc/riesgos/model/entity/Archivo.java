@@ -47,14 +47,6 @@ public class Archivo {
    // private int usuarioId;
 
 
-
-
-
-
-
-
-
-
     @CreationTimestamp
     @Column(name = "arch_dateTimeCreate")
     private Timestamp created;

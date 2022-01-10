@@ -43,12 +43,6 @@ public class ArchivoServiceImpl implements ArchivoService {
 
 
     public List<Archivo> create(ArchivoPostDTOv2 data) {
-        //Archivo archivo = new Archivo();
-        // EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(data.getEventoId());
-        //BeanUtils.copyProperties(data, archivo);
-        // archivo.setEventoId(eventoRiesgo);
-
-        // return archivoRepository.save(archivo);
         List<Archivo> archivos = new ArrayList<>();
         try {
             if (data.getFile() != null) {
@@ -105,13 +99,10 @@ public class ArchivoServiceImpl implements ArchivoService {
         List<Archivo> archivos = new ArrayList<>();
         try {
             archivos = archivoRepository.findByEventoId(id);
-
         } catch (Exception e) {
             Log.error("findAllByEvento => ", e);
         }
-
         return archivos;
     }
-
 
 }

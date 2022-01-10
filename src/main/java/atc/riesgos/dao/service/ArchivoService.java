@@ -3,6 +3,7 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTOv2;
 import atc.riesgos.model.entity.Archivo;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 
 import java.util.List;
 

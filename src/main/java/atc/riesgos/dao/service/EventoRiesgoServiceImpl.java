@@ -34,10 +34,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     TablaDescripcionService tablaDescripcionService;
     @Autowired
     ObservacionService observacionService;
-
     @Autowired
     MatrizRiesgoService matrizRiesgoService;
-
     @Autowired
     ArchivoService archivoService;
 

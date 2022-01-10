@@ -291,11 +291,7 @@ public class EventoRiesgo implements Serializable {
     private TablaDescripcion recuperacionActivoId;
 
     /* -------- FIN RELACION DE PARAMETROS  --------- */
-
-    //@JsonIgnore
-   // @OneToMany(mappedBy = "eventoId")
-   // private List<Archivo> archivoId;
-
+    @JsonIgnore
     @OneToMany
     @JoinColumn(name="evento_id", referencedColumnName="eve_id")
     private List<Archivo> archivoId;
