@@ -10,4 +10,5 @@ public interface ArchivoService {
 
     Archivo create(ArchivoPostDTO t);
     List<Archivo> create(ArchivoPostDTOv2 data);
+    List<Archivo> findAllByEvento(Long id);
 }

@@ -36,6 +36,16 @@ public class EventoRiesgoController extends Controller {
         return eventoRiesgoService.create(data);
     }
 
+   // @RequestMapping(path="/registrarwithfiles", consumes = {"multipart/form-data"}, method = RequestMethod.POST)
+    @PostMapping("/registrarwithfiles")
+    public ResponseEntity<EventoRiesgo>  saveWithFiles (@ModelAttribute EventoRiesgoFilePostDTO data){
+        //System.out.println("OBJETOO: " + data.getEventoRiesgoPostDTO());
+       // System.out.println("FILE: " + Log.toJSON(data.getFile()));
+       EventoRiesgoPostDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPostDTO(),EventoRiesgoPostDTO.class);
+    return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
+       // return null;
+    }
+
     @PutMapping("/editar/{id}")
     public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoDTO data){
         return eventoRiesgoService.updateById(id, data);

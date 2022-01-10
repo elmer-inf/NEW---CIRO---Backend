@@ -94,6 +94,6 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion estrategicoId;
     private TablaDescripcion gobiernoId;
 
-    private Archivo archivoId;
+    private List<Archivo> archivoId;
     private List<MatrizRiesgo> riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
 }

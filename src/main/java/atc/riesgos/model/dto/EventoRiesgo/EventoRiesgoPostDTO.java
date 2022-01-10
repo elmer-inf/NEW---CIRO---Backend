@@ -95,7 +95,7 @@ public class EventoRiesgoPostDTO {
     private List<Long> listMatrizRiesgo;
 
     // Upload N files
-    private MultipartFile[] file;
+    //private MultipartFile[] file;
 
 
 }
