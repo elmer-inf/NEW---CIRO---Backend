@@ -293,7 +293,7 @@ public class EventoRiesgo implements Serializable {
     /* -------- FIN RELACION DE PARAMETROS  --------- */
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name="evento_id", referencedColumnName="eve_id")
+    @JoinColumn(name="evento_id", referencedColumnName="eve_id", nullable=true)
     private List<Archivo> archivoId;
 
     @JsonIgnore

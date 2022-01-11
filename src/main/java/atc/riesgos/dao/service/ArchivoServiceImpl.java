@@ -41,11 +41,25 @@ public class ArchivoServiceImpl implements ArchivoService {
         return archivoRepository.save(archivo);
     }
 
+    public Boolean isEmptyList(MultipartFile[] data) {
+        MultipartFile[] fileList0 = data;
+        Boolean empty = false;
+
+        for (MultipartFile multipartFile : fileList0) {
+           Boolean x = multipartFile.isEmpty();
+            System.out.println("esVcios: " + x);
+           return x;
+        }
+
+        return empty;
+    }
 
     public List<Archivo> create(ArchivoPostDTOv2 data) {
         List<Archivo> archivos = new ArrayList<>();
         try {
-            if (data.getFile() != null) {
+
+            System.out.println("VACIO ?? :  " + isEmptyList(data.getFile()));
+            if (data.getFile() != null && !isEmptyList(data.getFile())) {
                 List<MultipartFile> fileList = Arrays.asList(data.getFile());
 
                 if (fileList.size() <= fileLimit) {
@@ -69,15 +83,15 @@ public class ArchivoServiceImpl implements ArchivoService {
 
                         //i++;
                     }
-               } else {
+                } else {
                     Log.error("Superó el límite de archivos a cargar");
                     throw new BadRequestException("Superó el límite de archivos a cargar");
                 }
-            } else {
-                Log.error("No se adjunto ningun archivo");
+            } //else {
+            //Log.error("No se adjunto ningun archivo");
 
-                throw new NullPointerException("No se adjunto ningun archivo ");
-            }
+            //throw new NullPointerException("No se adjunto ningun archivo ");
+            // }
         } catch (NullPointerException e) {
             Log.error("Error al intentar guardar un archivo: ", e);
         } catch (BadRequestException e) {
