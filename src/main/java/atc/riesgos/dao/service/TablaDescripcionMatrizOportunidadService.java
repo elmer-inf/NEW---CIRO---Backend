@@ -5,6 +5,7 @@ import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionM
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO2;
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPostDTO;
 import atc.riesgos.model.entity.TablaDescripcionMatrizOportunidad;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public interface TablaDescripcionMatrizOportunidadService {
     TablaDescripcionMatrizOportunidadGetDTO findTablaDescripcionByID(Long id);
     TablaDescripcionMatrizOportunidadGetDTO2 findTablaDescripcionByID2(Long id);
     TablaDescripcionMatrizOportunidad findByIdTablaDesc(Long id);
+    TablaDescripcionMatrizOportunidad deleteById(Long id);
 
 }
 

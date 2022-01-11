@@ -6,6 +6,7 @@ import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionM
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO2;
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPostDTO;
 import atc.riesgos.model.entity.TablaDescripcionMatrizOportunidad;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,11 @@ public class TablaDescripcionMatrizOportunidadController {
     @GetMapping("/mostrar2/{id}")
     public TablaDescripcionMatrizOportunidadGetDTO2 getTablaDscripcionByById2(@PathVariable(value = "id") Long id) {
         return tablaDescripcionMatrizOportunidadService.findTablaDescripcionByID2(id);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public TablaDescripcionMatrizOportunidad delete(@PathVariable Long id){
+        return tablaDescripcionMatrizOportunidadService.deleteById(id);
     }
 
 

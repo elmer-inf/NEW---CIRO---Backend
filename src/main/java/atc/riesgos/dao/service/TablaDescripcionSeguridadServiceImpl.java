@@ -3,6 +3,7 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadPostDTO;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadPutDTO;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcionSeguridad;
 import atc.riesgos.model.entity.TablaListaSeguridad;
 import atc.riesgos.model.repository.TablaDescripcionSeguridadRepository;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +80,24 @@ public class TablaDescripcionSeguridadServiceImpl implements TablaDescripcionSeg
             Log.log("Error : " , e);
         }
         return null;
+    }
+
+    public TablaDescripcionSeguridad deleteById(Long id) {
+        TablaDescripcionSeguridad tablaDescripcionToDelete = tablaDescripcionSeguridadRepository.findByIdAndDeleted(id, false).get();
+        return tablaDescripcionSeguridadRepository.save(delete(tablaDescripcionToDelete));
+    }
+
+    final public <T extends Object> T delete(T obj) {
+        try {
+            Class<?> cls = obj.getClass();
+            Field field = cls.getDeclaredField("deleted");
+            field.setAccessible(true);
+            field.set(obj, true);
+        } catch (IllegalAccessException | IllegalArgumentException
+                | NoSuchFieldException | SecurityException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return obj;
     }
 
 }

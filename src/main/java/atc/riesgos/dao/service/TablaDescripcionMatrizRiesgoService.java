@@ -16,12 +16,6 @@ public interface TablaDescripcionMatrizRiesgoService {
     ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById (Long id, TablaDescripcionMatrizRiesgoPutDTO data);
     TablaDescripcionMatrizRiesgoGetDTO findTablaDescripcionByID(Long id);
     TablaDescripcionMatrizRiesgo findByIdTablaDesc(Long id);
-
-   /*
-    TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id);
-    TablaDescripcion deleteById(Long id);
-
-    TablaDescripcion findByIdTablaDesc(Long id);*/
-
+    TablaDescripcionMatrizRiesgo deleteById(Long id);
 }
 

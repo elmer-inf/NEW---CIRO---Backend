@@ -1,6 +1,7 @@
 package atc.riesgos.dao.service;
 
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPutDTO;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaListaMatrizOportunidad;
 import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,8 +105,23 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
     }
 
 
+    public TablaDescripcionMatrizOportunidad deleteById(Long id) {
+        TablaDescripcionMatrizOportunidad tablaDescripcionToDelete = tablaDescripcionMatrizOportunidadRepository.findByIdAndDeleted(id, false).get();
+        return tablaDescripcionMatrizOportunidadRepository.save(delete(tablaDescripcionToDelete));
+    }
 
-
+    final public <T extends Object> T delete(T obj) {
+        try {
+            Class<?> cls = obj.getClass();
+            Field field = cls.getDeclaredField("deleted");
+            field.setAccessible(true);
+            field.set(obj, true);
+        } catch (IllegalAccessException | IllegalArgumentException
+                | NoSuchFieldException | SecurityException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+        return obj;
+    }
 
 }
 

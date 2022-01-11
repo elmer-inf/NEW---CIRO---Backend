@@ -4,6 +4,7 @@ import atc.riesgos.dao.service.TablaDescripcionMatrizRiesgoService;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPutDTO;
+import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,17 +47,9 @@ public class TablaDescripcionMatrizRiesgoController {
         return tablaDescripcionMatrizRiesgoService.findTablaDescripcionByID(id);
     }
 
-   /*
-
-    @GetMapping("/mostrar2/{id}")
-    public TablaDescripcionGetDTO2 getTablaDscripcionByById2(@PathVariable(value = "id") Long id) {
-        return tablaDescripcionService.findTablaDescripcionByID2(id);
-    }
-
     @DeleteMapping("/eliminar/{id}")
-    public TablaDescripcion delete(@PathVariable Long id){
-        return tablaDescripcionService.deleteById(id);
+    public TablaDescripcionMatrizRiesgo delete(@PathVariable Long id){
+        return tablaDescripcionMatrizRiesgoService.deleteById(id);
     }
-*/
 
 }

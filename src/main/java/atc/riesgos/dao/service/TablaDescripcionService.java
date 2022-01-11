@@ -18,9 +18,8 @@ public interface TablaDescripcionService {
     TablaDescripcionGetDTO updateById (Long id, TablaDescripcionPutDTO data);
     TablaDescripcionGetDTO findTablaDescripcionByID(Long id);
     TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id);
-    TablaDescripcion deleteById(Long id);
-
     TablaDescripcion findByIdTablaDesc(Long id);
+    TablaDescripcion deleteById(Long id);
 
 }
 

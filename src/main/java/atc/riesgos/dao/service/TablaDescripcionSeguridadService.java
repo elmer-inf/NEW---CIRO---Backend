@@ -3,6 +3,7 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadPostDTO;
 import atc.riesgos.model.dto.TablaDescripcionSeguridad.TablaDescripcionSeguridadPutDTO;
+import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcionSeguridad;
 import org.springframework.http.ResponseEntity;
 
@@ -16,6 +17,7 @@ public interface TablaDescripcionSeguridadService {
     ResponseEntity<TablaDescripcionSeguridadGetDTO> updateById (Long id, TablaDescripcionSeguridadPutDTO data);
     TablaDescripcionSeguridadGetDTO findTablaDescripcionByID(Long id);
     TablaDescripcionSeguridad findByIdTablaDesc(Long id);
+    TablaDescripcionSeguridad deleteById(Long id);
 
 }
 

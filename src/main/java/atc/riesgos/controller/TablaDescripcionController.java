@@ -68,18 +68,4 @@ public class TablaDescripcionController extends Controller {
         return tablaDescripcionService.deleteById(id);
     }
 
-
-
-    @GetMapping({"/{page}/{size}/{order}", "/{page}/{size}"})
-    public Object filterBy(
-            @PathVariable(value = "page") int page,
-            @PathVariable(value = "size") int size,
-            @PathVariable(value = "order", required = false) String order,
-            HttpServletRequest request) {
-
-        return createHQL(TablaDescripcion.class).order(order)
-                .map(request).paging(page, size);
-    }
-
-
 }

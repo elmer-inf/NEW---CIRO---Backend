@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,36 +81,9 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
         return null;
     }
 
-
-   /*
-
-    public TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id){
-
-        Optional<TablaDescripcion> tablaDescripcion = tablaDescripcionRepository.findById(id);
-        TablaDescripcionGetDTO tablaDescripcionGetDTO = new TablaDescripcionGetDTO();
-        BeanUtils.copyProperties(tablaDescripcion.get(), tablaDescripcionGetDTO);
-
-        TablaDescripcionGetDTO2  objeto = new TablaDescripcionGetDTO2();
-
-        int nivel2 = tablaDescripcionGetDTO.getNivel2_id();
-        if(nivel2 != 0) {
-            Optional<TablaDescripcion> findNivel2 = tablaDescripcionRepository.findById(new Long(nivel2));
-            objeto.setNivel2_id(findNivel2.get());
-        }
-
-        int nivel3 = tablaDescripcionGetDTO.getNivel3_id();
-        if(nivel3 != 0) {
-            Optional<TablaDescripcion> findNivel3 = tablaDescripcionRepository.findById(new Long(nivel3));
-            objeto.setNivel3_id(findNivel3.get());
-        }
-        BeanUtils.copyProperties(tablaDescripcion.get(), objeto);
-        return objeto;
-    }
-
-
-    public TablaDescripcion deleteById(Long id) {
-        TablaDescripcion tablaDescripcionToDelete = tablaDescripcionRepository.findByIdAndDeleted(id, false).get();
-        return tablaDescripcionRepository.save(delete(tablaDescripcionToDelete));
+    public TablaDescripcionMatrizRiesgo deleteById(Long id) {
+        TablaDescripcionMatrizRiesgo tablaDescripcionToDelete = tablaDescripcionMatrizRiesgoRepository.findByIdAndDeleted(id, false).get();
+        return tablaDescripcionMatrizRiesgoRepository.save(delete(tablaDescripcionToDelete));
     }
 
     final public <T extends Object> T delete(T obj) {
@@ -124,9 +98,6 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
         }
         return obj;
     }
-
-    */
-
 
 
 }
