@@ -41,17 +41,14 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_identificado_otro",  columnDefinition = "text")
     private String identificadoOtro;
 
-    @Column(name = "rie_definicion", length = 500)
+    @Column(name = "rie_definicion", columnDefinition = "text")
     private String definicion;
 
-    @Column(name = "rie_causa", length = 500)
+    @Column(name = "rie_causa", columnDefinition = "text")
     private String causa;
 
-    @Column(name = "rie_consecuencia", length = 500)
+    @Column(name = "rie_consecuencia", columnDefinition = "text")
     private String consecuencia;
-
-    @Column(name = "rie_def_concatenado", length = 2000)
-    private String defConcatenado;
 
     @Column(name = "rie_efecto_perdida_otro", length = 200)
     private String efectoPerdidaOtro;
@@ -69,7 +66,7 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_control_objetivo", length = 100)
     private String controlObjetivo;
 
-    @Column(name = "rie_control_comentario", length = 1500)
+    @Column(name = "rie_control_comentario", columnDefinition = "text")
     private String controlComentario;
 
     // Planes
@@ -77,10 +74,10 @@ public class MatrizRiesgo implements Serializable {
     private String planesAccion;
 
     // Valoracion
-    @Column(name = "rie_criterio_impacto")
+    @Column(name = "rie_criterio_impacto", columnDefinition = "text")
     private String criterioImpacto;
 
-    @Column(name = "rie_criterio_probabilidad")
+    @Column(name = "rie_criterio_probabilidad", columnDefinition = "text")
     private String criterioprobabilidad;
 
     @Column(name = "rie_impacto_usd")

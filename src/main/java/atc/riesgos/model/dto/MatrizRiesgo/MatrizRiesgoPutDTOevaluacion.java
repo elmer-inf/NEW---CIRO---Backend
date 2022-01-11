@@ -15,5 +15,4 @@ public class MatrizRiesgoPutDTOevaluacion {
     private String estado;
     private String modulo;
     private Long matrizRiesgoId;
-
 }

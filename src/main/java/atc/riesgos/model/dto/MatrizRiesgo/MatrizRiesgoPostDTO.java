@@ -16,7 +16,6 @@ public class MatrizRiesgoPostDTO {
     private String definicion;
     private String causa;
     private String consecuencia;
-    private String defConcatenado;
     private String efectoPerdidaOtro;
     private Boolean monetario;
 
