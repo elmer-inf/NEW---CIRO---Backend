@@ -38,13 +38,13 @@ public class MatrizOportunidad implements Serializable {
     @Column(name = "opo_fecha_evaluacion")
     private Date fechaEvaluacion;
 
-    @Column(name = "opo_definicion", length = 500)
+    @Column(name = "opo_definicion", columnDefinition = "text")
     private String definicion;
 
-    @Column(name = "opo_causa", length = 500)
+    @Column(name = "opo_causa", columnDefinition = "text")
     private String causa;
 
-    @Column(name = "opo_consecuencia", length = 500)
+    @Column(name = "opo_consecuencia", columnDefinition = "text")
     private String consecuencia;
 
     @Column(name = "opo_factor")
@@ -54,14 +54,14 @@ public class MatrizOportunidad implements Serializable {
     @Column(name = "opo_controles_tiene")
     private Boolean controlesTiene;
 
-    @Column(name = "opo_controles", columnDefinition = "text" )
+    @Column(name = "opo_controles", columnDefinition = "text")
     private String controles;
     
-    @Column(name = "opo_control_comentario", length = 1500)
+    @Column(name = "opo_control_comentario", columnDefinition = "text")
     private String controlComentario;
 
     // Planes
-    @Column(name = "opo_planes_accion", columnDefinition = "text" )
+    @Column(name = "opo_planes_accion", columnDefinition = "text")
     private String planesAccion;
 
     /* -------- RELACION DE PARAMETROS --------- */
@@ -113,16 +113,8 @@ public class MatrizOportunidad implements Serializable {
     @JoinColumn(name = "opo_fortaleza_id")
     private TablaDescripcionMatrizOportunidad fortalezaId;
 
-   /* @ManyToOne
-    @JoinColumn(name = "opo_tratamiento_id")
-    private TablaDescripcionMatrizOportunidad tratamientoId;*/
-
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
-    /*@JsonIgnore
-    @OneToMany(mappedBy = "eventoId")
-    private List<Archivo> archivoId;
-*/
     @JsonIgnore
     @OneToMany(mappedBy = "matrizOportunidadId")
     private List<Observacion> observacionId;
@@ -145,6 +137,4 @@ public class MatrizOportunidad implements Serializable {
         this.deleted = true;
         return this;
     }
-
-
 }
