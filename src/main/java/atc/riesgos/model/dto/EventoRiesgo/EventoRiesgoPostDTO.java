@@ -88,6 +88,7 @@ public class EventoRiesgoPostDTO {
     private Long estrategicoId;
     private Long gobiernoId;
 
+    private String responsableElaborador;
     private int usuario_id;
     private Long archivoId;
 

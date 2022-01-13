@@ -231,10 +231,10 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_desc_servicio_id")
     private TablaDescripcion descServicioId;
 
-   // @ManyToOne
+    // @ManyToOne
     //@JoinColumn(name = "eve_tasa_cambio_id")
-   @Column(name = "eve_tasa_cambio_id", length = 5)
-   private String tasaCambioId;
+    @Column(name = "eve_tasa_cambio_id", length = 5)
+    private String tasaCambioId;
 
     @ManyToOne
     @JoinColumn(name = "eve_moneda_id")
@@ -247,7 +247,6 @@ public class EventoRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "eve_poliza_seguro_id")
     private TablaDescripcion polizaSeguroId;
-
 
 
     @ManyToOne
@@ -289,8 +288,8 @@ public class EventoRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "eve_recuperacion_activo_id")
     private TablaDescripcion recuperacionActivoId;
-
     /* -------- FIN RELACION DE PARAMETROS  --------- */
+
     @JsonIgnore
     @OneToMany
     @JoinColumn(name="evento_id", referencedColumnName="eve_id", nullable=true)
@@ -302,6 +301,12 @@ public class EventoRiesgo implements Serializable {
 
     @Column(name = "des_usuario_id")
     private int usuario_id;
+
+
+    /* -------- USUARIOS RESPONSABLES  --------- */
+    @Column(name = "eve_responsable_elaborador", columnDefinition = "text")
+    private String responsableElaborador;
+    /* -------- FIN USUARIOS RESPONSABLES  --------- */
 
     @CreationTimestamp
     @Column(name = "eve_dateTimeCreate")
@@ -318,6 +323,4 @@ public class EventoRiesgo implements Serializable {
         this.deleted = true;
         return this;
     }
-
-
 }
