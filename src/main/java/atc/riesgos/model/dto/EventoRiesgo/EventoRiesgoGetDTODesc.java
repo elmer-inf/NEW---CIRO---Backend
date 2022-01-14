@@ -2,6 +2,7 @@ package atc.riesgos.model.dto.EventoRiesgo;
 
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO3;
 import atc.riesgos.model.entity.Archivo;
+import atc.riesgos.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,6 +54,8 @@ public class EventoRiesgoGetDTODesc {
     private String descripcionEstado;
     private String estadoPlan;
 
+    private Date fechaContable;
+
     private TablaDescripcionGetDTO3 agenciaId;
     private TablaDescripcionGetDTO3 ciudadId;
     private TablaDescripcionGetDTO3 areaID;
@@ -89,6 +92,7 @@ public class EventoRiesgoGetDTODesc {
     private TablaDescripcionGetDTO3 cumplimientoId;
     private TablaDescripcionGetDTO3 estrategicoId;
     private TablaDescripcionGetDTO3 gobiernoId;
+    private TablaDescripcionGetDTO3 cuentaContableId;
 
     private Archivo archivoId;
     

@@ -146,6 +146,10 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_estado_plan", length = 200)
     private String estadoPlan;
 
+
+    @Column(name = "eve_fecha_contable")
+    private Date fechaContable;
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "eve_agencia_id")
@@ -288,6 +292,10 @@ public class EventoRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "eve_recuperacion_activo_id")
     private TablaDescripcion recuperacionActivoId;
+
+    @ManyToOne
+    @JoinColumn(name = "eve_cuenta_contable_id")
+    private TablaDescripcion cuentaContableId;
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
     @JsonIgnore

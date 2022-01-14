@@ -155,7 +155,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
             eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
-
+            TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
+            eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
 
             //Guardando la matriz de riesgos
             List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());
@@ -288,7 +289,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
             eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
-
+            TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
+            eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
 
             //Guardando la matriz de riesgos
             List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());
@@ -432,7 +434,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
             eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
-
+            TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
+            eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
 
             //Guardando la matriz de riesgos
             List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());

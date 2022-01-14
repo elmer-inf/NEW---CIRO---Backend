@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+import atc.riesgos.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,6 +49,7 @@ public class EventoRiesgoPutDTO {
     private String descripcionEstado;
     private String estadoPlan;
 
+    private Date fechaContable;
 
     private Long agenciaId;
     private Long ciudadId;
@@ -85,6 +87,7 @@ public class EventoRiesgoPutDTO {
     private Long cumplimientoId;
     private Long estrategicoId;
     private Long gobiernoId;
+    private Long cuentaContableId;
 
     private Long archivoId;
 

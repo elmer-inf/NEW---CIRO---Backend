@@ -56,6 +56,7 @@ public class EventoRiesgoGetDTO {
     private String descripcionEstado;
     private String estadoPlan;
 
+    private Date fechaContable;
 
     private TablaDescripcion agenciaId;
     private TablaDescripcion ciudadId;
@@ -93,6 +94,7 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion cumplimientoId;
     private TablaDescripcion estrategicoId;
     private TablaDescripcion gobiernoId;
+    private TablaDescripcion cuentaContableId;
 
     private List<Archivo> archivoId;
     private String responsableElaborador;

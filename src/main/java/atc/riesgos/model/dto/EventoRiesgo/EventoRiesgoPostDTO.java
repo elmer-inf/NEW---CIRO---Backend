@@ -1,5 +1,6 @@
 package atc.riesgos.model.dto.EventoRiesgo;
 
+import atc.riesgos.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +51,7 @@ public class EventoRiesgoPostDTO {
     private String descripcionEstado;
     private String estadoPlan;
 
+    private Date fechaContable;
 
     private Long agenciaId;
     private Long ciudadId;
@@ -87,6 +89,7 @@ public class EventoRiesgoPostDTO {
     private Long cumplimientoId;
     private Long estrategicoId;
     private Long gobiernoId;
+    private Long cuentaContableId;
 
     private String responsableElaborador;
     private int usuario_id;

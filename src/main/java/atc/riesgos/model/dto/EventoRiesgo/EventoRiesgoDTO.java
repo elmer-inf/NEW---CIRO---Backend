@@ -1,5 +1,6 @@
 package atc.riesgos.model.dto.EventoRiesgo;
 
+import atc.riesgos.model.entity.TablaDescripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,6 +47,7 @@ public class EventoRiesgoDTO {
     private String descripcionEstado;
     private String estadoPlan;
 
+    private Date fechaContable;
 
     private Long agenciaId;
     private Long ciudadId;
@@ -83,6 +85,7 @@ public class EventoRiesgoDTO {
     private Long cumplimientoId;
     private Long estrategicoId;
     private Long gobiernoId;
+    private Long cuentaContableId;
 
     private Long archivoId;
 
