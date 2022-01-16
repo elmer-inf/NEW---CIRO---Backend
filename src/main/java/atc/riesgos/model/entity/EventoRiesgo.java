@@ -235,8 +235,7 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_desc_servicio_id")
     private TablaDescripcion descServicioId;
 
-    // @ManyToOne
-    //@JoinColumn(name = "eve_tasa_cambio_id")
+
     @Column(name = "eve_tasa_cambio_id", length = 5)
     private String tasaCambioId;
 

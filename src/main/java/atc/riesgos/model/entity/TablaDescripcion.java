@@ -132,9 +132,10 @@ public class TablaDescripcion implements Serializable {
     @OneToMany(mappedBy = "descServicioId")
     private List<EventoRiesgo> eventoRiesgo21;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tasaCambioId")
-    private List<EventoRiesgo> eventoRiesgo22;
+    /*Se comenta estas linea por que en el modelo de eventos de riesgos se volvio String y causa errores al momento de crear las tablas*/
+    //@JsonIgnore
+   // @OneToMany(mappedBy = "tasaCambioId")
+   // private List<EventoRiesgo> eventoRiesgo22;
 
     @JsonIgnore
     @OneToMany(mappedBy = "monedaId")
