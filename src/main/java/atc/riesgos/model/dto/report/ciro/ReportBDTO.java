@@ -4,28 +4,30 @@ package atc.riesgos.model.dto.report.ciro;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 public class ReportBDTO extends MainReport{
     private String cuentaContable;
-    private String fechaRegistroCuenta;
+    private Date fechaRegistroCuenta;
 
     public ReportBDTO() {
     }
 
-    public ReportBDTO(String cuentaContable, String fechaRegistroCuenta) {
+    public ReportBDTO(String cuentaContable, Date fechaRegistroCuenta) {
         this.cuentaContable = cuentaContable;
         this.fechaRegistroCuenta = fechaRegistroCuenta;
     }
 
 
-    public ReportBDTO(Object[] columns) {
+    public ReportBDTO(Object[] columns, String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.cuentaContable = (String) columns[3];
-        this.fechaRegistroCuenta = (String) columns[4];
-        tipoEnvio = (String) columns[5];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.cuentaContable = (String) columns[2];
+        this.fechaRegistroCuenta = (Date) columns[3];
+        tipoEnvio = (String) columns[4];
 
     }
 }

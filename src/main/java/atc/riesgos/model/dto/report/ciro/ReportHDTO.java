@@ -17,11 +17,11 @@ public class ReportHDTO extends MainReport{
         this.lugar = lugar;
     }
 
-    public ReportHDTO (Object[] columns){
+    public ReportHDTO (Object[] columns, String fechaCorteSend){
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.lugar = (String) columns[3];
-        tipoEnvio = (String) columns[4];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.lugar = (String) columns[2];
+        tipoEnvio = (String) columns[3];
     }
 }

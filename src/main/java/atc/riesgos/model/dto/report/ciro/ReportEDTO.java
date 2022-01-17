@@ -18,12 +18,12 @@ public class ReportEDTO extends MainReport {
     }
 
 
-    public ReportEDTO(Object[] columns) {
+    public ReportEDTO(Object[] columns, String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.canal = (String) columns[3];
-        tipoEnvio = (String) columns[4];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.canal = (String) columns[2];
+        tipoEnvio = (String) columns[3];
 
 
     }

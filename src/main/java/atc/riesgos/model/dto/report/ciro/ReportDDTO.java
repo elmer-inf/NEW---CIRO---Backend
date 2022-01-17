@@ -16,12 +16,12 @@ public class ReportDDTO extends MainReport{
     }
 
 
-    public ReportDDTO(Object[] columns) {
+    public ReportDDTO(Object[] columns, String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.codigoPaf = (String) columns[3];
-        tipoEnvio = (String) columns[4];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.codigoPaf = (String) columns[2];
+        tipoEnvio = (String) columns[3];
 
     }
 

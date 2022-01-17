@@ -21,14 +21,14 @@ public class ReportFDTO extends MainReport{
         this.detalleProcesoCritico = detalleProcesoCritico;
     }
 
-    public ReportFDTO(Object[] columns) {
+    public ReportFDTO(Object[] columns, String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.proceso = (String) columns[3];
-        this.procesoCritico = (Integer) columns[4];
-        this.detalleProcesoCritico = (String) columns[5];
-        tipoEnvio = (String) columns[6];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.proceso = (String) columns[2];
+        this.procesoCritico = (Integer) columns[3];
+        this.detalleProcesoCritico = (String) columns[4];
+        tipoEnvio = (String) columns[5];
     }
 
 }

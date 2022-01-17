@@ -15,12 +15,12 @@ public class ReportGDTO extends MainReport{
         this.operacion = operacion;
     }
 
-    public ReportGDTO(Object[] columns) {
+    public ReportGDTO(Object[] columns,String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.operacion = (String) columns[3];
-        tipoEnvio = (String) columns[4];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.operacion = (String) columns[2];
+        tipoEnvio = (String) columns[3];
     }
 
 

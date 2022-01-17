@@ -5,6 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Log {
     final public static Logger logger = LoggerFactory.getLogger(Log.class);
@@ -43,6 +47,21 @@ public class Log {
             throw new RuntimeException(ex.getMessage());
         }
         return obj;
+    }
+
+    static final public String convertDate(Date date){
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String s = df.format(date);
+       // System.out.println("TO STRING::: " + s);
+       // String result = s;
+       /* try {
+            date=df.parse(result);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
+        return s;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Logger">

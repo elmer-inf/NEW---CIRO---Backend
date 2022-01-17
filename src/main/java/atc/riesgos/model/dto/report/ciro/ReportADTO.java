@@ -73,39 +73,39 @@ public class ReportADTO extends MainReport {
         this.codigoEventoRelacionado = codigoEventoRelacionado;
     }
 
-    public ReportADTO(Object[] columns) {
+    public ReportADTO(Object[] columns, String fechaCorteSend) {
         codigoEnvio = (String) columns[0];
-        fechaCorte = (String) columns[1];
-        codigoEvento = (String) columns[2];
-        this.tipoEntidad = (String) columns[3];
-        this.descripcionResumida = (String) columns[4];
-        this.factorRiesgo = (String) columns[5];
-        this.cargoInvolucrado = (String) columns[6];
-        this.areaInvolucrada = (String) columns[7];
-        this.categoria = (String) columns[8];
-        this.perdidaRiesgoOperativoContable = (String) columns[9];
-        this.perdidaRiesgoOperativoMercado = (String) columns[10];
-        this.gastoAsociadoPerdida = (String) columns[11];
-        this.montoTotalRecuperado = (String) columns[12];
-        this.montoRecuperadoCoberturaSeguro = (String) columns[13];
-        this.recuperacionActivo = (String) columns[14];
-        this.relacionRiesgoCredito = (String) columns[15];
-        this.eventoCritico = (Integer) columns[16];
-        this.detalleEventoCritico = (String) columns[17];
-        this.monedaMontoEvento = (String) columns[18];
-        this.fechaDescubrimiento = (Date) columns[19];
-        this.horaDescubrimiento = (String) columns[20];
-        this.fechaInicio = (Date) columns[21];
-        this.horaInicio = (String) columns[22];
-        this.fechaFinalizacion = (Date) columns[23];
-        this.horaFinalizacion = (String) columns[24];
-        this.elaborador = (String) columns[25];
-        this.revisor = (String) columns[26];
-        this.qprobador = (String) columns[27];
-        this.estadoEvento = (Integer) columns[28];
-        this.detalleEstadoEvento = (String) columns[29];
-        this.codigoEventoRelacionado = (String) columns[30];
-        tipoEnvio = (String) columns[31];
+        fechaCorte = (String) fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.tipoEntidad = (String) columns[2];
+        this.descripcionResumida = (String) columns[3];
+        this.factorRiesgo = (String) columns[4];
+        this.cargoInvolucrado = (String) columns[5];
+        this.areaInvolucrada = (String) columns[6];
+        this.categoria = (String) columns[7];
+        this.perdidaRiesgoOperativoContable = (String) columns[8];
+        this.perdidaRiesgoOperativoMercado = (String) columns[9];
+        this.gastoAsociadoPerdida = (String) columns[10];
+        this.montoTotalRecuperado = (String) columns[11];
+        this.montoRecuperadoCoberturaSeguro = (String) columns[12];
+        this.recuperacionActivo = (String) columns[13];
+        this.relacionRiesgoCredito = (String) columns[14];
+        this.eventoCritico = (Integer) columns[15];
+        this.detalleEventoCritico = (String) columns[16];
+        this.monedaMontoEvento = (String) columns[17];
+        this.fechaDescubrimiento = (Date) columns[18];
+        this.horaDescubrimiento = (String) columns[19];
+        this.fechaInicio = (Date) columns[20];
+        this.horaInicio = (String) columns[21];
+        this.fechaFinalizacion = (Date) columns[22];
+        this.horaFinalizacion = (String) columns[23];
+        this.elaborador = (String) columns[24];
+        this.revisor = (String) columns[25];
+        this.qprobador = (String) columns[26];
+        this.estadoEvento = (Integer) columns[27];
+        this.detalleEstadoEvento = (String) columns[28];
+        this.codigoEventoRelacionado = (String) columns[29];
+        tipoEnvio = (String) columns[30];
 
     }
 }
