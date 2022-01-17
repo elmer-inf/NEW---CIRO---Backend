@@ -34,7 +34,7 @@ public class ReportADTO extends MainReport {
     private String horaFinalizacion;
     private String elaborador;
     private String revisor;
-    private String qprobador;
+    private String aprobador;
     private Integer estadoEvento;
     private String detalleEstadoEvento;
     private String codigoEventoRelacionado;
@@ -42,7 +42,7 @@ public class ReportADTO extends MainReport {
     public ReportADTO() {
     }
 
-    public ReportADTO(String tipoEntidad, String descripcionResumida, String factorRiesgo, String cargoInvolucrado, String areaInvolucrada, String categoria, String perdidaRiesgoOperativoContable, String perdidaRiesgoOperativoMercado, String gastoAsociadoPerdida, String montoTotalRecuperado, String montoRecuperadoCoberturaSeguro, String recuperacionActivo, String relacionRiesgoCredito, Integer eventoCritico, String detalleEventoCritico, String monedaMontoEvento, Date fechaDescubrimiento, String horaDescubrimiento, Date fechaInicio, String horaInicio, Date fechaFinalizacion, String horaFinalizacion, String elaborador, String revisor, String qprobador, Integer estadoEvento, String detalleEstadoEvento, String codigoEventoRelacionado) {
+    public ReportADTO(String tipoEntidad, String descripcionResumida, String factorRiesgo, String cargoInvolucrado, String areaInvolucrada, String categoria, String perdidaRiesgoOperativoContable, String perdidaRiesgoOperativoMercado, String gastoAsociadoPerdida, String montoTotalRecuperado, String montoRecuperadoCoberturaSeguro, String recuperacionActivo, String relacionRiesgoCredito, Integer eventoCritico, String detalleEventoCritico, String monedaMontoEvento, Date fechaDescubrimiento, String horaDescubrimiento, Date fechaInicio, String horaInicio, Date fechaFinalizacion, String horaFinalizacion, String elaborador, String revisor, String aprobador, Integer estadoEvento, String detalleEstadoEvento, String codigoEventoRelacionado) {
         this.tipoEntidad = tipoEntidad;
         this.descripcionResumida = descripcionResumida;
         this.factorRiesgo = factorRiesgo;
@@ -67,13 +67,14 @@ public class ReportADTO extends MainReport {
         this.horaFinalizacion = horaFinalizacion;
         this.elaborador = elaborador;
         this.revisor = revisor;
-        this.qprobador = qprobador;
+        this.aprobador = aprobador;
         this.estadoEvento = estadoEvento;
         this.detalleEstadoEvento = detalleEstadoEvento;
         this.codigoEventoRelacionado = codigoEventoRelacionado;
     }
 
-    public ReportADTO(Object[] columns, String fechaCorteSend) {
+    public ReportADTO(Integer idRegister, Object[] columns, String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = (String) fechaCorteSend;
         codigoEvento = (String) columns[1];
@@ -101,7 +102,7 @@ public class ReportADTO extends MainReport {
         this.horaFinalizacion = (String) columns[23];
         this.elaborador = (String) columns[24];
         this.revisor = (String) columns[25];
-        this.qprobador = (String) columns[26];
+        this.aprobador = (String) columns[26];
         this.estadoEvento = (Integer) columns[27];
         this.detalleEstadoEvento = (String) columns[28];
         this.codigoEventoRelacionado = (String) columns[29];

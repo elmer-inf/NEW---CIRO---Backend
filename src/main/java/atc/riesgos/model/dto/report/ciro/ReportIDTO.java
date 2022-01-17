@@ -18,7 +18,8 @@ public class ReportIDTO extends MainReport{
         this.lineaNegocioNivel3 = lineaNegocioNivel3;
     }
 
-    public ReportIDTO(Object[] columns, String fechaCorteSend) {
+    public ReportIDTO(Integer idRegister, Object[] columns, String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = fechaCorteSend;
         codigoEvento = (String) columns[1];

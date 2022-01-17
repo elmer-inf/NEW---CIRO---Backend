@@ -49,6 +49,15 @@ public class Log {
         return obj;
     }
 
+    static final public String isNull(String str){
+        if(!str.equals("null") || !str.equals("Null") || !str.equals("NULL") || str != null){
+            return str;
+        }
+
+        return "";
+    }
+
+
     static final public String convertDate(Date date){
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");

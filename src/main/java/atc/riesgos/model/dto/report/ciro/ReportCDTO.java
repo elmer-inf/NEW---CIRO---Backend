@@ -26,7 +26,8 @@ public class ReportCDTO extends MainReport {
     }
 
 
-    public ReportCDTO(Object[] columns, String fechaCorteSend) {
+    public ReportCDTO(Integer idRegister, Object[] columns, String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = fechaCorteSend;
         codigoEvento = (String) columns[1];

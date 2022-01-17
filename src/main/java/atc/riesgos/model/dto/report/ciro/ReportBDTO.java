@@ -21,7 +21,8 @@ public class ReportBDTO extends MainReport{
     }
 
 
-    public ReportBDTO(Object[] columns, String fechaCorteSend) {
+    public ReportBDTO(Integer idRegister, Object[] columns, String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = fechaCorteSend;
         codigoEvento = (String) columns[1];

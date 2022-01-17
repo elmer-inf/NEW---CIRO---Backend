@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 public class MainReport {
 
+    protected Integer id;
     protected String codigoEnvio;
     protected String fechaCorte;
     protected String codigoEvento;

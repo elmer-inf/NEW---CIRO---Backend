@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ReporteCiroService {
 
+    DownloadAllReportDTO generateAllFiles(DatesForReport data);
     //List<Long> getIdEventoToReport (DatesForReport data);
     List<ReportADTO> reportARiesgoOperativo(DatesForReport data);
     List<ReportBDTO> reportBCuentasContables(DatesForReport data);

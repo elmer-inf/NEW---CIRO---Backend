@@ -21,7 +21,8 @@ public class ReportFDTO extends MainReport{
         this.detalleProcesoCritico = detalleProcesoCritico;
     }
 
-    public ReportFDTO(Object[] columns, String fechaCorteSend) {
+    public ReportFDTO(Integer idRegister,  Object[] columns, String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = fechaCorteSend;
         codigoEvento = (String) columns[1];

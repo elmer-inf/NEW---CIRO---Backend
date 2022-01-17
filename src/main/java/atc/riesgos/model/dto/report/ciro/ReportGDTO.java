@@ -15,7 +15,8 @@ public class ReportGDTO extends MainReport{
         this.operacion = operacion;
     }
 
-    public ReportGDTO(Object[] columns,String fechaCorteSend) {
+    public ReportGDTO(Integer idRegister, Object[] columns,String fechaCorteSend) {
+        id = idRegister;
         codigoEnvio = (String) columns[0];
         fechaCorte = fechaCorteSend;
         codigoEvento = (String) columns[1];
