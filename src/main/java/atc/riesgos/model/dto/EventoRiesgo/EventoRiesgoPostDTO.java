@@ -14,6 +14,7 @@ import java.util.List;
 
 public class EventoRiesgoPostDTO {
 
+    private int fechaDescAux;
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;

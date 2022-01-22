@@ -100,7 +100,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         MatrizRiesgoGetDTO matrizRiesgoGetDTO = new MatrizRiesgoGetDTO();
         BeanUtils.copyProperties(matrizRiesgo.get(), matrizRiesgoGetDTO);
 
-        if(matrizRiesgo.get().getEventoRiesgoId() != 0){
+        if(matrizRiesgo.get().getEventoRiesgoId() != null){
             Optional<EventoRiesgo> eventoRiesgo = eventoRiesgoRepository.findById(matrizRiesgo.get().getEventoRiesgoId());
             matrizRiesgoGetDTO.setEventoRiesgoId(eventoRiesgo.get());
         }

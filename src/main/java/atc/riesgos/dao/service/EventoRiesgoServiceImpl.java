@@ -302,17 +302,17 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             //List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
 
 
-          //  eventoRiesgo.setArchivoId(archivos);
+            //  eventoRiesgo.setArchivoId(archivos);
 
             eventoRiesgoRepository.save(eventoRiesgo);
-           // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
+            // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
 
 
         }catch (Exception e){
             Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
         }
-       return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
+        return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
     }
 
     public ResponseEntity<EventoRiesgo> createWithFiles(EventoRiesgoPostDTO data, MultipartFile[] files) {
@@ -448,7 +448,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             eventoRiesgoRepository.save(eventoRiesgo);
             // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
-          // System.out.println("Iddd: " + eventoRiesgo.getId());
+            // System.out.println("Iddd: " + eventoRiesgo.getId());
             archivoService.create(new ArchivoPostDTOv2(files, eventoRiesgo.getId()));
 
             eventoRiesgo.setArchivoId(archivoService.findAllByEvento(eventoRiesgo.getId()));

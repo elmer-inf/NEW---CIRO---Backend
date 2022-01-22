@@ -33,6 +33,9 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_id_area_correlativo")
     private int idAreaCorrelativo;
 
+    @Column(name = "eve_fecha_desc_aux")
+    private int fechaDescAux;
+
     @Column(name = "eve_tipo_evento", length = 10)
     private String tipoEvento;
 

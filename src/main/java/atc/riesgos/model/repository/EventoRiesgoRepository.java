@@ -14,8 +14,14 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     @Query(value = "SELECT COUNT(*) FROM EventoRiesgo e WHERE e.codigo LIKE ?1%")
     Integer countEventoCodigo(String sigla);
 
+    @Query(value = "SELECT MAX(e.fechaDescAux) FROM EventoRiesgo e WHERE e.codigo LIKE ?1%")
+    Integer findUltimoAnioDesc(String sigla);
+
     @Query(value = "SELECT MAX(e.idAreaCorrelativo) FROM EventoRiesgo e WHERE e.codigo LIKE ?1%")
     Integer findUltimoIdArea(String sigla);
+
+    @Query(value = "SELECT MAX(e.idAreaCorrelativo) FROM EventoRiesgo e WHERE e.codigo LIKE ?1% and e.fechaDescAux = ?2")
+    Integer findUltimoIdAreaYanio(String sigla, int ultimoAnio);
 
     @Query(value = "SELECT e " +
                     "FROM EventoRiesgo e " +

@@ -17,6 +17,7 @@ public class EventoRiesgoGetDTODesc {
     private Long id;
     private String codigo;
     private int idAreaCorrelativo;
+    private int fechaDescAux;
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;
