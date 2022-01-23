@@ -512,10 +512,19 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
                     //System.out.println("CODIGO DE EVENTO :   " + codigo);
                     int ultimoIdArea = 0;
                     int countCodigoArea = eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave());
+                    String EventoAnioFechaDesc = eventoRiesgo.getFechaDesc().toString().substring(0, 4);
                     if (countCodigoArea > 0) {
-                        ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
-                        eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
-                        eventoRiesgo.setCodigo(codigo);
+                        int ultimoAnioDesc = eventoRiesgoRepository.findUltimoAnioDesc(eventoRiesgo.getAreaID().getClave());
+                        if(EventoAnioFechaDesc.equals(Integer.toString(ultimoAnioDesc))){
+                            ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
+                            eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
+                            eventoRiesgo.setCodigo(codigo);
+                        } else if(Integer.parseInt(EventoAnioFechaDesc) > ultimoAnioDesc){
+                            ultimoIdArea = 1;
+                            eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea); // Se guarda el ID correlativo con cuando cambia el año
+                            eventoRiesgo.setCodigo(codigo);
+                        }
+
                     } else {
                         ultimoIdArea = 1;
                         eventoRiesgo.setIdAreaCorrelativo(ultimoIdArea); // Se guarda el ID correlativo con 1 del Evento al autorizar
@@ -556,33 +565,43 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
 
     public String generaCodigo(Long id) {
+        HttpHeaders responseHeaders = new HttpHeaders();
         EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).get();
-
         String siglaArea = eventoRiesgo.getAreaID().getClave();
-        String anio = eventoRiesgo.getFechaIni().toString().substring(2, 4);
-        String codigo = siglaArea.concat('-' + anio);
+        String codigo = "ERROR EN CODIGO";
 
-        //System.out.println("COUNT:  " + eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave()));
-        int countCodigoArea = eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave());
+        try{
+            int countCodigoArea = eventoRiesgoRepository.countEventoCodigo(eventoRiesgo.getAreaID().getClave());
+            String EventoAnioFechaDesc = eventoRiesgo.getFechaDesc().toString().substring(0, 4);
+            if (countCodigoArea > 0) {
+                int ultimoAnioDesc = eventoRiesgoRepository.findUltimoAnioDesc(eventoRiesgo.getAreaID().getClave());
+                if(EventoAnioFechaDesc.equals(Integer.toString(ultimoAnioDesc))){
+                    int ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
+                    int idIncrementado = ultimoIdArea + 1; // Id correlativo del Evento para el codigo al autorizar
+                    String idGenerado = "";
 
-        if (countCodigoArea > 0) {
-            int ultimoIdArea = eventoRiesgoRepository.findUltimoIdArea(eventoRiesgo.getAreaID().getClave());
-            int idIncrementado = ultimoIdArea + 1; // Id correlativo del Evento para el codigo al autorizar
-            String idGenerado = "";
+                    if (idIncrementado < 10) {
+                        idGenerado = "00" + idIncrementado;
+                    }
+                    if (idIncrementado < 100 && idIncrementado > 9) {
+                        idGenerado = "0" + idIncrementado;
+                    }
+                    if (idIncrementado > 99) {
+                        idGenerado = Integer.toString(idIncrementado);
+                    }
 
-            if (idIncrementado < 10) {
-                idGenerado = "00" + idIncrementado;
+                    String anio = eventoRiesgo.getFechaDesc().toString().substring(2, 4);
+                    codigo = siglaArea.concat('-' + anio + "-" + idGenerado);
+                } else if(Integer.parseInt(EventoAnioFechaDesc) > ultimoAnioDesc){
+                    String anio = eventoRiesgo.getFechaDesc().toString().substring(2, 4);
+                    codigo = siglaArea.concat("-" + anio + "-001");
+                }
+            } else {
+                String anio = eventoRiesgo.getFechaDesc().toString().substring(2, 4);
+                codigo = siglaArea.concat("-" + anio + "-001");
             }
-            if (idIncrementado < 100 && idIncrementado > 9) {
-                idGenerado = "0" + idIncrementado;
-            }
-            if (idIncrementado > 99) {
-                idGenerado = Integer.toString(idIncrementado);
-            }
-            codigo = codigo.concat('-' + idGenerado);
-        } else {
-            String idGenerado = "001";
-            codigo = codigo.concat('-' + idGenerado);
+        } catch (Exception e){
+            Log.error("Error en Funcion generaCodigo : ", e);
         }
         return codigo;
     }
@@ -592,10 +611,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
         BeanUtils.copyProperties(eventoRiesgo.get(), eventoRiesgoGetDTO);
         eventoRiesgoGetDTO.setArchivoId(archivoService.findAllByEvento(id));
-
-
         //findAllByEvento
-
         return eventoRiesgoGetDTO;
     }
 
@@ -629,6 +645,5 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         }
         return new ArrayList<>();
     }
-
 
 }
