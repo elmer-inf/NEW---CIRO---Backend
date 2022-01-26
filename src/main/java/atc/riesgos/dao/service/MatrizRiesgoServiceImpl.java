@@ -85,10 +85,62 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             matrizRiesgo.setEstadoRegistro("Pendiente");
             matrizRiesgoRepository.save(matrizRiesgo);
         }catch (Exception e) {
-            Log.log("Guardar Matriz de riesgo =>", e);
+            Log.log("Error al Guardar Matriz de riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizRiesgo);
+    }
+
+    public MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data){
+        MatrizRiesgo matrizRiesgo = matrizRiesgoRepository.findById(id).orElseThrow(()-> new DBException("Matriz Riesgo: ", id));
+        MatrizRiesgoGetDTO matrizRiesgoGetDTO = new MatrizRiesgoGetDTO();
+        try{
+            TablaDescripcion tablaAreaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaId());
+            matrizRiesgo.setAreaId(tablaAreaId);
+
+            TablaDescripcion tablaUnidadId = tablaDescripcionService.findByIdTablaDesc(data.getUnidadId());
+            matrizRiesgo.setUnidadId(tablaUnidadId);
+
+            TablaDescripcion tablaProcesoId = tablaDescripcionService.findByIdTablaDesc(data.getProcesoId());
+            matrizRiesgo.setProcesoId(tablaProcesoId);
+
+            TablaDescripcion tablaProcedimientoId = tablaDescripcionService.findByIdTablaDesc(data.getProcedimientoId());
+            matrizRiesgo.setProcedimientoId(tablaProcedimientoId);
+
+            TablaDescripcion tablaDuenoCargoId = tablaDescripcionService.findByIdTablaDesc(data.getDuenoCargoId());
+            matrizRiesgo.setDuenoCargoId(tablaDuenoCargoId);
+
+            TablaDescripcion tablaResponsableCargoId = tablaDescripcionService.findByIdTablaDesc(data.getResponsableCargoId());
+            matrizRiesgo.setResponsableCargoId(tablaResponsableCargoId);
+
+            TablaDescripcionMatrizRiesgo tablaIdentificadoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getIdentificadoId());
+            matrizRiesgo.setIdentificadoId(tablaIdentificadoId);
+
+            TablaDescripcion tablaEfectoPerdidaId = tablaDescripcionService.findByIdTablaDesc(data.getEfectoPerdidaId());
+            matrizRiesgo.setEfectoPerdidaId(tablaEfectoPerdidaId);
+
+            TablaDescripcionMatrizRiesgo tablaPerdidaAsfiId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getPerdidaAsfiId());
+            matrizRiesgo.setPerdidaAsfiId(tablaPerdidaAsfiId);
+
+            TablaDescripcion tablaFactorRiesgoId = tablaDescripcionService.findByIdTablaDesc(data.getFactorRiesgoId());
+            matrizRiesgo.setFactorRiesgoId(tablaFactorRiesgoId);
+
+            TablaDescripcionMatrizRiesgo tablaProbabilidadId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getProbabilidadId());
+            matrizRiesgo.setProbabilidadId(tablaProbabilidadId);
+
+            TablaDescripcionMatrizRiesgo tablaImpactoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getImpactoId());
+            matrizRiesgo.setImpactoId(tablaImpactoId);
+
+            TablaDescripcionMatrizRiesgo tablaControlId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getControlId());
+            matrizRiesgo.setControlId(tablaControlId);
+
+            BeanUtils.copyProperties(data, matrizRiesgo);
+            matrizRiesgoRepository.save(matrizRiesgo);
+            BeanUtils.copyProperties(matrizRiesgo, matrizRiesgoGetDTO);
+        } catch (Exception e){
+            Log.log("Error al modificar Matriz de riesgo: ", e);
+        }
+        return matrizRiesgoGetDTO;
     }
 
     public List<MatrizRiesgo> listMatrizRiesgo(){
@@ -196,59 +248,6 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         }
         return codigo;
     }
-
-    public MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data){
-        MatrizRiesgo matrizRiesgo = matrizRiesgoRepository.findById(id).orElseThrow(()-> new DBException("Matriz Riesgo: ", id));
-        MatrizRiesgoGetDTO matrizRiesgoGetDTO = new MatrizRiesgoGetDTO();
-        try{
-            TablaDescripcion tablaAreaId = tablaDescripcionService.findByIdTablaDesc(data.getAreaId());
-            matrizRiesgo.setAreaId(tablaAreaId);
-
-            TablaDescripcion tablaUnidadId = tablaDescripcionService.findByIdTablaDesc(data.getUnidadId());
-            matrizRiesgo.setUnidadId(tablaUnidadId);
-
-            TablaDescripcion tablaProcesoId = tablaDescripcionService.findByIdTablaDesc(data.getProcesoId());
-            matrizRiesgo.setProcesoId(tablaProcesoId);
-
-            TablaDescripcion tablaProcedimientoId = tablaDescripcionService.findByIdTablaDesc(data.getProcedimientoId());
-            matrizRiesgo.setProcedimientoId(tablaProcedimientoId);
-
-            TablaDescripcion tablaDuenoCargoId = tablaDescripcionService.findByIdTablaDesc(data.getDuenoCargoId());
-            matrizRiesgo.setDuenoCargoId(tablaDuenoCargoId);
-
-            TablaDescripcion tablaResponsableCargoId = tablaDescripcionService.findByIdTablaDesc(data.getResponsableCargoId());
-            matrizRiesgo.setResponsableCargoId(tablaResponsableCargoId);
-
-            TablaDescripcionMatrizRiesgo tablaIdentificadoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getIdentificadoId());
-            matrizRiesgo.setIdentificadoId(tablaIdentificadoId);
-
-            TablaDescripcion tablaEfectoPerdidaId = tablaDescripcionService.findByIdTablaDesc(data.getEfectoPerdidaId());
-            matrizRiesgo.setEfectoPerdidaId(tablaEfectoPerdidaId);
-
-            TablaDescripcionMatrizRiesgo tablaPerdidaAsfiId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getPerdidaAsfiId());
-            matrizRiesgo.setPerdidaAsfiId(tablaPerdidaAsfiId);
-
-            TablaDescripcion tablaFactorRiesgoId = tablaDescripcionService.findByIdTablaDesc(data.getFactorRiesgoId());
-            matrizRiesgo.setFactorRiesgoId(tablaFactorRiesgoId);
-
-            TablaDescripcionMatrizRiesgo tablaProbabilidadId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getProbabilidadId());
-            matrizRiesgo.setProbabilidadId(tablaProbabilidadId);
-
-            TablaDescripcionMatrizRiesgo tablaImpactoId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getImpactoId());
-            matrizRiesgo.setImpactoId(tablaImpactoId);
-
-            TablaDescripcionMatrizRiesgo tablaControlId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getControlId());
-            matrizRiesgo.setControlId(tablaControlId);
-
-            BeanUtils.copyProperties(data, matrizRiesgo);
-            matrizRiesgoRepository.save(matrizRiesgo);
-            BeanUtils.copyProperties(matrizRiesgo, matrizRiesgoGetDTO);
-        } catch (Exception e){
-            Log.log("Matriz de riesgo actualizado: ", e);
-        }
-        return matrizRiesgoGetDTO;
-    }
-
 
     public List<MatrizRiesgo> getListMatrizInId(List<Long> in) {
         try{

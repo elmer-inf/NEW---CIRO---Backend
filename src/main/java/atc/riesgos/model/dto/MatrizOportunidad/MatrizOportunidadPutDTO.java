@@ -10,7 +10,7 @@ import java.sql.Date;
 
 public class MatrizOportunidadPutDTO {
 
-    private String codigo;
+    //private String codigo;
     private Date fechaEvaluacion;
     private String definicion;
     private String causa;

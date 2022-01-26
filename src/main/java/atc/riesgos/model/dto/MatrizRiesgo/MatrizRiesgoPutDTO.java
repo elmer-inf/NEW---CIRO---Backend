@@ -10,6 +10,7 @@ import java.sql.Date;
 
 public class MatrizRiesgoPutDTO {
 
+    //private String codigo;
     private Date fechaEvaluacion;
     private String identificadoOtro;
     private String definicion;
@@ -45,5 +46,7 @@ public class MatrizRiesgoPutDTO {
     private Long impactoId;
     private Long controlId;
 
+    // RELACION CON EVENTO DE RIESGO
+    private Boolean eventoMaterializado;
     private Long eventoRiesgoId;
 }
