@@ -16,6 +16,7 @@ public class EventoRiesgoPutDTO {
     private int fechaDescAux;
     private String tipoEvento;
     private String estadoEvento;
+    private String codigo;
     private Date fechaIni;
     private Time horaIni;
     private Date fechaDesc;

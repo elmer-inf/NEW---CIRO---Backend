@@ -95,13 +95,15 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
     }
 
     public TablaDescripcionMatrizOportunidad findByIdTablaDesc(Long id){
-        try {
-            Optional<TablaDescripcionMatrizOportunidad> founded = tablaDescripcionMatrizOportunidadRepository.findById(id);
-            return founded.get();
-        }catch (Exception e){
-            Log.log("Error : " , e);
-        }
-        return null;
+        //try {
+            //return repository.findById(id).orElseThrow(() -> new DBException("Rol", id));
+            //TablaDescripcionMatrizOportunidad founded =
+              return tablaDescripcionMatrizOportunidadRepository.findById(id).orElseThrow(() -> new DBException("Tabla oportunudad", id));
+         //   return founded;
+      //  }catch (Exception e){
+          //  Log.error("Error : " , e);
+        //}
+       // return null;
     }
 
 

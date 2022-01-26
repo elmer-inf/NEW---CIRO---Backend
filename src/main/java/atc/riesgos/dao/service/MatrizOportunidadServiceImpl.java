@@ -149,7 +149,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
             matrizOportunidadRepository.save(matrizOportunidad);
             BeanUtils.copyProperties(matrizOportunidad, matrizOportunidadGetDTO);
         } catch (Exception e){
-            Log.log("Matriz de oportunidad actualizado: ", e);
+            Log.log("Error en Actualizar Matriz de oportunidad: ", e);
         }
         return matrizOportunidadGetDTO;
     }
