@@ -32,7 +32,7 @@ public class MatrizOportunidad implements Serializable {
     @Column(name = "opo_id_macro_correlativo")
     private Integer idMacroCorrelativo;
 
-    @Column(name = "eve_estado_registro", length = 30)
+    @Column(name = "opo_estado_registro", length = 30)
     private String estadoRegistro;
 
     @Column(name = "opo_fecha_evaluacion")

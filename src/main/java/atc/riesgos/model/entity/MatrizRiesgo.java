@@ -32,7 +32,7 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_id_unidad_correlativo")
     private Integer idUnidadCorrelativo;
 
-    @Column(name = "eve_estado_registro", length = 30)
+    @Column(name = "rie_estado_registro", length = 30)
     private String estadoRegistro;
 
     @Column(name = "rie_fecha_evaluacion")
