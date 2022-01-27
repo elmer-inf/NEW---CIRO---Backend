@@ -48,7 +48,7 @@ public class EventoRiesgoController extends Controller {
     }
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoDTO data){
+    public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPostDTO data){
         return eventoRiesgoService.updateById(id, data);
     }
 

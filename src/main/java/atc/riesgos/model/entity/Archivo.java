@@ -25,7 +25,7 @@ public class Archivo {
     @Column(name = "arch_nombre_archivo", length = 500)
     private String nombreArchivo;
 
-    @Column(name = "arch_tipo", length = 50)
+    @Column(name = "arch_tipo", columnDefinition = "text")
     private String tipo;
 
     @Column(name = "arch_size")

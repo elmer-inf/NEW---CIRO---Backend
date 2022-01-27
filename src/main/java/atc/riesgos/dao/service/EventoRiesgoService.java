@@ -18,7 +18,7 @@ public interface EventoRiesgoService {
     ResponseEntity<EventoRiesgo> createWithFiles(EventoRiesgoPostDTO data, MultipartFile[] files);
 
     EventoRiesgo findByIdEvento(Long id);
-    ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoDTO data);
+    ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoPostDTO data);
     ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data);
 
     EventoRiesgoGetDTO findEventoByID(Long id);
