@@ -30,7 +30,7 @@ public class ObservacionServiceImpl implements ObservacionService {
     EventoRiesgoRepository eventoRiesgoRepository;
 
     public Observacion create(ObservacionPostDTO data, Long id) {
-        System.out.println("daata modulo: "+ data.getModulo());
+        //System.out.println("daata modulo: "+ data.getModulo());
         Observacion observacion = new Observacion();
         BeanUtils.copyProperties(data, observacion);
 

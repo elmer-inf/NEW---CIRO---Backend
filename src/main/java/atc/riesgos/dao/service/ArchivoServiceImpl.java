@@ -47,7 +47,7 @@ public class ArchivoServiceImpl implements ArchivoService {
 
         for (MultipartFile multipartFile : fileList0) {
            Boolean x = multipartFile.isEmpty();
-            System.out.println("esVcios: " + x);
+            //System.out.println("esVcios: " + x);
            return x;
         }
 
@@ -57,8 +57,7 @@ public class ArchivoServiceImpl implements ArchivoService {
     public List<Archivo> create(ArchivoPostDTOv2 data) {
         List<Archivo> archivos = new ArrayList<>();
         try {
-
-            System.out.println("VACIO ?? :  " + isEmptyList(data.getFile()));
+            //System.out.println("VACIO ?? :  " + isEmptyList(data.getFile()));
             if (data.getFile() != null && !isEmptyList(data.getFile())) {
                 List<MultipartFile> fileList = Arrays.asList(data.getFile());
 

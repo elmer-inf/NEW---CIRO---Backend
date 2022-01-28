@@ -197,7 +197,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         observacionPostDTO.setEstado(data.getEstado());
                         observacionPostDTO.setModulo(data.getModulo());
                         observacionService.create(observacionPostDTO, id);
-                        System.out.println("entra como observado a evaluar");
+                        //System.out.println("entra como observado a evaluar");
                         matrizRiesgo.setEstadoRegistro(data.getEstadoRegistro());
                         matrizRiesgoRepository.save(matrizRiesgo);
                     }

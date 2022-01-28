@@ -42,7 +42,7 @@ public class EventoRiesgoController extends Controller {
         //System.out.println("OBJETOO: " + data.getEventoRiesgoPostDTO());
        // System.out.println("FILE: " + Log.toJSON(data.getFile()));
        EventoRiesgoPostDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPostDTO(),EventoRiesgoPostDTO.class);
-        System.out.println("filklllessss: " + Log.toJSON(data.getFile()));
+        //System.out.println("filklllessss: " + Log.toJSON(data.getFile()));
     return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
        // return null;
     }

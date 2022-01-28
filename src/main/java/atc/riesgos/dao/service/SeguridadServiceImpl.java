@@ -103,7 +103,7 @@ public class SeguridadServiceImpl implements SeguridadService {
     }
 
     public List<Seguridad> groupByArea(){
-        System.out.println("resultado: "+  seguridadRepository.groupByArea());
+        //System.out.println("resultado: "+  seguridadRepository.groupByArea());
         return seguridadRepository.groupByArea();
     }
 
