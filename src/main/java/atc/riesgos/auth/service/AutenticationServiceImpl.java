@@ -75,8 +75,7 @@ public class AutenticationServiceImpl implements AutenticationService {
         MenuPath[] response = getBy(MenuPath[].class, pathMenuUri, 1, 2, request.getHeader("Authorization"),map);
 
         return ResponseEntity.ok().headers(responseHeaders).body(response);
-
-
+        
     }
 
     public Boolean askAvailable(HttpServletRequest request) {
