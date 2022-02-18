@@ -461,7 +461,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
     }
 
-    public ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPostDTO data) {
+    public ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPutDTO data) {
         EventoRiesgo eventoRiesgoToEdit = eventoRiesgoRepository.findById(id).orElseThrow(() -> new DBException("Evento Riesgo: ", id));
         EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
         try {
