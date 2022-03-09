@@ -15,7 +15,7 @@ public interface JPQL {
     String byIdEvento = "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
             "where (e.eve_estado_evento = 'Seguimiento' and  e.eve_estado_evento <> 'Solución') and e.eve_fecha_desc < :fechaIniTrimestre \n" +
-            "union\n" +
+            "union \n" +
             "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
             "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and e.eve_fecha_desc between :fechaIniTrimestre and :fechaFinTrimestre\n" +

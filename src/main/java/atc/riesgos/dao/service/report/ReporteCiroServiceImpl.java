@@ -149,8 +149,10 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         try {
             Query query = manager.createNativeQuery(riesgoOperativoA);
             query.setParameter("idEventos", in);
+
             List<Object[]> result = query.getResultList();
             String fechaCorte = Log.convertDate(data.getFechaFinTrim());
+
             AtomicReference<Integer> i = new AtomicReference<>(1);
 
             result.forEach(row -> {
