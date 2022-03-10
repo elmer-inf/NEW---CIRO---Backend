@@ -5,14 +5,22 @@ public interface JPQL {
 
     /*
     * El siguiente script obtiene los ID's de los reportes  que se deben genera
-    * La priemra secciond el script extrae todos los eventos que se encuentran
+    *
+    * NUEVO: La primera parte del script extrae los eventos que cuya fecha fin pertenecen al trimestre seleccionado
+    * y estado en Solucion
+    *
+    * La segundo seccion del script extrae todos los eventos que se encuentran
       en seguimiento y no se cerraron ANTERIORES A la fecha inicio del trimiestre seleccionado.
 
-    * La segunda parte del script extrae los datos del los eventos de riesgo que pertencen al
+    * la tercera seccion del script extrae los datos del los eventos de riesgo que pertencen al
       trimestre selccionado con estado solucionado y seguimiento
     * */
 
     String byIdEvento = "select cast(e.eve_id as varchar) \n" +
+            "from riesgos.tbl_evento_riesgo e\n" +
+            "where e.eve_estado_evento = 'Solución' and e.eve_fecha_fin between :fechaIniTrimestre and :fechaFinTrimestre\n" +
+            "union \n" +
+            "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
             "where (e.eve_estado_evento = 'Seguimiento' and  e.eve_estado_evento <> 'Solución') and e.eve_fecha_desc < :fechaIniTrimestre \n" +
             "union \n" +
@@ -54,9 +62,9 @@ public interface JPQL {
             "to_char(e.eve_hora_ini, 'HH24:mm') as eve_hora_ini,\n" +
             "e.eve_fecha_fin as eve_fecha_fin,\n" +
             "to_char(e.eve_hora_fin, 'HH24:mm') as eve_hora_fin,\n" +
-            "(select 'Elaborador=Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Elaborador') as elaborador,\n" +
-            "(select 'Revisor=Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Revisor') as revisor,\n" +
-            "(select 'Aprobador=Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Aprobador') as aprobador,\n" +
+            "(select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Elaborador') as elaborador,\n" +
+            "(select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Revisor') as revisor,\n" +
+            "(select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Aprobador') as aprobador,\n" +
             "case\n" +
             "when e.eve_estado_evento ='Investigación' then 1\n" +
             "when e.eve_estado_evento ='Seguimiento' then 2\n" +
