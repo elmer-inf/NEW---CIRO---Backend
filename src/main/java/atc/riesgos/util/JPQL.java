@@ -124,16 +124,15 @@ public interface JPQL {
 
 
     //-2.6. Proceso F
-
     String procesoF = "select \n" +
             "'ATATC' as codigo,\n" +
             "e.eve_codigo as eve_codigo,\n" +
-            "(select a.des_codigo_asfi from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_proceso_id) as proceso,\n" +
+            "(select a.des_codigo_asfi from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_procedimiento_id) as procedimiento,\n" +
             "case when eve_evento_critico = 'Crítico' then 1 when e.eve_evento_critico  = 'No crítico' then 2 end proceso_critico,\n" +
             "e.eve_detalle_evento_critico,\n" +
             "'' as tipo_envio\n" +
             "from riesgos.tbl_evento_riesgo e \n" +
-            "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and (e.eve_id in :idEventos)\n" +
+            "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and e.eve_id in (:idEventos)\n" +
             "order by e.eve_id asc";
 
     // 2.7. Operación G

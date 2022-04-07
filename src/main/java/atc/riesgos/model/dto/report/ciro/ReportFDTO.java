@@ -8,17 +8,16 @@ import lombok.Setter;
 public class ReportFDTO extends MainReport{
     private String proceso;
     private Integer procesoCritico;
-    private String detalleProcesoCritico;
-
+    private String detalleEventoCritico;
 
     public ReportFDTO() {
     }
 
 
-    public ReportFDTO(String proceso, Integer procesoCritico, String detalleProcesoCritico) {
+    public ReportFDTO(String proceso, Integer procesoCritico, String detalleEventoCritico) {
         this.proceso = proceso;
         this.procesoCritico = procesoCritico;
-        this.detalleProcesoCritico = detalleProcesoCritico;
+        this.detalleEventoCritico = detalleEventoCritico;
     }
 
     public ReportFDTO(Integer idRegister,  Object[] columns, String fechaCorteSend) {
@@ -28,7 +27,7 @@ public class ReportFDTO extends MainReport{
         codigoEvento = (String) columns[1];
         this.proceso = (String) columns[2];
         this.procesoCritico = (Integer) columns[3];
-        this.detalleProcesoCritico = (String) columns[4];
+        this.detalleEventoCritico = (String) columns[4];
         tipoEnvio = (String) columns[5];
     }
 
