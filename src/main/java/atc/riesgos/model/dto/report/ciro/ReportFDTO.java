@@ -10,6 +10,7 @@ public class ReportFDTO extends MainReport{
     private Integer procesoCritico;
     private String detalleEventoCritico;
 
+
     public ReportFDTO() {
     }
 

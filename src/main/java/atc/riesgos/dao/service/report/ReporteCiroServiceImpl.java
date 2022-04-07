@@ -65,7 +65,6 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         List<ReportGDTO> reportListG = reportGOperacion(data);
         List<ReportHDTO> reportListH = reportHLugar(data);
         List<ReportIDTO> reportListI = reportILineaNegocio(data);
-        System.out.println("LOggg F" + Log.toJSON(reportListF));;
 
         String reportA = "";
         String reportB = "";
@@ -106,8 +105,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         }
 
         for (ReportFDTO f : reportListF) {
-            reportF = reportF + String.format(textFormatF, f.getCodigoEnvio(),f.getFechaCorte(), f.getCodigoEvento(),
-                    f.getProceso(), f.getProcesoCritico(), f.getDetalleEventoCritico(), f.getTipoEnvio());
+            reportF = reportF + String.format(textFormatF, f.getCodigoEnvio(),f.getFechaCorte(), f.getCodigoEvento(), f.getProceso(), f.getProcesoCritico(), f.getDetalleEventoCritico() ,f.getTipoEnvio());
 
         }
         for (ReportGDTO g : reportListG) {
@@ -122,7 +120,10 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             reportI = reportI + String.format(textFormatI, i.getCodigoEnvio(),i.getFechaCorte(), i.getCodigoEvento(), i.getLineaNegocio(), i.getLineaNegocioNivel3() , i.getTipoEnvio());
         }
 
+
+
         //Field[] fieldA = ReportADTO.class.getFields();
+
 
         allReportDTO.setReportA(reportA.replaceAll("null",""));
         allReportDTO.setReportB(reportB.replaceAll("null",""));
@@ -134,7 +135,9 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         allReportDTO.setReportH(reportH.replaceAll("null",""));
         allReportDTO.setReportI(reportI.replaceAll("null",""));
 
+
         return allReportDTO;
+
     }
 
 
@@ -269,6 +272,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
     //2.6. Proceso
     public List<ReportFDTO> reportFProceso(DatesForReport data) {
+
         List<ReportFDTO> reportList = new ArrayList<>();
         List<Long> in = getIdEventoToReport(data);
 
@@ -282,9 +286,8 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             result.forEach(row -> {
                 reportList.add(new ReportFDTO(i.getAndSet(i.get() + 1), row, fechaCorte));
-                System.out.println("result: " + Log.toJSON(row));
             });
-            System.out.println("result: " + Log.toJSON(reportList));
+
             return reportList;
         } catch (Exception e) {
             Log.error("Error generando reporte Proceso - F ==> ", e);
