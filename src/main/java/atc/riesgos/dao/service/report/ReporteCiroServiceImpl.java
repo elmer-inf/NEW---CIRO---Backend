@@ -38,7 +38,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
         List<Long> newListIds = new ArrayList<>();
 
-        String formatterIn = Log.toJSON(result);
+        //String formatterIn = Log.toJSON(result);
         // System.out.println("dddd: " + formatterIn);
 
         result.forEach(row -> {
@@ -50,7 +50,18 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         // String s2 = s1.replace("]",")");
         // return formatterIn;
         return newListIds;
+    }
 
+    private List<Long> getIdEventoToReportB(DatesForReport data) {
+        Query query = manager.createNativeQuery(byIdEventoReportB);
+        query.setParameter("fechaIniTrimestre", data.getFechaIniTrim());
+        query.setParameter("fechaFinTrimestre", data.getFechaFinTrim());
+        List<String> result = query.getResultList();
+        List<Long> newListIds = new ArrayList<>();
+        result.forEach(row -> {
+            newListIds.add(new Long(row));
+        });
+        return newListIds;
     }
 
     public DownloadAllReportDTO generateAllFiles(DatesForReport data) {
@@ -83,7 +94,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
                     a.getGastoAsociadoPerdida(), a.getMontoTotalRecuperado(), a.getMontoRecuperadoCoberturaSeguro(), a.getRecuperacionActivo(),
                     a.getRelacionRiesgoCredito(),a.getEventoCritico(), a.getDetalleEventoCritico(), a.getMonedaMontoEvento(), a.getFechaDescubrimiento(),
                     a.getHoraDescubrimiento(), a.getFechaInicio(), a.getHoraInicio(),a.getFechaFinalizacion(), a.getHoraFinalizacion(),
-                    a.getElaborador(), a.getRevisor(), a.getRevisor(), a.getAprobador(),a.getEstadoEvento(), a.getDetalleEstadoEvento(),
+                    a.getElaborador(), a.getRevisor(), a.getAprobador(),a.getEstadoEvento(), a.getDetalleEstadoEvento(),
                     a.getCodigoEventoRelacionado(), a.getTipoEnvio());
 
         }
@@ -120,10 +131,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             reportI = reportI + String.format(textFormatI, i.getCodigoEnvio(),i.getFechaCorte(), i.getCodigoEvento(), i.getLineaNegocio(), i.getLineaNegocioNivel3() , i.getTipoEnvio());
         }
 
-
-
         //Field[] fieldA = ReportADTO.class.getFields();
-
 
         allReportDTO.setReportA(reportA.replaceAll("null",""));
         allReportDTO.setReportB(reportB.replaceAll("null",""));
@@ -134,10 +142,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
         allReportDTO.setReportG(reportG.replaceAll("null",""));
         allReportDTO.setReportH(reportH.replaceAll("null",""));
         allReportDTO.setReportI(reportI.replaceAll("null",""));
-
-
         return allReportDTO;
-
     }
 
 
@@ -158,25 +163,22 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             result.forEach(row -> {
                 reportList.add(new ReportADTO(i.getAndSet(i.get() + 1), row, fechaCorte));
             });
-
             return reportList;
         } catch (Exception e) {
             Log.error("Error generando reporte Riesgo Operativo - A ==> ", e);
         }
         return reportList;
-
-
     }
 
     //2.2.  Cuentas Contables (Revisar con el solicitante)
     public List<ReportBDTO> reportBCuentasContables(DatesForReport data) {
 
         List<ReportBDTO> reportList = new ArrayList<>();
-        List<Long> in = getIdEventoToReport(data);
+        List<Long> in = getIdEventoToReportB(data);
 
         try {
             Query query = manager.createNativeQuery(cuentasContablesB);
-            query.setParameter("idEventos", in);
+            query.setParameter("idEventosReportB", in);
             List<Object[]> result = query.getResultList();
             String fechaCorte = Log.convertDate(data.getFechaFinTrim());
             AtomicReference<Integer> i = new AtomicReference<>(1);
@@ -184,13 +186,11 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             result.forEach(row -> {
                 reportList.add(new ReportBDTO(i.getAndSet(i.get() + 1), row, fechaCorte));
             });
-
             return reportList;
         } catch (Exception e) {
             Log.error("Error generando reporte Tipo de evento - B ==> ", e);
         }
         return reportList;
-
     }
 
 
@@ -210,13 +210,10 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             result.forEach(row -> {
                 reportList.add(new ReportCDTO(i.getAndSet(i.get() + 1), row, fechaCorte));
             });
-
             return reportList;
         } catch (Exception e) {
             Log.error("Error generando reporte Tipo de evento - C ==> ", e);
         }
-
-
         return reportList;
     }
 
@@ -293,7 +290,6 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             Log.error("Error generando reporte Proceso - F ==> ", e);
         }
         return reportList;
-
     }
 
 
@@ -344,7 +340,6 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             Log.error("Error generando reporte Lugar - H ==> ", e);
         }
         return reportList;
-
     }
 
     //2.9. Linea de negocio
@@ -369,8 +364,5 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             Log.error("Error generando reporte Linea de negocio - I ==> ", e);
         }
         return reportList;
-
     }
-
-
 }

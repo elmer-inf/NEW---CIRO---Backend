@@ -14,7 +14,7 @@ public interface JPQL {
 
     * la tercera seccion del script extrae los datos del los eventos de riesgo que pertencen al
       trimestre selccionado con estado solucionado y seguimiento
-    * */
+    */
 
     String byIdEvento = "select cast(e.eve_id as varchar) \n" +
             "from riesgosbk.tbl_evento_riesgo e\n" +
@@ -28,6 +28,14 @@ public interface JPQL {
             "from riesgosbk.tbl_evento_riesgo e\n" +
             "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and e.eve_fecha_desc between :fechaIniTrimestre and :fechaFinTrimestre\n" +
             "order by 1 asc";
+
+    /*
+    * El siguiente script obtiene los ID's de los reportes  que se deben generar,
+    * los cuales tienen estado Solucion y  cuya fecha fin pertenecen al trimestre seleccionado
+    */
+    String byIdEventoReportB = "select cast(e.eve_id as varchar) \n" +
+            "from riesgosbk.tbl_evento_riesgo e\n" +
+            "where e.eve_estado_evento = 'Solución' and e.eve_fecha_fin between :fechaIniTrimestre and :fechaFinTrimestre";
 
     // 2.1. Evento de Riesgo Operativo A
     String riesgoOperativoA = "select \n" +
@@ -74,7 +82,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e\n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -87,8 +95,8 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e\n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
-            "(e.eve_tipo_evento  = 'A') and  (e.eve_cuenta_contable_id is not null ) and (e.eve_id in :idEventos)\n" +
+            "(e.eve_estado_evento = 'Solución') and " +
+            "(e.eve_tipo_evento  = 'A') and  (e.eve_cuenta_contable_id is not null ) and (e.eve_id in :idEventosReportB)\n" +
             "order by e.eve_id asc";
 
     //2.3. Tipo de evento
@@ -100,7 +108,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -112,7 +120,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -124,7 +132,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -139,7 +147,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "e.eve_id in (:idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -151,7 +159,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -163,7 +171,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 
@@ -176,7 +184,7 @@ public interface JPQL {
             "'' as tipo_envio\n" +
             "from riesgosbk.tbl_evento_riesgo e \n" +
             "where " +
-            /*"(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +*/
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
             "(e.eve_id in :idEventos)\n" +
             "order by e.eve_id asc";
 }
