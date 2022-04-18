@@ -153,6 +153,10 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_fecha_contable")
     private Date fechaContable;
 
+    @Column(name = "eve_proceso_critico_asfi", length = 2)
+    private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
+
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "eve_agencia_id")

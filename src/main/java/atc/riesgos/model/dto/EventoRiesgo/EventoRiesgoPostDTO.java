@@ -53,6 +53,7 @@ public class EventoRiesgoPostDTO {
     private String estadoPlan;
 
     private Date fechaContable;
+    private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
 
     private Long agenciaId;
     private Long ciudadId;

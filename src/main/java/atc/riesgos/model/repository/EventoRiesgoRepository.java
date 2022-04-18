@@ -20,9 +20,9 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     @Query(nativeQuery=true, value = "select MAx(x.eve_id_area_correlativo)\n" +
             "from (\n" +
             "select eve_id, eve_codigo, eve_area_id, eve_id_area_correlativo, eve_fecha_desc, eve_fecha_desc_aux,eve_estado_registro\n" +
-            "from riesgosbk.tbl_evento_riesgo e\n" +
+            "from riesgos.tbl_evento_riesgo e\n" +
             "WHERE e.eve_codigo LIKE ?1% and  e.eve_fecha_desc_aux = (SELECT MAX(eve_fecha_desc_aux)  eve_fecha_desc_aux \n" +
-            "FROM riesgosbk.tbl_evento_riesgo ter \n" +
+            "FROM riesgos.tbl_evento_riesgo ter \n" +
             "WHERE eve_codigo LIKE ?1%)\n" +
             ") x")
     Integer findUltimoIdArea(String sigla);

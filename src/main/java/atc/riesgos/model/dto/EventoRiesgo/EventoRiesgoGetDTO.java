@@ -58,6 +58,7 @@ public class EventoRiesgoGetDTO {
     private String estadoPlan;
 
     private Date fechaContable;
+    private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
 
     private TablaDescripcion agenciaId;
     private TablaDescripcion ciudadId;
