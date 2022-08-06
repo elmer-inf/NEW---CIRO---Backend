@@ -11,10 +11,10 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
 
     List<MatrizRiesgo> findAllByDeleted(Boolean deleted);
 
-    @Query(value = "SELECT COUNT(*) FROM MatrizRiesgo e WHERE e.codigo LIKE %?1%")
+    @Query(nativeQuery=true, value = "SELECT COUNT(*) FROM riesgos.tbl_matriz_riesgo WHERE rie_codigo LIKE 'RO-' || ?1 || '\\_%' ESCAPE '\\'")
     Integer countMatrizRiesgoCodigo(String sigla);
 
-    @Query(value = "SELECT MAX(e.idUnidadCorrelativo) FROM MatrizRiesgo e WHERE e.codigo LIKE %?1%")
+    @Query(nativeQuery=true, value = "SELECT MAX(rie_id_unidad_correlativo) FROM riesgos.tbl_matriz_riesgo WHERE rie_codigo LIKE 'RO-' || ?1 || '\\_%' ESCAPE '\\'")
     Integer findUltimoIdUnidad(String sigla);
 
 

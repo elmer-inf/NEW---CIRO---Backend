@@ -221,14 +221,11 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         MatrizRiesgo matrizRiesgo = matrizRiesgoRepository.findById(id).get();
 
         String codMacro = matrizRiesgo.getProcesoId().getClave();
-        String codUnidad = matrizRiesgo.getUnidadId().getClave();
-        String codigo = "RO-".concat(codMacro + '-' + codUnidad);
-
-        //System.out.println("COUNT:  " + matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave()));
-        int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave());
+        String codigo = "RO-".concat(codMacro); //String codigo = "RO-".concat(codMacro + '-' + codUnidad);
+        int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(codMacro);
 
         if(countCodigoUnidad > 0){
-            int ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(matrizRiesgo.getUnidadId().getClave());
+            int ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(codMacro);
             int idIncrementado = ultimoIdUnidad + 1; // Id correlativo del Riesgo para el codigo al autorizar
             String idGenerado = "";
 
@@ -254,7 +251,6 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             return matrizRiesgoRepository.matrizInById(in);
         }catch (Exception e){
             Log.log("Error en getListMatrizInId : ", e);
-
         }
 
         return new ArrayList<>();
