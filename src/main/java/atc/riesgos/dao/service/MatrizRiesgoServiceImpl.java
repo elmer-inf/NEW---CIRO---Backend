@@ -174,9 +174,13 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                     String codigo = generaCodigo(id);
                     //System.out.println("CODIGO DE MATRIZ DE RIESGO :   " + codigo);
                     int ultimoIdUnidad = 0;
-                    int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(matrizRiesgo.getUnidadId().getClave());
+                    String codMacro = matrizRiesgo.getProcesoId().getClave();
+                    int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(codMacro);
+                    System.out.println("sigla entrada :   " + matrizRiesgo.getUnidadId().getClave());
+                    System.out.println("countCodigoUnidad :   " + countCodigoUnidad);
                     if(countCodigoUnidad > 0){
-                        ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(matrizRiesgo.getUnidadId().getClave());
+                        ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(codMacro);
+                        System.out.println("ultimoIdUnidad :   " + ultimoIdUnidad);
                         matrizRiesgo.setIdUnidadCorrelativo(ultimoIdUnidad + 1); // Se guarda el incremento del ID correlativo del Evento al autorizar
                         matrizRiesgo.setCodigo(codigo);
                     }else{
@@ -223,7 +227,6 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         String codMacro = matrizRiesgo.getProcesoId().getClave();
         String codigo = "RO-".concat(codMacro); //String codigo = "RO-".concat(codMacro + '-' + codUnidad);
         int countCodigoUnidad = matrizRiesgoRepository.countMatrizRiesgoCodigo(codMacro);
-
         if(countCodigoUnidad > 0){
             int ultimoIdUnidad = matrizRiesgoRepository.findUltimoIdUnidad(codMacro);
             int idIncrementado = ultimoIdUnidad + 1; // Id correlativo del Riesgo para el codigo al autorizar
