@@ -2,31 +2,31 @@ package atc.riesgos.util;
 
 public interface JPQL {
 
-
     /*
-    * El siguiente script obtiene los ID's de los reportes  que se deben genera
-    *
-    * NUEVO: La primera parte del script extrae los eventos que cuya fecha fin pertenecen al trimestre seleccionado
-    * y estado en Solucion
-    *
-    * La segundo seccion del script extrae todos los eventos que se encuentran
-      en seguimiento y no se cerraron ANTERIORES A la fecha inicio del trimiestre seleccionado.
+    * El siguiente script "byIdEvento" obtiene los ID's de los reportes  que se deben generar
 
-    * la tercera seccion del script extrae los datos del los eventos de riesgo que pertencen al
-      trimestre selccionado con estado solucionado y seguimiento
+    * NUEVO: La primera parte del script extrae los eventos que cuya fecha fin pertenecen al trimestre seleccionado
+      y estado en Solucion
+
+    * La segunda parte del script extrae todos los eventos que se encuentran
+      en Seguimiento y no se cerraron ANTERIORES A la fecha inicio del trimestre seleccionado.
+
+    * la tercera parte del script extrae los datos de los eventos de riesgo que pertencen al
+      trimestre selecionado con estado Solucionado y Seguimiento
     */
 
-    String byIdEvento = "select cast(e.eve_id as varchar) \n" +
+    String byIdEvento =
+            "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
-            "where e.eve_estado_evento = 'Solución' and e.eve_fecha_fin between :fechaIniTrimestre and :fechaFinTrimestre\n" +
+            "where e.eve_estado_evento = 'Solución' and e.eve_estado_registro <> 'Descartado' and e.eve_fecha_fin between :fechaIniTrimestre and :fechaFinTrimestre\n" +
             "union \n" +
             "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
-            "where (e.eve_estado_evento = 'Seguimiento' and  e.eve_estado_evento <> 'Solución') and e.eve_fecha_desc < :fechaIniTrimestre \n" +
+            "where (e.eve_estado_evento = 'Seguimiento' and  e.eve_estado_evento <> 'Solución') and e.eve_estado_registro <> 'Descartado' and e.eve_fecha_desc < :fechaIniTrimestre \n" +
             "union \n" +
             "select cast(e.eve_id as varchar) \n" +
             "from riesgos.tbl_evento_riesgo e\n" +
-            "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and e.eve_fecha_desc between :fechaIniTrimestre and :fechaFinTrimestre\n" +
+            "where (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and e.eve_estado_registro <> 'Descartado' and e.eve_fecha_desc between :fechaIniTrimestre and :fechaFinTrimestre\n" +
             "order by 1 asc";
 
     /*
@@ -38,7 +38,8 @@ public interface JPQL {
             "where e.eve_estado_evento = 'Solución' and e.eve_fecha_fin between :fechaIniTrimestre and :fechaFinTrimestre";
 
     // 2.1. Evento de Riesgo Operativo A
-    String riesgoOperativoA = "SELECT \n" +
+    String riesgoOperativoA =
+            "SELECT \n" +
             "    'ATATC' as codigo,\n" +
             "    e.eve_codigo as eve_codigo,\n" +
             "    '307' as tipo_entidad ,\n" +
@@ -60,7 +61,7 @@ public interface JPQL {
             "    when (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) = 'BOB' \n" +
             "    then case when coalesce(e.eve_monto_perdida,0) <> 0 then cast(cast(coalesce(e.eve_monto_perdida,0) as varchar) as decimal(12,2))  || (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) else '0.00' end\n" +
             "    when (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) = 'USD'\n" +
-            "    then case when coalesce(e.eve_monto_perdida,0) <> 0  then cast(cast((coalesce(e.eve_monto_perdida,0) * (select round(cast(ttd.des_nombre as numeric),2) tasa_cambio from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 14 FETCH FIRST 1 ROWS only))as varchar) as decimal(12,2)) || (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) || ' (' || COALESCE(e.eve_tasa_cambio_id,'') || ')' else '0.00' end \n" +
+            "    then case when coalesce(e.eve_monto_perdida,0) <> 0  then cast(cast((coalesce(e.eve_monto_perdida,0) * (select round(cast(ttd.des_nombre as numeric),2) tasa_cambio from riesgos.tbl_tabla_descripcion ttd where ttd.des_tabla_id = 14 FETCH FIRST 1 ROWS only))as varchar) as decimal(12,2)) || (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) || ' (' || COALESCE(e.eve_tasa_cambio_id,'') || ')' else '0.00' end \n" +
             "    else '0.00'\n" +
             "    end as moneda_montos_evento,\n" +
             "    e.eve_fecha_desc as eve_fecha_desc,\n" +
@@ -69,21 +70,21 @@ public interface JPQL {
             "    to_char(e.eve_hora_ini, 'HH24:MI') as eve_hora_ini,\n" +
             "    e.eve_fecha_fin as eve_fecha_fin,\n" +
             "    to_char(e.eve_hora_fin, 'HH24:MI') as eve_hora_fin,\n" +
-            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Elaborador') as elaborador,\n" +
-            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Revisor') as revisor,\n" +
-            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where des_tabla_id = 38 and ttd.des_campo_c = 'Aprobador') as aprobador,\n" +
+            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where ttd.des_tabla_id = 38 and ttd.des_campo_c = 'Elaborador') as elaborador,\n" +
+            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where ttd.des_tabla_id = 38 and ttd.des_campo_c = 'Revisor') as revisor,\n" +
+            "    (select 'Nombre: ' || ttd.des_nombre || '; Cargo= ' || ttd.des_descripcion || ';' || ttd.des_campo_a from riesgos.tbl_tabla_descripcion ttd where ttd.des_tabla_id = 38 and ttd.des_campo_c = 'Aprobador') as aprobador,\n" +
             "    case\n" +
             "    when e.eve_estado_evento ='Investigación' then 1\n" +
             "    when e.eve_estado_evento ='Seguimiento' then 2\n" +
             "    when e.eve_estado_evento ='Solución' then 3\n" +
             "    end as eve_estado_evento,\n" +
             "    e.eve_detalle_estado as eve_detalle_estado,\n" +
-            "    (select tmr.rie_codigo from riesgos.tbl_matriz_riesgo tmr  where tmr.rie_id = (select em.id_matriz_riesgo  from riesgos.eventoriesgo_matriz em where em.id_evento_riesgo = e.eve_id)) as codigo_evento_relacionado,\n" +
+            "    (select tmr.rie_codigo from riesgos.tbl_matriz_riesgo tmr  where tmr.rie_id = (select em.id_matriz_riesgo  from riesgos.eventoriesgo_matriz em where em.id_evento_riesgo = e.eve_id LIMIT 1)) as codigo_evento_relacionado,\n" +
             "    '' as tipo_envio\n" +
             "FROM riesgos.tbl_evento_riesgo e\n" +
-            "WHERE\n" +
-            "   (e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and \n" +
-            "   (e.eve_id in :idEventos)\n" +
+            "WHERE " +
+            "(e.eve_estado_evento = 'Seguimiento' or e.eve_estado_evento = 'Solución') and " +
+            "(e.eve_id in :idEventos)\n" +
             "ORDER BY e.eve_id asc";
 
     // 2.2.  Cuentas Contables (Revisar con el solicitante) B
