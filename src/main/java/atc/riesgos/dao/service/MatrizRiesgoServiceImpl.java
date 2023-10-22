@@ -159,6 +159,15 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         return matrizRiesgoGetDTO;
     }
 
+    public MatrizRiesgo deleteByIdRiesgo(Long id) {
+        Optional<MatrizRiesgo> founded = matrizRiesgoRepository.findById(id);
+        MatrizRiesgo riesgo = founded.get();
+        riesgo.setDeleted(true);
+
+        MatrizRiesgo riesgoDel = matrizRiesgoRepository.save(riesgo);
+        return riesgoDel;
+    }
+
     public MatrizRiesgo findByIdRiesgo(Long id){
         Optional<MatrizRiesgo> founded = matrizRiesgoRepository.findById(id);
         return founded.get();

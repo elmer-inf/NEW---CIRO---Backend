@@ -18,6 +18,7 @@ public class EventoRiesgoPutDTO {
     private Date fechaIni;
     private Time horaIni;
     private Date fechaDesc;
+    private int fechaDescAux;
     private Time horaDesc;
     private Date fechaFin;
     private Time horaFin;

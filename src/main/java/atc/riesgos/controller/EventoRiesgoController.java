@@ -28,23 +28,15 @@ public class EventoRiesgoController extends Controller {
     EventoRiesgoService eventoRiesgoService;
 
     @PostMapping("/registrar")
-    //@RequestMapping(value = "/registrar" , method = RequestMethod.POST, consumes = { "multipart/form-data" })
-    //@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-    //MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+
     public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoPostDTO data){
-        //System.out.println("Demooooooooooooooooo: " + Log.toJSON(data));
         return eventoRiesgoService.create(data);
     }
 
-   // @RequestMapping(path="/registrarwithfiles", consumes = {"multipart/form-data"}, method = RequestMethod.POST)
     @PostMapping("/registrarwithfiles")
     public ResponseEntity<EventoRiesgo>  saveWithFiles (@ModelAttribute EventoRiesgoFilePostDTO data){
-        //System.out.println("OBJETOO: " + data.getEventoRiesgoPostDTO());
-       // System.out.println("FILE: " + Log.toJSON(data.getFile()));
        EventoRiesgoPostDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPostDTO(),EventoRiesgoPostDTO.class);
-        //System.out.println("filklllessss: " + Log.toJSON(data.getFile()));
-    return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
-       // return null;
+       return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
     }
 
     @PutMapping("/editar/{id}")
@@ -70,6 +62,11 @@ public class EventoRiesgoController extends Controller {
     @GetMapping("/listar")
     public List<EventoRiesgo> listEventoRiesgo() {
         return eventoRiesgoService.listEventoRiesgo();
+    }
+
+    @PutMapping("/eliminar/{id}")
+    public EventoRiesgo deleteById(@PathVariable(value = "id") Long id) {
+        return eventoRiesgoService.deleteByIdEvento(id);
     }
 
     @GetMapping("/diezDiasAntes")
@@ -98,6 +95,4 @@ public class EventoRiesgoController extends Controller {
         return createHQL(EventoRiesgo.class).order(order)
                 .map(request).paging(page, size);
     }
-
-
 }

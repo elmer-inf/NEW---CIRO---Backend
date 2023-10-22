@@ -27,4 +27,5 @@ public interface EventoRiesgoService {
     List<EventoRiesgo> cincoDiasAntes();
     List<EventoRiesgo> planVencido();
     String generaCodigo(Long id);
+    EventoRiesgo deleteByIdEvento(Long id);
 }

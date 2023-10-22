@@ -1,6 +1,7 @@
 package atc.riesgos.controller;
 
 import atc.riesgos.auth.Controller;
+import atc.riesgos.config.log.Log;
 import atc.riesgos.dao.service.SeguridadService;
 import atc.riesgos.model.dto.Seguridad.SeguridadGetDTO;
 import atc.riesgos.model.dto.Seguridad.SeguridadPostDTO;
@@ -38,7 +39,6 @@ public class SeguridadController extends Controller {
         return seguridadService.findSeguridadByID(id);
     }
 
-    /* No lo probe */
     @PutMapping("/editar/{id}")
     public SeguridadGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody SeguridadPutDTO data){
         return seguridadService.updateById(id, data);

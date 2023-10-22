@@ -32,6 +32,7 @@ public class SeguridadServiceImpl implements SeguridadService {
     TablaDescripcionSeguridadService tablaDescripcionSeguridadService;
 
     public ResponseEntity<Seguridad> create(SeguridadPostDTO data) {
+        System.out.println("DATA: " + Log.toJSON(data));
         HttpHeaders responseHeaders = new HttpHeaders();
         Seguridad seguridad = new Seguridad();
         try{
@@ -67,6 +68,7 @@ public class SeguridadServiceImpl implements SeguridadService {
         Optional<Seguridad> seguridad = seguridadRepository.findById(id);
         SeguridadGetDTO seguridadGetDTO = new SeguridadGetDTO();
         BeanUtils.copyProperties(seguridad.get(), seguridadGetDTO);
+        System.out.println("GET: " + Log.toJSON(seguridadGetDTO));
         return seguridadGetDTO;
     }
 

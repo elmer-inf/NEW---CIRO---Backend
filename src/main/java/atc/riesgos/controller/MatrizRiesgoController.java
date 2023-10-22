@@ -6,6 +6,7 @@ import atc.riesgos.auth.Controller;
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
+import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,12 @@ public class MatrizRiesgoController extends Controller {
     public MatrizRiesgoGetDTO updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody MatrizRiesgoPutDTO data){
         return matrizRiesgoService.updateById(id, data);
     }
+
+    @PutMapping("/eliminar/{id}")
+    public MatrizRiesgo deleteById(@PathVariable(value = "id") Long id) {
+        return matrizRiesgoService.deleteByIdRiesgo(id);
+    }
+
     @GetMapping({"/{page}/{size}/{order}", "/{page}/{size}"})
     public Object filterBy(
             @PathVariable(value = "page") int page,

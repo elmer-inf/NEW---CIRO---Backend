@@ -100,5 +100,6 @@ public class EventoRiesgoGetDTO {
 
     private List<Archivo> archivoId;
     private String responsableElaborador;
-    private List<MatrizRiesgo> riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
+    private List<MatrizRiesgo> riesgoRelacionado;
+    private boolean deleted;
 }

@@ -14,13 +14,13 @@ import java.util.List;
 
 public class EventoRiesgoPostDTO {
 
-    private int fechaDescAux;
     private String tipoEvento;
     private String estadoRegistro;
     private String estadoEvento;
     private Date fechaIni;
     private Time horaIni;
     private Date fechaDesc;
+    private int fechaDescAux;
     private Time horaDesc;
     private Date fechaFin;
     private Time horaFin;

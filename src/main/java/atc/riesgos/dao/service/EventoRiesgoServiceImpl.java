@@ -9,7 +9,6 @@ import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import atc.riesgos.model.dto.EventoRiesgo.*;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
-import atc.riesgos.model.entity.Archivo;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
@@ -39,7 +38,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     @Autowired
     ArchivoService archivoService;
 
-    //  public <R extends Object> Long count(Class<R> model)
     private EventoRiesgo buildEventoToCreateUpdate(EventoRiesgo eventoRiesgo, EventoRiesgoDTO data){
         try{
             TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
@@ -468,8 +466,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             BeanUtils.copyProperties(data, eventoRiesgoToEdit);
             //eventoRiesgoToEdit= buildEventoToCreateUpdate(eventoRiesgoToEdit,data);
 
-
-
             TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
             eventoRiesgoToEdit.setAgenciaId(tablaAgenciaId);
 
@@ -590,8 +586,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());
             eventoRiesgoToEdit.setRiesgoRelacionado(matrizRiesgos);
 
-
-
             eventoRiesgoRepository.save(eventoRiesgoToEdit);
             BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
 
@@ -604,26 +598,19 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoGetDTO);
     }
 
-
     public EventoRiesgo findByIdEvento(Long id) {
         Optional<EventoRiesgo> founded = eventoRiesgoRepository.findById(id);
         return founded.get();
     }
 
+    public EventoRiesgo deleteByIdEvento(Long id) {
+        Optional<EventoRiesgo> founded = eventoRiesgoRepository.findById(id);
+        EventoRiesgo eve = founded.get();
+        eve.setDeleted(true);
 
-    /*public EventoRiesgoGetDTO evaluaEvento (Long id, EventoRiesgoPutDTO data){
-        EventoRiesgo eventoRiesgo = eventoRiesgoRepository.findById(id).orElseThrow(()-> new DBException("Tabla Descripcion", id));
-        EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
-        try{
-            BeanUtils.copyProperties(data, eventoRiesgo);
-            eventoRiesgoRepository.save(eventoRiesgo);
-            BeanUtils.copyProperties(eventoRiesgo, eventoRiesgoGetDTO);
-        } catch (Exception e){
-            Log.log("Tabla Descripcion actualizada =>", e);
-        }
-        //return eventoRiesgoGetDTO;
-        return null;
-    }*/
+        EventoRiesgo eveDel = eventoRiesgoRepository.save(eve);
+        return eveDel;
+    }
 
     public ResponseEntity<EventoRiesgo> evaluaEvento(Long id, EventoRiesgoPutDTOevaluacion data) {
         HttpHeaders responseHeaders = new HttpHeaders();

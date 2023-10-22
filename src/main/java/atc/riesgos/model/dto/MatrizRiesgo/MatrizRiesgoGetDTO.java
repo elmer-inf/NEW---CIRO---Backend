@@ -55,4 +55,6 @@ public class MatrizRiesgoGetDTO {
     // RELACION CON EVENTO DE RIESGO
     private Boolean eventoMaterializado;
     private EventoRiesgo eventoRiesgoId;
+
+    private boolean deleted;
 }

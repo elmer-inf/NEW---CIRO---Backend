@@ -19,5 +19,5 @@ public interface MatrizRiesgoService {
     MatrizRiesgoGetDTO updateById (Long id, MatrizRiesgoPutDTO data);
     List<MatrizRiesgo> getListMatrizInId(List<Long> in);
     String generaCodigo (Long id);
-
+    MatrizRiesgo deleteByIdRiesgo(Long id);
 }
