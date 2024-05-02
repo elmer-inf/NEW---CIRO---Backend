@@ -7,7 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
-public class EventoRiesgoFilePostDTO {
-    private String eventoRiesgoPostDTO;
+public class EventoRiesgoFilePutDTO {
+    private String eventoRiesgoPutDTO;
     private MultipartFile[] file;
+    private String filesToDelete;
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArchivoServiceImpl implements ArchivoService {
@@ -35,9 +36,6 @@ public class ArchivoServiceImpl implements ArchivoService {
     public Archivo create(ArchivoPostDTO data) {
         Archivo archivo = new Archivo();
         EventoRiesgo eventoRiesgo = eventoRiesgoService.findByIdEvento(data.getEventoId());
-        //BeanUtils.copyProperties(data, archivo);
-        // archivo.setEventoId(eventoRiesgo);
-
         return archivoRepository.save(archivo);
     }
 
@@ -47,29 +45,19 @@ public class ArchivoServiceImpl implements ArchivoService {
 
         for (MultipartFile multipartFile : fileList0) {
            Boolean x = multipartFile.isEmpty();
-            //System.out.println("esVcios: " + x);
            return x;
         }
-
         return empty;
     }
 
     public List<Archivo> create(ArchivoPostDTOv2 data) {
         List<Archivo> archivos = new ArrayList<>();
         try {
-            //System.out.println("VACIO ?? :  " + isEmptyList(data.getFile()));
             if (data.getFile() != null && !isEmptyList(data.getFile())) {
                 List<MultipartFile> fileList = Arrays.asList(data.getFile());
 
                 if (fileList.size() <= fileLimit) {
-                    // Regularizacion regularizacion = regularizacionRepository.findById(respaldoRegularizacionPostDto.getIdRegularizacion())
-                    //.orElseThrow(() -> new NotFoundException("La regularizacion no existe"));
-                    //int i = 0;
                     for (MultipartFile f : fileList) {
-                        //String nameFile = StringUtils.cleanPath(f.getOriginalFilename());
-                        //byte[] baseFile = f.getBytes();
-                        //String type = f.getContentType();
-
                         Archivo archivo = new Archivo();
                         archivo.setNombreArchivo(StringUtils.cleanPath(f.getOriginalFilename()));
                         archivo.setSize(f.getSize());
@@ -78,19 +66,12 @@ public class ArchivoServiceImpl implements ArchivoService {
                         archivo.setEventoId(data.getEventoId());
                         archivoRepository.save(archivo);
                         archivos.add(archivo);
-                        //respaldoRegularizacion.setNombreArchivoCorrelativo("Respaldo" + (i + 1));
-
-                        //i++;
                     }
                 } else {
                     Log.error("Superó el límite de archivos a cargar");
                     throw new BadRequestException("Superó el límite de archivos a cargar");
                 }
-            } //else {
-            //Log.error("No se adjunto ningun archivo");
-
-            //throw new NullPointerException("No se adjunto ningun archivo ");
-            // }
+            }
         } catch (NullPointerException e) {
             Log.error("Error al intentar guardar un archivo: ", e);
         } catch (BadRequestException e) {
@@ -103,9 +84,7 @@ public class ArchivoServiceImpl implements ArchivoService {
             Log.error("Error al intentar guardar un archivo: ", e);
             throw new NotImplementedException("Error al intentar guardar un archivo: " + e);
         }
-
         return archivos;
-
     }
 
     public List<Archivo> findAllByEvento(Long id) {
@@ -116,6 +95,15 @@ public class ArchivoServiceImpl implements ArchivoService {
             Log.error("findAllByEvento => ", e);
         }
         return archivos;
+    }
+
+    public Archivo deleteByIdArchivo(Long id) {
+        Optional<Archivo> founded = archivoRepository.findById(id);
+        Archivo archivo = founded.get();
+        archivo.setDeleted(true);
+
+        Archivo archDel = archivoRepository.save(archivo);
+        return archDel;
     }
 
 }

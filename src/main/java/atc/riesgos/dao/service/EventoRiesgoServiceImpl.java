@@ -317,7 +317,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         EventoRiesgo eventoRiesgo = new EventoRiesgo();
         try {
             BeanUtils.copyProperties(data, eventoRiesgo);
-            //eventoRiesgoToSave = buildEventoToCreateUpdate(eventoRiesgoToSave, data);
 
             TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
             eventoRiesgo.setAgenciaId(tablaAgenciaId);
@@ -441,12 +440,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             eventoRiesgo.setEstadoRegistro("Pendiente");
 
-
-            //  eventoRiesgo.setArchivoId(archivos);
-
             eventoRiesgoRepository.save(eventoRiesgo);
-            // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
-            // System.out.println("Iddd: " + eventoRiesgo.getId());
             archivoService.create(new ArchivoPostDTOv2(files, eventoRiesgo.getId()));
 
             eventoRiesgo.setArchivoId(archivoService.findAllByEvento(eventoRiesgo.getId()));
@@ -459,12 +453,14 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
     }
 
-    public ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPutDTO data) {
-        EventoRiesgo eventoRiesgoToEdit = eventoRiesgoRepository.findById(id).orElseThrow(() -> new DBException("Evento Riesgo: ", id));
+    @Override
+    public ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPutDTO data, MultipartFile[] files, String idsEliminar) {
+        EventoRiesgo eventoRiesgoToEdit = eventoRiesgoRepository.findById(id).orElseThrow(() -> new DBException("Evento Riesgo no encontrado: " + id));
+
         EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
+
         try {
             BeanUtils.copyProperties(data, eventoRiesgoToEdit);
-            //eventoRiesgoToEdit= buildEventoToCreateUpdate(eventoRiesgoToEdit,data);
 
             TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
             eventoRiesgoToEdit.setAgenciaId(tablaAgenciaId);
@@ -586,6 +582,21 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             List<MatrizRiesgo> matrizRiesgos = matrizRiesgoService.getListMatrizInId(data.getListMatrizRiesgo());
             eventoRiesgoToEdit.setRiesgoRelacionado(matrizRiesgos);
 
+            // Procesar archivos para eliminar
+            if (idsEliminar != null && !idsEliminar.isEmpty()) {
+                String[] idsToDelete = idsEliminar.split(",");
+                for (String idToDelete : idsToDelete) {
+                    Long fileId = Long.parseLong(idToDelete.trim());
+                    archivoService.deleteByIdArchivo(fileId);
+                }
+            }
+
+            // Procesar nuevos archivos
+            if (files != null && files.length > 0) {
+                archivoService.create(new ArchivoPostDTOv2(files, eventoRiesgoToEdit.getId()));
+                eventoRiesgoToEdit.setArchivoId(archivoService.findAllByEvento(eventoRiesgoToEdit.getId()));
+            }
+
             eventoRiesgoRepository.save(eventoRiesgoToEdit);
             BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
 
@@ -594,7 +605,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
 
         }
-        //return eventoRiesgoGetDTO;
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoGetDTO);
     }
 

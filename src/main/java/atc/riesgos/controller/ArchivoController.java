@@ -4,6 +4,7 @@ import atc.riesgos.dao.service.ArchivoService;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTOv2;
 import atc.riesgos.model.entity.Archivo;
+import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,11 @@ public class ArchivoController {
     @GetMapping("/listarArchivobyId/{id}")
     public List<Archivo> findAllByEvento(@PathVariable(value = "id") Long id) {
         return archivoService.findAllByEvento(id);
+    }
+
+    @PutMapping("/eliminar/{id}")
+    public Archivo deleteById(@PathVariable(value = "id") Long id) {
+        return archivoService.deleteByIdArchivo(id);
     }
 
 }

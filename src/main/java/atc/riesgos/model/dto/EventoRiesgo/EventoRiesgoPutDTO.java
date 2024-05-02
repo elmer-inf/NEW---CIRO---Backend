@@ -32,7 +32,7 @@ public class EventoRiesgoPutDTO {
     private String detalleEventoCritico;
     private String eventoCritico;
     private String lineaNegocio;
-    private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
+    private String riesgoRelacionado;
     private String detalleEstado;
     private Float montoPerdida;
     private Float gastoAsociado;
@@ -91,11 +91,6 @@ public class EventoRiesgoPutDTO {
     private Long gobiernoId;
     private Long cuentaContableId;
 
-    private Long archivoId;
-
-    // Relacion con mtriz de riesgos.
+    // Relacion con matriz de riesgos.
     private List<Long> listMatrizRiesgo;
-
-
-
 }
