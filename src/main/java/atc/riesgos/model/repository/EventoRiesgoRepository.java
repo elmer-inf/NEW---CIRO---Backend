@@ -1,9 +1,12 @@
 package atc.riesgos.model.repository;
 
+import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
-import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -55,4 +58,14 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
                             "e.fechaFinPlan is not null and " +
                             "current_date() > e.fechaFinPlan")
     List<EventoRiesgo> planVencido();
+
+
+    // REPORTES DE EVENTOS DE RIESGO
+
+    @Query("SELECT new atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO(e.codigo, e.descripcion, e.estadoEvento, e.fechaDesc, e.fechaFin) " +
+            "FROM EventoRiesgo e " +
+            "WHERE e.fechaIni >= :fechaIni AND e.fechaDesc <= :fechaDesc AND e.estadoEvento in :estadoEvento " +
+            "ORDER BY eve_id ASC")
+    List<ReporteEventoGralDTO> getReporteGralEvento(@Param("fechaIni") Date fechaIni, @Param("fechaDesc") Date fechaDesc, @Param("estadoEvento") List<String> estadoEventos);
+
 }
