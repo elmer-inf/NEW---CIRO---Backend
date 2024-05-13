@@ -194,6 +194,10 @@ public class TablaDescripcion implements Serializable {
     @OneToMany(mappedBy = "cuentaContableId")
     private List<EventoRiesgo> eventoRiesgo36;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "lgiId")
+    private List<EventoRiesgo> eventoRiesgo37;
+
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
 

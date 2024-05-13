@@ -302,6 +302,10 @@ public class EventoRiesgo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "eve_cuenta_contable_id")
     private TablaDescripcion cuentaContableId;
+
+    @ManyToOne
+    @JoinColumn(name = "eve_lgi_id")
+    private TablaDescripcion lgiId;
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
     @JsonIgnore

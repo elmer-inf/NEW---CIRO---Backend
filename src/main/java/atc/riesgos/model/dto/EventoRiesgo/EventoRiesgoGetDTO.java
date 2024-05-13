@@ -96,6 +96,8 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion cumplimientoId;
     private TablaDescripcion estrategicoId;
     private TablaDescripcion gobiernoId;
+    private TablaDescripcion lgiId;
+
     private TablaDescripcion cuentaContableId;
 
     private List<Archivo> archivoId;

@@ -89,6 +89,8 @@ public class EventoRiesgoPutDTO {
     private Long cumplimientoId;
     private Long estrategicoId;
     private Long gobiernoId;
+    private Long lgiId;
+
     private Long cuentaContableId;
 
     // Relacion con matriz de riesgos.

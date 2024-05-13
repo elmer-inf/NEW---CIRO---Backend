@@ -64,8 +64,21 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
 
     @Query("SELECT new atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO(e.codigo, e.descripcion, e.estadoEvento, e.fechaDesc, e.fechaFin) " +
             "FROM EventoRiesgo e " +
-            "WHERE e.fechaIni >= :fechaIni AND e.fechaDesc <= :fechaDesc AND e.estadoEvento in :estadoEvento " +
+            "WHERE e.fechaDesc >= :fechaDesde AND e.fechaDesc <= :fechaHasta AND e.estadoEvento in :estadoEvento " +
             "ORDER BY eve_id ASC")
-    List<ReporteEventoGralDTO> getReporteGralEvento(@Param("fechaIni") Date fechaIni, @Param("fechaDesc") Date fechaDesc, @Param("estadoEvento") List<String> estadoEventos);
+    List<ReporteEventoGralDTO> getReporteGralEvento(@Param("fechaDesde") Date fechaDesde, @Param("fechaHasta") Date fechaHasta, @Param("estadoEvento") List<String> estadoEventos);
+
+
+    @Query("SELECT e " +
+            "FROM EventoRiesgo e " +
+            "WHERE e.fechaDesc >= :fechaDesde AND e.fechaDesc <= :fechaHasta " +
+            "ORDER BY eve_id ASC")
+    List<EventoRiesgo> getReporteAuditoriaExterna(@Param("fechaDesde") Date fechaDesde, @Param("fechaHasta") Date fechaHasta);
+
+
+    // Cambiar el uso del operador `:` y remover `LIMIT`
+    @Query("SELECT t.nombre FROM TablaDescripcion t WHERE t.tablaLista = 6 AND t.clave = :tipo")
+    String getDescripcionTipoEvento(@Param("tipo") String tipo);
+
 
 }

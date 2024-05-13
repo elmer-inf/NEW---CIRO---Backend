@@ -86,6 +86,8 @@ public class EventoRiesgoDTO {
     private Long cumplimientoId;
     private Long estrategicoId;
     private Long gobiernoId;
+    private Long lgiId;
+
     private Long cuentaContableId;
 
     private Long archivoId;
