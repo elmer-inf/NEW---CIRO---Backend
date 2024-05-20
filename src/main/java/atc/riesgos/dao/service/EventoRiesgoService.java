@@ -22,9 +22,6 @@ public interface EventoRiesgoService {
 
     EventoRiesgoGetDTO findEventoByID(Long id);
     List<EventoRiesgo> listEventoRiesgo();
-    List<EventoRiesgo> diezDiasAntes();
-    List<EventoRiesgo> cincoDiasAntes();
-    List<EventoRiesgo> planVencido();
     String generaCodigo(Long id);
     EventoRiesgo deleteByIdEvento(Long id);
 }

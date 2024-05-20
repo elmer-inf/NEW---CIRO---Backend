@@ -39,7 +39,6 @@ public class EventoRiesgoGetDTO {
     private String detalleEventoCritico;
     private String eventoCritico;
     private String lineaNegocio;
-  //  private String riesgoRelacionado; // Relacion con Matriz de Riesgos por definir
     private String detalleEstado;
     private Float montoPerdida;
     private Float gastoAsociado;
@@ -48,15 +47,6 @@ public class EventoRiesgoGetDTO {
     private Float montoRecuperadoSeguro;
     private Float perdidaMercado;
     private String otros;
-
-    // Planes de accion
-    private TablaDescripcion areaResponsableId;
-    private TablaDescripcion cargoResponsableId;
-    private String detallePlan;
-    private Date fechaFinPlan;
-    private String descripcionEstado;
-    private String estadoPlan;
-
     private Date fechaContable;
     private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
 
@@ -65,7 +55,7 @@ public class EventoRiesgoGetDTO {
     private TablaDescripcion areaID;
     private TablaDescripcion unidadId;
     private TablaDescripcion entidadId;
-    private TablaDescripcion cargoId;
+    private List<TablaDescripcion> cargoId;
     private TablaDescripcion fuenteInfId;
     private TablaDescripcion canalAsfiId;
     private TablaDescripcion subcategorizacionId;

@@ -36,15 +36,9 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     /*@Query(value = "SELECT MAX(e.idAreaCorrelativo) FROM EventoRiesgo e WHERE e.codigo LIKE ?1% and e.fechaDescAux = ?2")
     Integer findUltimoIdAreaYanio(String sigla, int ultimoAnio);*/
 
-    @Query(value = "SELECT e " +
-                    "FROM EventoRiesgo e " +
-                    "WHERE e.fechaFin is not null and e.horaFin is not null and " +
-                            "e.fechaFinPlan is not null and " +
-                            "e.fechaFinPlan - current_date() <= 10 and " +
-                            "e.fechaFinPlan - current_date() >5")
-    List<EventoRiesgo> diezDiasAntes();
 
-    @Query(value = "SELECT e " +
+
+    /*@Query(value = "SELECT e " +
                     "FROM EventoRiesgo e " +
                     "WHERE e.fechaFin is not null and e.horaFin is not null and " +
                             "e.fechaFinPlan is not null and " +
@@ -57,7 +51,7 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
                     "WHERE e.fechaFin is not null and e.horaFin is not null and " +
                             "e.fechaFinPlan is not null and " +
                             "current_date() > e.fechaFinPlan")
-    List<EventoRiesgo> planVencido();
+    List<EventoRiesgo> planVencido();*/
 
 
     // REPORTES DE EVENTOS DE RIESGO

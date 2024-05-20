@@ -6,6 +6,7 @@ import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
+import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.repository.EventoRiesgoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,6 +18,7 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class ReporteEventoServiceImpl implements ReporteEventoService {
@@ -331,7 +333,17 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
                 // Crea la celda en la hoja Excel con el texto concatenado
                 row.createCell(colIndex++).setCellValue(riesgosConcatenados.toString());
 
-                row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+                //row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+
+
+                // Asigna los nombres de los cargos a la celda, separados por "_"
+                String cargos = evento.getCargoId() != null ? evento.getCargoId().stream()
+                        .map(TablaDescripcion::getNombre) // Asume que getNombre() devuelve el nombre del cargo
+                        .filter(nombre -> nombre != null && !nombre.isEmpty()) // Filtra nombres nulos o vacíos
+                        .collect(Collectors.joining("_")) : ""; // Une los nombres con "_"
+
+                row.createCell(colIndex++).setCellValue(cargos);
+
                 row.createCell(colIndex++).setCellValue(evento.getCanalAsfiId() != null ? evento.getCanalAsfiId().getNombre() : "");
                 row.createCell(colIndex++).setCellValue(evento.getEfectoPerdidaId() != null ? evento.getEfectoPerdidaId().getNombre() : "");
 
@@ -595,7 +607,15 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
                 // Crea la celda en la hoja Excel con el texto concatenado
                 row.createCell(colIndex++).setCellValue(riesgosConcatenados.toString());
 
-                row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+                //row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+
+                // Asigna los nombres de los cargos a la celda, separados por "_"
+                String cargos = evento.getCargoId() != null ? evento.getCargoId().stream()
+                        .map(TablaDescripcion::getNombre) // Asume que getNombre() devuelve el nombre del cargo
+                        .filter(nombre -> nombre != null && !nombre.isEmpty()) // Filtra nombres nulos o vacíos
+                        .collect(Collectors.joining("_")) : ""; // Une los nombres con "_"
+                row.createCell(colIndex++).setCellValue(cargos);
+
                 row.createCell(colIndex++).setCellValue(evento.getCanalAsfiId() != null ? evento.getCanalAsfiId().getNombre() : "");
                 row.createCell(colIndex++).setCellValue(evento.getEfectoPerdidaId() != null ? evento.getEfectoPerdidaId().getNombre() : "");
                 row.createCell(colIndex++).setCellValue(evento.getProcesoCriticoAsfi() != null ? evento.getProcesoCriticoAsfi() : 0);
@@ -763,7 +783,16 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getCuentaContableId() != null ? evento.getCuentaContableId().getCodigoAsfi() : "NA" : "NA");
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getCuentaContableId() != null ? evento.getCuentaContableId().getNombre() : "NA" : "NA");
                 row.createCell(colIndex++).setCellValue(evento.getFuenteInfId() != null ? evento.getFuenteInfId().getNombre() : "");
-                row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+
+                //row.createCell(colIndex++).setCellValue(evento.getCargoId() != null ? evento.getCargoId().getNombre() : "");
+
+                // Asigna los nombres de los cargos a la celda, separados por "_"
+                String cargos = evento.getCargoId() != null ? evento.getCargoId().stream()
+                        .map(TablaDescripcion::getNombre) // Asume que getNombre() devuelve el nombre del cargo
+                        .filter(nombre -> nombre != null && !nombre.isEmpty()) // Filtra nombres nulos o vacíos
+                        .collect(Collectors.joining("_")) : ""; // Une los nombres con "_"
+                row.createCell(colIndex++).setCellValue(cargos);
+
                 row.createCell(colIndex++).setCellValue(evento.getCanalAsfiId() != null ? evento.getCanalAsfiId().getNombre() : "");
                 row.createCell(colIndex++).setCellValue(evento.getProcesoCriticoAsfi() != null ? evento.getProcesoCriticoAsfi() : 0);
                 row.createCell(colIndex++).setCellValue(evento.getProcesoCriticoAsfi() != null ? (evento.getProcesoCriticoAsfi() == 1 ? "Se encuentra definido dentro del Mapa de Procesos, priorizando los Procesos Operativos de acuerdo a la cadena de valor que impacta directamente a los objetivos estratégico de la empresa establecidos en el Plan-GTIC-002-SIST." : "") : "");

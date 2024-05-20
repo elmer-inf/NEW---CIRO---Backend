@@ -41,15 +41,6 @@ public class EventoRiesgoPutDTO {
     private Float montoRecuperadoSeguro;
     private Float perdidaMercado;
     private String otros;
-
-    // Planes de accion
-    private Long areaResponsableId;
-    private Long cargoResponsableId;
-    private String detallePlan;
-    private Date fechaFinPlan;
-    private String descripcionEstado;
-    private String estadoPlan;
-
     private Date fechaContable;
     private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
 
@@ -58,7 +49,7 @@ public class EventoRiesgoPutDTO {
     private Long areaID;
     private Long unidadId;
     private Long entidadId;
-    private Long cargoId;
+    private List<Long> cargoId;
     private Long fuenteInfId;
     private Long canalAsfiId;
     private Long subcategorizacionId;

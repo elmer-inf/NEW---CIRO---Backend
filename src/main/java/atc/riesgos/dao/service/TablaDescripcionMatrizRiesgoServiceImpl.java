@@ -5,6 +5,7 @@ import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPutDTO;
+import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaListaMatrizRiesgo;
 import atc.riesgos.model.repository.TablaDescripcionMatrizRiesgoRepository;
@@ -47,6 +48,10 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
 
     public List<TablaDescripcionMatrizRiesgo> findTablaNivel1(Long id){
         return tablaDescripcionMatrizRiesgoRepository.findNivel1(id);
+    }
+
+    public List<TablaDescripcionMatrizRiesgo> findTablaNivel2(Long id, int id2){
+        return tablaDescripcionMatrizRiesgoRepository.findNivel2(id, id2);
     }
 
     public ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById (Long id, TablaDescripcionMatrizRiesgoPutDTO data){

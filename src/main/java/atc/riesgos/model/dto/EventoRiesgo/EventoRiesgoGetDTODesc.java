@@ -46,15 +46,6 @@ public class EventoRiesgoGetDTODesc {
     private Float montoRecuperadoSeguro;
     private Float perdidaMercado;
     private String otros;
-
-    // Planes de accion
-    private TablaDescripcionGetDTO3 areaResponsableId;
-    private TablaDescripcionGetDTO3 cargoResponsableId;
-    private String detallePlan;
-    private Date fechaFinPlan;
-    private String descripcionEstado;
-    private String estadoPlan;
-
     private Date fechaContable;
     private Integer procesoCriticoAsfi; // CAMPO NUEVO: valores 1 o 2
 

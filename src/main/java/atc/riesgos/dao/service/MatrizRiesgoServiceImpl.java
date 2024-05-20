@@ -1,11 +1,8 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
+import atc.riesgos.model.dto.MatrizRiesgo.*;
 import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
@@ -22,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
@@ -38,6 +36,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     EventoRiesgoRepository eventoRiesgoRepository;
 
     public ResponseEntity<MatrizRiesgo> create(MatrizRiesgoPostDTO data) {
+
         HttpHeaders responseHeaders = new HttpHeaders();
         MatrizRiesgo matrizRiesgo = new MatrizRiesgo();
         try{
@@ -81,6 +80,12 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
 
             TablaDescripcionMatrizRiesgo tablaControlId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getControlId());
             matrizRiesgo.setControlId(tablaControlId);
+
+            TablaDescripcionMatrizRiesgo tablaTipoFraudeId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getTipoFraudeId());
+            matrizRiesgo.setTipoFraudeId(tablaTipoFraudeId);
+
+            TablaDescripcionMatrizRiesgo tablaSubtipoFraudeId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getSubtipoFraudeId());
+            matrizRiesgo.setSubtipoFraudeId(tablaSubtipoFraudeId);
 
             matrizRiesgo.setEstadoRegistro("Pendiente");
             matrizRiesgoRepository.save(matrizRiesgo);
@@ -133,6 +138,12 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
 
             TablaDescripcionMatrizRiesgo tablaControlId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getControlId());
             matrizRiesgo.setControlId(tablaControlId);
+
+            TablaDescripcionMatrizRiesgo tablaTipoFraudeId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getTipoFraudeId());
+            matrizRiesgo.setTipoFraudeId(tablaTipoFraudeId);
+
+            TablaDescripcionMatrizRiesgo tablaSubtipoFraudeId = tablaDescripcionMatrizRiesgoService.findByIdTablaDesc(data.getSubtipoFraudeId());
+            matrizRiesgo.setSubtipoFraudeId(tablaSubtipoFraudeId);
 
             BeanUtils.copyProperties(data, matrizRiesgo);
             matrizRiesgoRepository.save(matrizRiesgo);
@@ -266,6 +277,46 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         }
 
         return new ArrayList<>();
+    }
+
+    public List<MatrizRiesgoGetDTOPlanesParaEvento> listRiesgosByIds(List<Long> filter){
+        return matrizRiesgoRepository.riesgosByIds(filter);
+    }
+
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer5Dias() {
+        List<Object[]> results = matrizRiesgoRepository.planesAVencer5Dias();
+        return results.stream()
+                .map(result -> new MatrizRiesgoGetDTONotificaciones(
+                        ((Number) result[0]).longValue(),  // id
+                        (String) result[1],               // codigo
+                        (String) result[2],               // descripcion
+                        (String) result[3],               // fechaImpl
+                        (String) result[4]))              // estado
+                .collect(Collectors.toList());
+    }
+
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer10Dias() {
+        List<Object[]> results = matrizRiesgoRepository.planesAVencer10Dias();
+        return results.stream()
+                .map(result -> new MatrizRiesgoGetDTONotificaciones(
+                        ((Number) result[0]).longValue(),
+                        (String) result[1],
+                        (String) result[2],
+                        (String) result[3],
+                        (String) result[4]))
+                .collect(Collectors.toList());
+    }
+
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanesVencidos() {
+        List<Object[]> results = matrizRiesgoRepository.planesVencidos();
+        return results.stream()
+                .map(result -> new MatrizRiesgoGetDTONotificaciones(
+                        ((Number) result[0]).longValue(),
+                        (String) result[1],
+                        (String) result[2],
+                        (String) result[3],
+                        (String) result[4]))
+                .collect(Collectors.toList());
     }
 
 

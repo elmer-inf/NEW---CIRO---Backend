@@ -45,7 +45,14 @@ public interface JPQL {
             "    '307' as tipo_entidad ,\n" +
             "    regexp_replace(e.eve_descripcion, E'[\\\\n\\\\r]+', ' ', 'g' ) as eve_descripcion,\n" +
             "    (select a.des_codigo_asfi from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_factor_riesgo_id ) as eve_factor_riesgo_id,\n" +
-            "    coalesce((select a.des_nombre from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_cargo_id ),'') as eve_cargo_id,\n" +
+            "    COALESCE( \n" +
+            "                ( \n" +
+            "                    SELECT STRING_AGG(trim(a.des_nombre), '_') \n" +
+            "                    FROM riesgos.tbl_tabla_descripcion a \n" +
+            "                    JOIN riesgos.tbl_evento_cargos ec ON a.des_id = ec.cargo_id \n" +
+            "                    WHERE ec.eve_id = e.eve_id \n" +
+            "                 ), '' \n" +
+            "    ) AS eve_cargo_id, \n" +
             "    (select a.des_nombre from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_area_id ) as eve_area_id,\n" +
             "    (select a.des_codigo_asfi from riesgos.tbl_tabla_descripcion a where a.des_clave = e.eve_tipo_evento ) as categoria,\n" +
             "    case when COALESCE(CAST(CAST(e.eve_monto_perdida AS varchar) AS decimal(12,2)), 0) = 0 then '0.00' else cast(COALESCE(CAST(CAST(e.eve_monto_perdida AS varchar) AS decimal(12,2)), 0) as varchar(10)) end as perdida_riesgo_operativo_valor_contable,\n" +

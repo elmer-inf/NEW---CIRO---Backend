@@ -4,6 +4,7 @@ import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
+import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public interface TablaDescripcionService {
     TablaDescripcionGetDTO2 findTablaDescripcionByID2(Long id);
     TablaDescripcion findByIdTablaDesc(Long id);
     TablaDescripcion deleteById(Long id);
+
+    List<TablaDescripcion> getListDescripcionInId(List<Long> in);
+
 
 }
 

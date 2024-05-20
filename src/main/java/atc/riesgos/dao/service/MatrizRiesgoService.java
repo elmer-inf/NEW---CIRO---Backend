@@ -1,9 +1,6 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.*;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.http.ResponseEntity;
 
@@ -20,4 +17,9 @@ public interface MatrizRiesgoService {
     List<MatrizRiesgo> getListMatrizInId(List<Long> in);
     String generaCodigo (Long id);
     MatrizRiesgo deleteByIdRiesgo(Long id);
+    List<MatrizRiesgoGetDTOPlanesParaEvento> listRiesgosByIds(List<Long> filter);
+
+    List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer5Dias();
+    List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer10Dias();
+    List<MatrizRiesgoGetDTONotificaciones> getPlanesVencidos();
 }

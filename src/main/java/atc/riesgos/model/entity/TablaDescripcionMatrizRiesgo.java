@@ -54,6 +54,9 @@ public class TablaDescripcionMatrizRiesgo implements Serializable {
     @JoinColumn(name = "des_tabla_id")
     private TablaListaMatrizRiesgo tablaId;
 
+    @Column(name = "des_nivel2_id")
+    private int nivel2_id;
+
     @CreationTimestamp
     @Column(name = "des_dateTimeCreate")
     private Timestamp created;

@@ -1,11 +1,8 @@
 package atc.riesgos.controller;
 
 import atc.riesgos.dao.service.MatrizRiesgoService;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTOevaluacion;
+import atc.riesgos.model.dto.MatrizRiesgo.*;
 import atc.riesgos.auth.Controller;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPostDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoPutDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +67,28 @@ public class MatrizRiesgoController extends Controller {
         return createHQL(MatrizRiesgo.class).order(order)
                 .map(request).paging(page, size);
     }
+
+
+    @PostMapping("/listbyids")
+    public List<MatrizRiesgoGetDTOPlanesParaEvento> listRiesgosByIds(@Valid @RequestBody List<Long> filter){
+        return matrizRiesgoService.listRiesgosByIds(filter);
+    }
+
+
+    @GetMapping("/planescincoavencer")
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanes5DiasAntes(){
+        return matrizRiesgoService.getPlanesAVencer5Dias();
+    }
+
+    @GetMapping("/planesdiezavencer")
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanes10DiasAntes(){
+        return matrizRiesgoService.getPlanesAVencer10Dias();
+    }
+
+    @GetMapping("/planesvencidos")
+    public List<MatrizRiesgoGetDTONotificaciones> getPlanesVencidos(){
+        return matrizRiesgoService.getPlanesVencidos();
+    }
+
 
 }

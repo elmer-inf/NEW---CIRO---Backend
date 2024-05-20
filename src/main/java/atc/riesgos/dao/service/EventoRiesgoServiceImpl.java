@@ -19,7 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +54,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaEntidadId = tablaDescripcionService.findByIdTablaDesc(data.getEntidadId());
             eventoRiesgo.setEntidadId(tablaEntidadId);
 
-            TablaDescripcion tablaCargoId = tablaDescripcionService.findByIdTablaDesc(data.getCargoId());
-            eventoRiesgo.setCargoId(tablaCargoId);
+            List<TablaDescripcion> tablaCargos = tablaDescripcionService.getListDescripcionInId(data.getCargoId());
+            eventoRiesgo.setCargoId(tablaCargos);
 
             TablaDescripcion tablaFuenteInfId = tablaDescripcionService.findByIdTablaDesc(data.getFuenteInfId());
             eventoRiesgo.setFuenteInfId(tablaFuenteInfId);
@@ -148,13 +147,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             TablaDescripcion tablaLgiId = tablaDescripcionService.findByIdTablaDesc(data.getLgiId());
             eventoRiesgo.setLgiId(tablaLgiId);
-
-            // Planes
-            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
-            eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
-
-            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
-            eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
             TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
             eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
@@ -192,8 +184,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaEntidadId = tablaDescripcionService.findByIdTablaDesc(data.getEntidadId());
             eventoRiesgo.setEntidadId(tablaEntidadId);
 
-            TablaDescripcion tablaCargoId = tablaDescripcionService.findByIdTablaDesc(data.getCargoId());
-            eventoRiesgo.setCargoId(tablaCargoId);
+            List<TablaDescripcion> tablaCargos = tablaDescripcionService.getListDescripcionInId(data.getCargoId());
+            eventoRiesgo.setCargoId(tablaCargos);
 
             TablaDescripcion tablaFuenteInfId = tablaDescripcionService.findByIdTablaDesc(data.getFuenteInfId());
             eventoRiesgo.setFuenteInfId(tablaFuenteInfId);
@@ -285,13 +277,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             TablaDescripcion tablaLgiId = tablaDescripcionService.findByIdTablaDesc(data.getLgiId());
             eventoRiesgo.setLgiId(tablaLgiId);
-
-            // Planes
-            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
-            eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
-
-            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
-            eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
 
             TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
             eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
@@ -340,8 +325,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaEntidadId = tablaDescripcionService.findByIdTablaDesc(data.getEntidadId());
             eventoRiesgo.setEntidadId(tablaEntidadId);
 
-            TablaDescripcion tablaCargoId = tablaDescripcionService.findByIdTablaDesc(data.getCargoId());
-            eventoRiesgo.setCargoId(tablaCargoId);
+            List<TablaDescripcion> tablaCargos = tablaDescripcionService.getListDescripcionInId(data.getCargoId());
+            eventoRiesgo.setCargoId(tablaCargos);
 
             TablaDescripcion tablaFuenteInfId = tablaDescripcionService.findByIdTablaDesc(data.getFuenteInfId());
             eventoRiesgo.setFuenteInfId(tablaFuenteInfId);
@@ -434,13 +419,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaLgiId = tablaDescripcionService.findByIdTablaDesc(data.getLgiId());
             eventoRiesgo.setLgiId(tablaLgiId);
 
-            // Planes
-            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
-            eventoRiesgo.setAreaResponsableId(tablaAreaResponsableId);
-
-            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
-            eventoRiesgo.setCargoResponsableId(tablaCargoResponsableId);
-
             TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
             eventoRiesgo.setCuentaContableId(tablaCuentaContableId);
 
@@ -487,8 +465,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaEntidadId = tablaDescripcionService.findByIdTablaDesc(data.getEntidadId());
             eventoRiesgoToEdit.setEntidadId(tablaEntidadId);
 
-            TablaDescripcion tablaCargoId = tablaDescripcionService.findByIdTablaDesc(data.getCargoId());
-            eventoRiesgoToEdit.setCargoId(tablaCargoId);
+            List<TablaDescripcion> tablaCargos = tablaDescripcionService.getListDescripcionInId(data.getCargoId());
+            eventoRiesgoToEdit.setCargoId(tablaCargos);
 
             TablaDescripcion tablaFuenteInfId = tablaDescripcionService.findByIdTablaDesc(data.getFuenteInfId());
             eventoRiesgoToEdit.setFuenteInfId(tablaFuenteInfId);
@@ -580,13 +558,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             TablaDescripcion tablaLgiId = tablaDescripcionService.findByIdTablaDesc(data.getLgiId());
             eventoRiesgoToEdit.setLgiId(tablaLgiId);
-
-            // Planes
-            TablaDescripcion tablaAreaResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getAreaResponsableId());
-            eventoRiesgoToEdit.setAreaResponsableId(tablaAreaResponsableId);
-
-            TablaDescripcion tablaCargoResponsableId = tablaDescripcionService.findByIdTablaDesc(data.getCargoResponsableId());
-            eventoRiesgoToEdit.setCargoResponsableId(tablaCargoResponsableId);
 
             TablaDescripcion tablaCuentaContableId = tablaDescripcionService.findByIdTablaDesc(data.getCuentaContableId());
             eventoRiesgoToEdit.setCuentaContableId(tablaCuentaContableId);
@@ -745,7 +716,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
         BeanUtils.copyProperties(eventoRiesgo.get(), eventoRiesgoGetDTO);
         eventoRiesgoGetDTO.setArchivoId(archivoService.findAllByEvento(id));
-        //findAllByEvento
         return eventoRiesgoGetDTO;
     }
 
@@ -753,31 +723,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return eventoRiesgoRepository.findAllByDeleted(false);
     }
 
-    public List<EventoRiesgo> diezDiasAntes() {
-        try{
-            return eventoRiesgoRepository.diezDiasAntes();
-        }catch (Exception e){
-            Log.error("Error en Funcion diezDiasAntes : ", e);
-        }
-        return new ArrayList<>();
-    }
 
-    public List<EventoRiesgo> cincoDiasAntes() {
-        try{
-            return eventoRiesgoRepository.cincoDiasAntes();
-        }catch (Exception e){
-            Log.error("Error en Funcion cincoDiasAntes : ", e);
-        }
-        return new ArrayList<>();
-    }
-
-    public List<EventoRiesgo> planVencido() {
-        try{
-            return eventoRiesgoRepository.planVencido();
-        }catch (Exception e){
-            Log.error("Error en Funcion planVencido : ", e);
-        }
-        return new ArrayList<>();
-    }
 
 }

@@ -93,62 +93,37 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "eve_linea_negocio", length = 500)
     private String lineaNegocio;
 
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "eventoriesgo_matriz",
             joinColumns = @JoinColumn(name = "id_evento_riesgo", nullable = true),
             inverseJoinColumns = @JoinColumn(name = "id_matriz_riesgo" , nullable = true)
     )
-    //  @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private List<MatrizRiesgo> riesgoRelacionado;
-
 
     @Column(name = "eve_detalle_estado", columnDefinition = "text")
     private String detalleEstado;
 
-    @Column(name = "eve_monto_perdida") //, length = 20
+    @Column(name = "eve_monto_perdida")
     private Float montoPerdida;
 
-    @Column(name = "eve_gasto_asociado")//, length = 20
+    @Column(name = "eve_gasto_asociado")
     private Float gastoAsociado;
 
-    @Column(name = "eve_monto_recuperado")//, length = 20
+    @Column(name = "eve_monto_recuperado")
     private Float montoRecuperado;
 
     @Column(name = "eve_cobertura_seguro")
     private Boolean coberturaSeguro;
 
-    @Column(name = "eve_monto_recuperado_seguro") //, length = 20
+    @Column(name = "eve_monto_recuperado_seguro")
     private Float montoRecuperadoSeguro;
 
-    @Column(name = "eve_perdida_mercado") //, length = 20
+    @Column(name = "eve_perdida_mercado")
     private Float perdidaMercado;
 
     @Column(name = "eve_otros", columnDefinition = "text")
     private String otros;
-
-    // Planes de accion
-    @ManyToOne
-    @JoinColumn(name = "eve_area_responsable_id")
-    private TablaDescripcion areaResponsableId;
-
-    @ManyToOne
-    @JoinColumn(name = "eve_cargo_reponsable_id")
-    private TablaDescripcion cargoResponsableId;
-
-    @Column(name = "eve_detalle_plan", columnDefinition = "text")
-    private String detallePlan;
-
-    @Column(name = "eve_fecha_fin_plan")
-    private Date fechaFinPlan;
-
-    @Column(name = "eve_descripcion_estado", columnDefinition = "text")
-    private String descripcionEstado;
-
-    @Column(name = "eve_estado_plan", length = 200)
-    private String estadoPlan;
-
 
     @Column(name = "eve_fecha_contable")
     private Date fechaContable;
@@ -178,9 +153,13 @@ public class EventoRiesgo implements Serializable {
     @JoinColumn(name = "eve_entidad_id")
     private TablaDescripcion entidadId;
 
-    @ManyToOne
-    @JoinColumn(name = "eve_cargo_id")
-    private TablaDescripcion cargoId;
+    @ManyToMany
+    @JoinTable(
+            name = "tbl_evento_cargos",
+            joinColumns = @JoinColumn(name = "eve_id"),
+            inverseJoinColumns = @JoinColumn(name = "cargo_id")
+    )
+    private List<TablaDescripcion> cargoId;
 
     @ManyToOne
     @JoinColumn(name = "eve_fuente_inf_id")

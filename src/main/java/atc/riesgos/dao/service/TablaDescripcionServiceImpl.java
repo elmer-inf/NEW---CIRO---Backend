@@ -6,6 +6,7 @@ import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionPostDTO;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionPutDTO;
+import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaLista;
 import atc.riesgos.model.repository.TablaDescripcionRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,6 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
 
     public List<TablaDescripcion> listTablaDescripcion(){
         return tablaDescripcionRepository.findAllByDeleted(false);
-        //return tablaDescripcionRepository.findAll();
     }
 
     public List<TablaDescripcion> findTablaNivel1(Long id){
@@ -126,6 +127,16 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
             Log.log("Error findByIdTablaDesc: " , e);
         }
         return null;
+    }
+
+    public List<TablaDescripcion> getListDescripcionInId(List<Long> in) {
+        try{
+            return tablaDescripcionRepository.descripcionInById(in);
+        }catch (Exception e){
+            Log.log("Error en getListDescripcionInId : ", e);
+        }
+
+        return new ArrayList<>();
     }
 
 }

@@ -34,6 +34,9 @@ public class TablaListaMatrizRiesgo implements Serializable  {
     @OneToMany(mappedBy = "tablaId", cascade = CascadeType.ALL)
     private List<TablaDescripcionMatrizRiesgo> tablaDescripcionMatrizRiesgos;
 
+    @Column(name = "lis_nivel2")
+    private int nivel2;
+
     @CreationTimestamp
     @Column(name = "lis_dateTimeCreate")
     private Timestamp created;

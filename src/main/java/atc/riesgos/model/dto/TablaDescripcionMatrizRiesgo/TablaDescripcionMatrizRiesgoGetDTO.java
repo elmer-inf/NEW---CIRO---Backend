@@ -19,4 +19,5 @@ public class TablaDescripcionMatrizRiesgoGetDTO {
     private String campoG;
     private int usuarioId;
     private TablaListaMatrizRiesgo tablaId;
+    private int nivel2_id;
 }

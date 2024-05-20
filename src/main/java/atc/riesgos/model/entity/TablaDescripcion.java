@@ -69,8 +69,8 @@ public class TablaDescripcion implements Serializable {
     private List<EventoRiesgo> eventoRiesgo5;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cargoId")
-    private List<EventoRiesgo> eventoRiesgo6;
+    @ManyToMany(mappedBy = "cargoId")
+    private List<EventoRiesgo> eventosRiesgo;
 
     @JsonIgnore
     @OneToMany(mappedBy = "fuenteInfId")

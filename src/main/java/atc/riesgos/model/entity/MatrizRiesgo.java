@@ -136,6 +136,14 @@ public class MatrizRiesgo implements Serializable {
     @JoinColumn(name = "rie_control_id")
     private TablaDescripcionMatrizRiesgo controlId;
 
+    @ManyToOne
+    @JoinColumn(name = "rie_tipo_fraude_interno")
+    private TablaDescripcionMatrizRiesgo tipoFraudeId;
+
+    @ManyToOne
+    @JoinColumn(name = "rie_subtipo_fraude_interno")
+    private TablaDescripcionMatrizRiesgo subtipoFraudeId;
+
     /* -------- FIN RELACION DE PARAMETROS  --------- */
 
     /*@JsonIgnore

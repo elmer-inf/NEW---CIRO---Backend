@@ -45,6 +45,8 @@ public class MatrizRiesgoPutDTO {
     private Long probabilidadId;
     private Long impactoId;
     private Long controlId;
+    private Long tipoFraudeId;
+    private Long subtipoFraudeId;
 
     // RELACION CON EVENTO DE RIESGO
     private Boolean eventoMaterializado;

@@ -37,6 +37,11 @@ public class TablaDescripcionMatrizRiesgoController {
         return tablaDescripcionMatrizRiesgoService.findTablaNivel1(id);
     }
 
+    @GetMapping("/listarNivel2/{id}/{id2}")
+    public List<TablaDescripcionMatrizRiesgo> listNivel2(@PathVariable(value = "id") Long id, @PathVariable(value = "id2") int id2) {
+        return tablaDescripcionMatrizRiesgoService.findTablaNivel2(id, id2);
+    }
+
     @PutMapping("/editar/{id}")
     public ResponseEntity<TablaDescripcionMatrizRiesgoGetDTO> updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody TablaDescripcionMatrizRiesgoPutDTO data) {
         return tablaDescripcionMatrizRiesgoService.updateById(id, data);

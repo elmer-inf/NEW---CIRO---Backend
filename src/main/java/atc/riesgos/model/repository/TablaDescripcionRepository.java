@@ -1,5 +1,6 @@
 package atc.riesgos.model.repository;
 
+import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,8 +20,8 @@ public interface TablaDescripcionRepository extends BaseRepository<TablaDescripc
     @Query(value = "Select td from TablaDescripcion td Where tablaLista.id = ?1 and nivel2_id = ?2 and nivel3_id = ?3 and deleted = false")
     List<TablaDescripcion> findNivel3(Long id, int id2, int id3);
 
-
-
+    @Query(value="Select c from TablaDescripcion c where c.deleted is false and c.id IN (?1) ")
+    List<TablaDescripcion> descripcionInById(List<Long> in);
 
 }
 

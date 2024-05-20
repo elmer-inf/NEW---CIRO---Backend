@@ -17,4 +17,5 @@ public class TablaDescripcionMatrizRiesgoPutDTO {
     private String campoG;
     private int usuarioId;
     private Long tablaId;
+    private int nivel2_id;
 }

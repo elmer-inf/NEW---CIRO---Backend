@@ -51,6 +51,8 @@ public class MatrizRiesgoGetDTO {
     private TablaDescripcionMatrizRiesgo probabilidadId;
     private TablaDescripcionMatrizRiesgo impactoId;
     private TablaDescripcionMatrizRiesgo controlId;
+    private TablaDescripcionMatrizRiesgo tipoFraudeId;
+    private TablaDescripcionMatrizRiesgo subtipoFraudeId;
 
     // RELACION CON EVENTO DE RIESGO
     private Boolean eventoMaterializado;

@@ -46,6 +46,8 @@ public class MatrizRiesgoPostDTO {
     private Long probabilidadId;
     private Long impactoId;
     private Long controlId;
+    private Long tipoFraudeId;
+    private Long subtipoFraudeId;
 
     private int usuario_id;
 
