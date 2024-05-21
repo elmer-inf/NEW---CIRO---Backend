@@ -43,13 +43,18 @@ public class EventoRiesgoController extends Controller {
        return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
     }
 
-    @PutMapping(value = "/editarwithfiles/{id}")
+    /*@PutMapping(value = "/editarwithfiles/{id}")
     public ResponseEntity<EventoRiesgoGetDTO> updateById(@PathVariable("id") Long id, @ModelAttribute EventoRiesgoFilePutDTO data) {
         System.out.println("data.getFiles() " + data.getFile());
         EventoRiesgoPutDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPutDTO(),EventoRiesgoPutDTO.class);
 
         System.out.println("DAAATTAAA desseria: " + Log.toJSON(dataDTO));
         return eventoRiesgoService.updateById(id, dataDTO, data.getFile() , data.getFilesToDelete());
+    }*/
+
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data){
+        return eventoRiesgoService.updateById(id, data);
     }
 
     @PutMapping("/evaluaEvento/{id}")
