@@ -3,25 +3,28 @@ package atc.riesgos.model.dto.MatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @Setter
 @Getter
 
 public class MatrizRiesgoGetDTONotificaciones {
 
-    private Long id;
+    private Long idRiesgo;
+    private int nroPlan;
     private String codigo;
     private String descripcion;
     private String fechaImpl;
     private String estado;
+    private String cargo;
+    private String informadoPorCorreo;
 
-
-    public MatrizRiesgoGetDTONotificaciones(Long id, String codigo, String descripcion, String fechaImpl, String estado) {
-        this.id = id;
+    public MatrizRiesgoGetDTONotificaciones(Long idRiesgo, int nroPlan, String codigo, String descripcion, String fechaImpl, String estado, String cargo, String informadoPorCorreo) {
+        this.idRiesgo = idRiesgo;
+        this.nroPlan = nroPlan;
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.fechaImpl = fechaImpl;
         this.estado = estado;
+        this.cargo = cargo;
+        this.informadoPorCorreo = informadoPorCorreo;
     }
 }

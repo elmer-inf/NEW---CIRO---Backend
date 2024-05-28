@@ -287,11 +287,14 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         List<Object[]> results = matrizRiesgoRepository.planesAVencer5Dias();
         return results.stream()
                 .map(result -> new MatrizRiesgoGetDTONotificaciones(
-                        ((Number) result[0]).longValue(),  // id
-                        (String) result[1],               // codigo
-                        (String) result[2],               // descripcion
-                        (String) result[3],               // fechaImpl
-                        (String) result[4]))              // estado
+                        ((Number) result[0]).longValue(),   // id
+                        (int) result[1],                    // nroPlan
+                        (String) result[2],                 // codigo
+                        (String) result[3],                 // descripcion
+                        (String) result[4],                 // fechaImpl
+                        (String) result[5],                 // estado
+                        (String) result[6],                 // cargo
+                        (String) result[7]))                // informadoPorCorreo
                 .collect(Collectors.toList());
     }
 
@@ -300,10 +303,13 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         return results.stream()
                 .map(result -> new MatrizRiesgoGetDTONotificaciones(
                         ((Number) result[0]).longValue(),
-                        (String) result[1],
+                        (int) result[1],
                         (String) result[2],
                         (String) result[3],
-                        (String) result[4]))
+                        (String) result[4],
+                        (String) result[5],
+                        (String) result[6],
+                        (String) result[7]))
                 .collect(Collectors.toList());
     }
 
@@ -312,10 +318,13 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         return results.stream()
                 .map(result -> new MatrizRiesgoGetDTONotificaciones(
                         ((Number) result[0]).longValue(),
-                        (String) result[1],
+                        (int) result[1],
                         (String) result[2],
                         (String) result[3],
-                        (String) result[4]))
+                        (String) result[4],
+                        (String) result[5],
+                        (String) result[6],
+                        (String) result[7]))
                 .collect(Collectors.toList());
     }
 

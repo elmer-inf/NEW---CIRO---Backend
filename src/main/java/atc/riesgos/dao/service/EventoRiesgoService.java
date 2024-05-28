@@ -20,9 +20,12 @@ public interface EventoRiesgoService {
     ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoPutDTO data);
     EventoRiesgo findByIdEvento(Long id);
     ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data);
-
     EventoRiesgoGetDTO findEventoByID(Long id);
     List<EventoRiesgo> listEventoRiesgo();
     String generaCodigo(Long id);
     EventoRiesgo deleteByIdEvento(Long id);
+
+    //void sendMailPlanVencido (String pEmail);
+
+
 }

@@ -859,6 +859,4 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         return eventoRiesgoRepository.findAllByDeleted(false);
     }
 
-
-
 }

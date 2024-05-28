@@ -1,7 +1,7 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.config.log.Log;
 import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
@@ -11,13 +11,16 @@ import atc.riesgos.model.repository.EventoRiesgoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +28,9 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
 
     @Autowired
     EventoRiesgoRepository eventoRiesgoRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     // REPORTE EVENTO DE RIESGO
@@ -867,6 +873,243 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
             result = 0;
         }
         return result;
+    }
+
+
+    // REPORTE DINAMICO EVENTO DE RIESGO
+    @Override
+    public byte[] reporteConfigEvento(FiltroReporteConfigEvento filter)  {
+        List<Map<String, Object>> results = getDataEventoColumns(filter);
+
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Evento de Riesgos");
+
+            // Estilo para cabecera: texto en negrita, fondo azul claro
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+            headerCellStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
+            headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            headerCellStyle.setBorderTop(BorderStyle.THIN);
+            headerCellStyle.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle.setBorderLeft(BorderStyle.THIN);
+            headerCellStyle.setBorderRight(BorderStyle.THIN);
+            headerCellStyle.setWrapText(true); // Habilitar salto de línea en la cabecera
+
+            // Estilo para las celdas de datos: con bordes
+            CellStyle cellStyle = workbook.createCellStyle();
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+
+            // Crear fila de cabecera y establecer ancho fijo para todas las columnas
+            Row headerRow = sheet.createRow(0);
+            for (int colIdx = 0; colIdx < filter.getDataColumns().size(); colIdx++) {
+                FiltroReporteConfigEvento.DataColumn column = filter.getDataColumns().get(colIdx);
+                Cell cell = headerRow.createCell(colIdx);
+                cell.setCellValue(column.getLabel());
+                cell.setCellStyle(headerCellStyle);
+                sheet.setColumnWidth(colIdx, 20 * 256); // Ancho fijo (20 caracteres)
+            }
+
+            // Llenado de datos
+            int rowIdx = 1;
+            for (Map<String, Object> result : results) {
+                Row row = sheet.createRow(rowIdx++);
+                int colIdx = 0;
+                for (FiltroReporteConfigEvento.DataColumn column : filter.getDataColumns()) {
+                    Cell cell = row.createCell(colIdx++);
+                    Object value = result.get(column.getLabel());
+                    cell.setCellValue(value != null ? value.toString() : "");
+                    cell.setCellStyle(cellStyle);
+                }
+            }
+
+            workbook.write(outputStream);
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el reporte", e);
+        }
+    }
+
+
+    private List<Map<String, Object>> getDataEventoColumns(FiltroReporteConfigEvento filter) {
+        StringBuilder query = new StringBuilder("SELECT ");
+        // Construye las columnas dinámicamente
+        List<String> columns = filter.getDataColumns().stream()
+                .map(column -> {
+                    switch (column.getId()) {
+                        case 1:
+                            return "COALESCE(e.eve_codigo, '-') AS \"" + column.getLabel() + "\"";
+                        case 2:
+                            return "COALESCE(TO_CHAR(e.eve_fecha_ini, 'DD/MM/YYYY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 3:
+                            return "COALESCE(TO_CHAR(e.eve_hora_ini, 'HH24:MI:SS'), '-') AS \"" + column.getLabel() + "\"";
+                        case 4:
+                            return "COALESCE(TO_CHAR(e.eve_fecha_desc, 'DD/MM/YYYY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 5:
+                            return "COALESCE(TO_CHAR(e.eve_hora_desc, 'HH24:MI:SS'), '-') AS \"" + column.getLabel() + "\"";
+                        case 6:
+                            return "COALESCE(CASE TO_CHAR(e.eve_fecha_ini, 'Mon') WHEN 'Jan' THEN 'ene' WHEN 'Feb' THEN 'feb' WHEN 'Mar' THEN 'mar' WHEN 'Apr' THEN 'abr' WHEN 'May' THEN 'may' WHEN 'Jun' THEN 'jun' WHEN 'Jul' THEN 'jul' WHEN 'Aug' THEN 'ago' WHEN 'Sep' THEN 'sep' WHEN 'Oct' THEN 'oct' WHEN 'Nov' THEN 'nov' WHEN 'Dec' THEN 'dic' END || '-' || to_char(e.eve_fecha_ini, 'YY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 7:
+                            return "COALESCE(TO_CHAR(e.eve_fecha_ini, 'YYYY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 8:
+                            return "COALESCE(TO_CHAR(e.eve_fecha_fin, 'DD/MM/YYYY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 9:
+                            return "COALESCE(TO_CHAR(e.eve_hora_fin, 'HH24:MI:SS'), '-') AS \"" + column.getLabel() + "\"";
+                        case 10:
+                            return "COALESCE(CASE TO_CHAR(e.eve_fecha_fin, 'Mon') WHEN 'Jan' THEN 'ene' WHEN 'Feb' THEN 'feb' WHEN 'Mar' THEN 'mar' WHEN 'Apr' THEN 'abr' WHEN 'May' THEN 'may' WHEN 'Jun' THEN 'jun' WHEN 'Jul' THEN 'jul' WHEN 'Aug' THEN 'ago' WHEN 'Sep' THEN 'sep' WHEN 'Oct' THEN 'oct' WHEN 'Nov' THEN 'nov' WHEN 'Dec' THEN 'dic' END || '-' || to_char(e.eve_fecha_fin, 'YY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 11:
+                            return "COALESCE(TO_CHAR(e.eve_fecha_fin, 'YYYY'), '-') AS \"" + column.getLabel() + "\"";
+                        case 12:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_agencia_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 13:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_ciudad_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 14:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_area_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 15:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_unidad_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 16:
+                            return "COALESCE(e.eve_descripcion, '-') AS \"" + column.getLabel() + "\"";
+                        case 17:
+                            return "COALESCE(e.eve_descripcion_completa, '-') AS \"" + column.getLabel() + "\"";
+                        case 18:
+                            return "COALESCE(e.eve_tipo_evento, '-') AS \"" + column.getLabel() + "\"";
+                        case 19:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE des_tabla_id = 6 AND e.eve_tipo_evento = d.des_clave), '-') AS \"" + column.getLabel() + "\"";
+                        case 20:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_tipo_evento_perdida_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 21:
+                            return "COALESCE((SELECT d.des_descripcion FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_tipo_evento_perdida_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 22:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_sub_evento_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 23:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_clase_evento_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 24:
+                            return "COALESCE(e.eve_evento_critico, '-') AS \"" + column.getLabel() + "\"";
+                        case 25:
+                            return "COALESCE(e.eve_detalle_evento_critico, '-') AS \"" + column.getLabel() + "\"";
+                        case 26:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_factor_riesgo_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 27:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_proceso_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 28:
+                            return "COALESCE((SELECT d.des_codigo_asfi FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_proceso_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 29:
+                            return "COALESCE((SELECT STRING_AGG(r.rie_codigo, '_') FROM riesgos.tbl_matriz_riesgo r INNER JOIN riesgos.eventoriesgo_matriz er ON r.rie_id = er.id_matriz_riesgo WHERE er.id_evento_riesgo = e.eve_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 30:
+                            return "COALESCE((SELECT STRING_AGG(CONCAT(r.rie_definicion, ' debido a ', r.rie_causa, ' puede ocasionar ', r.rie_consecuencia), '_') FROM riesgos.tbl_matriz_riesgo r INNER JOIN riesgos.eventoriesgo_matriz em ON r.rie_id = em.id_matriz_riesgo WHERE em.id_evento_riesgo = e.eve_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 31:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_proceso_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 32:
+                            return "COALESCE((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_procedimiento_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 33:
+                            return "COALESCE((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_proceso_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 34:
+                            return "COALESCE(e.eve_linea_negocio, '-') AS \"" + column.getLabel() + "\"";
+                        case 35:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_linea_asfi_id  = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 36:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_ope_pro_ser_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 37:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_tipo_servicio_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 38:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_desc_servicio_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 39:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_operacion_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 40:
+                            return "(SELECT CASE WHEN NOT e.eve_entidad_afectada  AND NOT e.eve_comercio_afectado  THEN 'ATC' WHEN e.eve_entidad_afectada AND NOT e.eve_comercio_afectado THEN 'EIF' WHEN NOT e.eve_entidad_afectada AND e.eve_comercio_afectado THEN 'Aceptantes' ELSE 'EIF_Aceptantes' END) AS \"" + column.getLabel() + "\"";
+                        case 41:
+                            return "COALESCE(NULLIF(e.eve_detalle_estado, ''), '-') AS \"" + column.getLabel() + "\"";
+                        case 42:
+                            return "COALESCE(e.eve_estado_evento, '-') AS \"" + column.getLabel() + "\"";
+                        case 43:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_moneda_id = d.des_id),'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 44:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(CAST(e.eve_monto_perdida AS numeric), 2) AS varchar), 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 45:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CASE WHEN (SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_moneda_id = d.des_id) = 'BOB' THEN CAST(ROUND(CAST(e.eve_monto_perdida AS numeric) / CAST(e.eve_tasa_cambio_id AS numeric), 2) AS varchar) ELSE CAST(ROUND(CAST(e.eve_monto_perdida AS numeric), 2) AS varchar) END, 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 46:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(CAST(e.eve_gasto_asociado AS numeric), 2) AS varchar), 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 47:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(COALESCE(CAST(e.eve_monto_recuperado AS numeric), 0) + COALESCE(CAST(e.eve_gasto_asociado AS numeric), 0) + COALESCE(CAST(e.eve_monto_recuperado_seguro AS numeric), 0),2) AS varchar), '0.00') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 48:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN CASE WHEN e.eve_cobertura_seguro THEN 'SI' ELSE 'NO' END ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 49:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_poliza_seguro_id = d.des_id),'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 50:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(CAST(e.eve_monto_recuperado_seguro AS numeric), 2) AS varchar), 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 51:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(CAST(e.eve_perdida_mercado AS numeric), 2) AS varchar), 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 52:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_recuperacion_activo_id = d.des_id),'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 53:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(CAST(ROUND(COALESCE(CASE WHEN (SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_moneda_id = d.des_id) = 'BOB' THEN CAST(e.eve_monto_perdida AS numeric) / CAST(e.eve_tasa_cambio_id AS numeric) ELSE CAST(e.eve_monto_perdida AS numeric) END, 0) + COALESCE(CAST(e.eve_monto_recuperado AS numeric), 0) + COALESCE(CAST(e.eve_gasto_asociado AS numeric), 0) + COALESCE(CAST(e.eve_monto_recuperado_seguro AS numeric), 0), 2) AS varchar), '0.00') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 54:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE(TO_CHAR(e.eve_fecha_contable, 'DD/MM/YYYY'), 'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 55:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE((SELECT d.des_codigo_asfi FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_cuenta_contable_id = d.des_id),'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 56:
+                            return "CASE WHEN e.eve_tipo_evento = 'A' THEN COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_cuenta_contable_id = d.des_id),'NA') ELSE 'NA' END AS \"" + column.getLabel() + "\"";
+                        case 57:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_fuente_inf_id = d.des_id),'NA') AS \"" + column.getLabel() + "\"";
+                        case 58:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_impacto_id = d.des_id),'NA') AS \"" + column.getLabel() + "\"";
+                        case 59:
+                            return "CONCAT_WS('_', CASE WHEN e.eve_operativo_id IS NOT NULL THEN 'Riesgo Operativo' END,CASE WHEN e.eve_seguridad_id IS NOT NULL THEN 'Riesgo Seguridad de la Información' END, CASE WHEN e.eve_liquidez_id IS NOT NULL THEN 'Riesgo Liquidez y Mercado' END, CASE WHEN e.eve_lgi_id IS NOT NULL THEN 'Riesgo LGI FT y/o DP' END, CASE WHEN e.eve_fraude_id IS NOT NULL THEN 'Riesgo Fraude con medios de Pago Electrónico' END, CASE WHEN e.eve_legal_id IS NOT NULL THEN 'Riesgo Legal y Regulatorio' END, CASE WHEN e.eve_reputacional_id IS NOT NULL THEN 'Riesgo Reputacional' END, CASE WHEN e.eve_cumplimiento_id IS NOT NULL THEN 'Riesgo Cumplimiento' END, CASE WHEN e.eve_estrategico_id IS NOT NULL THEN 'Riesgo Estratégico' END, CASE WHEN e.eve_gobierno_id IS NOT NULL THEN 'Riesgo Gobierno Corporativo' END) AS \"" + column.getLabel() + "\"";
+                        case 60:
+                            return "COALESCE((SELECT STRING_AGG(d.des_nombre, '_') FROM riesgos.tbl_tabla_descripcion d INNER JOIN riesgos.tbl_evento_cargos ec ON d.des_id = ec.cargo_id WHERE ec.eve_id = e.eve_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 61:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_canal_asfi_id = d.des_id),'NA') AS \"" + column.getLabel() + "\"";
+                        case 62:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_efecto_perdida_id = d.des_id),'NA') AS \"" + column.getLabel() + "\"";
+                        case 63:
+                            return "COALESCE(CAST(e.eve_proceso_critico_asfi AS varchar), '') AS \"" + column.getLabel() + "\"";
+                        case 64:
+                            return "CASE WHEN e.eve_proceso_critico_asfi = 1 THEN 'Se encuentra definido dentro del Mapa de Procesos, priorizando los Procesos Operativos de acuerdo a la cadena de valor que impacta directamente a los objetivos estratégico de la empresa establecidos en el Plan-GTIC-002-SIST.' ELSE '' END AS \"" + column.getLabel() + "\"";
+                        case 65:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_operativo_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 66:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_seguridad_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 67:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_liquidez_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 68:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_lgi_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 69:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_fraude_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 70:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_legal_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 71:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_reputacional_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 72:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_cumplimiento_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 73:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_estrategico_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 74:
+                            return "COALESCE((SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_gobierno_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 75:
+                            return "COALESCE(e.eve_codigo_inicial, '-') AS \"" + column.getLabel() + "\"";
+                        case 76:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE e.eve_subcategorizacion_id = d.des_id), '-') AS \"" + column.getLabel() + "\"";
+                        case 77:
+                            return "COALESCE(e.eve_trimestre, '-') AS \"" + column.getLabel() + "\"";
+                        default:
+                            return null;
+                    }
+                })
+                .filter(column -> column != null)
+                .collect(Collectors.toList());
+
+        query.append(String.join(", ", columns));
+        query.append("FROM riesgos.tbl_evento_riesgo e ");
+        query.append("WHERE e.eve_fecha_desc >= ? AND e.eve_fecha_desc <= ? ORDER BY e.eve_id ASC");
+
+        return jdbcTemplate.queryForList(query.toString(), filter.getDataFilter().getFechaDesde(), filter.getDataFilter().getFechaHasta());
     }
 
 }

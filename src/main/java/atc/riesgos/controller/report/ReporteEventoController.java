@@ -2,6 +2,7 @@ package atc.riesgos.controller.report;
 
 import atc.riesgos.dao.service.report.ReporteEventoService;
 import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,13 @@ public class ReporteEventoController {
         return excelContent;
     }
 
+
+    @PostMapping("/eventoconfigexcel")
+    public byte[] reporteEventoExcel(HttpServletResponse response, @RequestBody FiltroReporteConfigEvento filter) {
+        byte[] excelContent = reporteEventoService.reporteConfigEvento(filter);
+        response.setHeader("Content-Disposition", "attachment; filename=ReporteConfiguradoEventoRiesgo.xlsx");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        return excelContent;
+    }
 
 }

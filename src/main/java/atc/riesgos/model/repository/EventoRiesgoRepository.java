@@ -1,5 +1,6 @@
 package atc.riesgos.model.repository;
 
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
@@ -37,23 +39,6 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     Integer findUltimoIdAreaYanio(String sigla, int ultimoAnio);*/
 
 
-
-    /*@Query(value = "SELECT e " +
-                    "FROM EventoRiesgo e " +
-                    "WHERE e.fechaFin is not null and e.horaFin is not null and " +
-                            "e.fechaFinPlan is not null and " +
-                            "e.fechaFinPlan - current_date() <= 5 and " +
-                            "e.fechaFinPlan - current_date() > 0")
-    List<EventoRiesgo> cincoDiasAntes();
-
-    @Query(value = "SELECT e " +
-                    "FROM EventoRiesgo e " +
-                    "WHERE e.fechaFin is not null and e.horaFin is not null and " +
-                            "e.fechaFinPlan is not null and " +
-                            "current_date() > e.fechaFinPlan")
-    List<EventoRiesgo> planVencido();*/
-
-
     // REPORTES DE EVENTOS DE RIESGO
 
     @Query("SELECT new atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO(e.codigo, e.descripcion, e.estadoEvento, e.fechaDesc, e.fechaFin) " +
@@ -70,9 +55,13 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     List<EventoRiesgo> getReporteAuditoriaExterna(@Param("fechaDesde") Date fechaDesde, @Param("fechaHasta") Date fechaHasta);
 
 
-    // Cambiar el uso del operador `:` y remover `LIMIT`
+    // Obtiene descripcion de Tipo de Evento
     @Query("SELECT t.nombre FROM TablaDescripcion t WHERE t.tablaLista = 6 AND t.clave = :tipo")
     String getDescripcionTipoEvento(@Param("tipo") String tipo);
+
+
+
+
 
 
 }
