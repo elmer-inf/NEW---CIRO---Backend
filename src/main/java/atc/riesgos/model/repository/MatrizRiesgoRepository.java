@@ -1,14 +1,11 @@
 package atc.riesgos.model.repository;
 
 import atc.riesgos.model.dto.MatrizRiesgo.MatrizRiesgoGetDTOPlanesParaEvento;
-import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -32,7 +29,7 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
 
     // NOTIFICACIONES PARA PLANES VENCIDOS
     @Query(value = "SELECT r.rie_id AS idRiesgo, " +
-            "rie_planes_string->>'nroPlan' AS nroPlan, " +
+            "CAST(rie_planes_string->>'nroPlan' AS INT) AS nroPlan,  " +
             "r.rie_codigo AS codigo, " +
             "rie_planes_string->>'descripcion' AS descripcion, " +
             "TO_CHAR(CAST(rie_planes_string->>'fechaImpl' AS DATE), 'DD/MM/YYYY') AS fechaImpl, " +
@@ -48,7 +45,7 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
     List<Object[]> planesAVencer5Dias();
 
     @Query(value = "SELECT r.rie_id AS idRiesgo, " +
-            "rie_planes_string->>'nroPlan' AS nroPlan, " +
+            "CAST(rie_planes_string->>'nroPlan' AS INT) AS nroPlan,  " +
             "r.rie_codigo AS codigo, " +
             "rie_planes_string->>'descripcion' AS descripcion, " +
             "TO_CHAR(CAST(rie_planes_string->>'fechaImpl' AS DATE), 'DD/MM/YYYY') AS fechaImpl, " +
@@ -66,7 +63,7 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
 
 
     @Query(value = "SELECT r.rie_id AS idRiesgo, " +
-            "rie_planes_string->>'nroPlan' AS nroPlan, " +
+            "CAST(rie_planes_string->>'nroPlan' AS INT) AS nroPlan,  " +
             "r.rie_codigo AS codigo, " +
             "rie_planes_string->>'descripcion' AS descripcion, " +
             "TO_CHAR(CAST(rie_planes_string->>'fechaImpl' AS DATE), 'DD/MM/YYYY') AS fechaImpl, " +
@@ -77,7 +74,7 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
             "CROSS JOIN LATERAL jsonb_array_elements(CAST(r.rie_planes_accion AS jsonb)) AS rie_planes_string " +
             "WHERE rie_planes_string->>'fechaImpl' != '' " +
             "AND CAST(rie_planes_string->>'fechaImpl' AS DATE) < CURRENT_DATE " +
-            "AND rie_planes_string->>'estado' NOT IN ('Concluido','No aplicable')", nativeQuery = true)
+            "AND rie_planes_string->>'estado' like 'Vencido'", nativeQuery = true)
     List<Object[]> planesVencidos();
 
 

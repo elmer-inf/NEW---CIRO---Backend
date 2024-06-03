@@ -1,0 +1,35 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<configuration>-->
+
+<!--    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss, America/La_Paz} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>logs/Riesgos.log</file>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss, America/La_Paz} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>logs/myapp-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>-->
+<!--            <maxFileSize>10MB</maxFileSize>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; Logger específico para tu aplicación o paquete &ndash;&gt;-->
+<!--    <logger name="atc.riesgos.dao.service" level="INFO" additivity="false">-->
+<!--        <appender-ref ref="RollingFile"/>-->
+<!--    </logger>-->
+
+<!--    &lt;!&ndash; Silenciar logs INFO no deseados de Spring Boot y otras librerías &ndash;&gt;-->
+<!--    <logger name="org.springframework" level="WARN"/>-->
+<!--    <logger name="org.hibernate" level="WARN"/>-->
+<!--    <logger name="org.springframework.web" level="WARN"/>-->
+
+<!--    <root level="WARN">-->
+<!--        <appender-ref ref="Console"/>-->
+<!--        <appender-ref ref="RollingFile"/>-->
+<!--    </root>-->
+<!--</configuration>-->
