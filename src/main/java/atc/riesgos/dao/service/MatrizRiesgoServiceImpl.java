@@ -294,7 +294,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         (String) result[4],                 // fechaImpl
                         (String) result[5],                 // estado
                         (String) result[6],                 // cargo
-                        (String) result[7]))                // informadoPorCorreo
+                        (String) result[7],                 // informadoPorCorreo
+                        (String) result[8]))                // CorreoCargo
                 .collect(Collectors.toList());
     }
 
@@ -309,7 +310,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         (String) result[4],
                         (String) result[5],
                         (String) result[6],
-                        (String) result[7]))
+                        (String) result[7],
+                        (String) result[8]))
                 .collect(Collectors.toList());
     }
 
@@ -324,7 +326,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         (String) result[4],
                         (String) result[5],
                         (String) result[6],
-                        (String) result[7]))
+                        (String) result[7],
+                        (String) result[8]))
                 .collect(Collectors.toList());
     }
 

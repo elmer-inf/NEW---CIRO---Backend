@@ -16,8 +16,9 @@ public class MatrizRiesgoGetDTONotificaciones {
     private String estado;
     private String cargo;
     private String informadoPorCorreo;
+    private String correCargo;
 
-    public MatrizRiesgoGetDTONotificaciones(Long idRiesgo, int nroPlan, String codigo, String descripcion, String fechaImpl, String estado, String cargo, String informadoPorCorreo) {
+    public MatrizRiesgoGetDTONotificaciones(Long idRiesgo, int nroPlan, String codigo, String descripcion, String fechaImpl, String estado, String cargo, String informadoPorCorreo, String correoCargo) {
         this.idRiesgo = idRiesgo;
         this.nroPlan = nroPlan;
         this.codigo = codigo;
@@ -26,5 +27,6 @@ public class MatrizRiesgoGetDTONotificaciones {
         this.estado = estado;
         this.cargo = cargo;
         this.informadoPorCorreo = informadoPorCorreo;
+        this.correCargo = correoCargo;
     }
 }
