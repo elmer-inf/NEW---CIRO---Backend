@@ -299,11 +299,8 @@ public class EventoRiesgo implements Serializable {
     @Column(name = "des_usuario_id")
     private int usuario_id;
 
-
-    /* -------- USUARIOS RESPONSABLES  --------- */
     @Column(name = "eve_responsable_elaborador", columnDefinition = "text")
     private String responsableElaborador;
-    /* -------- FIN USUARIOS RESPONSABLES  --------- */
 
     @CreationTimestamp
     @Column(name = "eve_dateTimeCreate")
@@ -315,6 +312,22 @@ public class EventoRiesgo implements Serializable {
 
     @Column(name = "eve_delete")
     private boolean deleted;
+
+    // Para Eventos recurrentes Factor persona
+    @Column(name = "eve_comite_sanciones", length = 5)
+    private String comiteSanciones;
+
+    @Column(name = "eve_comite_acta", length = 5)
+    private String comiteActa;
+
+    @Column(name = "eve_comite_determinacion", columnDefinition = "text")
+    private String comiteDeterminacion;
+
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name="evento_id", referencedColumnName="eve_id", nullable=true)
+    private List<ArchivoEveRecurrente> archivoEveRecId;
+    // FIN - Para Eventos recurrentes Factor persona
 
     final public EventoRiesgo deleteOnly() {
         this.deleted = true;

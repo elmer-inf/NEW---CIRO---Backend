@@ -2,14 +2,20 @@ package atc.riesgos.model.dto.Archivo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
 
 public class ArchivoPostDTO {
-
-    private String archivo;
+    private MultipartFile[] file;
     private Long eventoId;
-    private int usuarioId;
 
+    public ArchivoPostDTO(MultipartFile[] file, Long eventoId) {
+        this.file = file;
+        this.eventoId =eventoId;
+    }
+
+    public ArchivoPostDTO() {
+    }
 }

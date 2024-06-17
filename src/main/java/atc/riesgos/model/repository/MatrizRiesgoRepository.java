@@ -171,4 +171,90 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
                    "SET correo_enviado=TRUE, fecha_envio=CURRENT_TIMESTAMP WHERE id=:idRecurrencia ", nativeQuery = true)
     int updateRecurrenciaRiesgoInformado(@Param("idRecurrencia") Long idRecurrencia);
 
+    // Mapas de calor
+    @Query(value="SELECT \n" +
+            "    CAST(ROW_NUMBER() OVER (\n" +
+            "        ORDER BY \n" +
+            "            CASE \n" +
+            "                WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PO' THEN 1\n" +
+            "                WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PA' THEN 2\n" +
+            "                WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PE' THEN 3\n" +
+            "                ELSE 4\n" +
+            "            END,\n" +
+            "            CAST(SUBSTRING(mac.des_clave FROM '[0-9]+$') AS INTEGER)\n" +
+            "    ) AS int) AS nro,\n" +
+            "    mac.des_clave AS codigo,\n" +
+            "    mac.des_nombre AS macroproceso,\n" +
+            "    CAST(COUNT(*) AS int) AS cantidad,\n" +
+            "    (\n" +
+            "        SELECT des_campo_c\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 2 \n" +
+            "        AND des_campo_a = CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS varchar)\n" +
+            "        LIMIT 1\n" +
+            "    ) AS prob,\n" +
+            "    CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS int) AS valoración_probabilidad,\n" +
+            "    (\n" +
+            "        SELECT des_campo_e\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 2 \n" +
+            "        AND des_campo_a = CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS varchar)\n" +
+            "        LIMIT 1\n" +
+            "    ) AS factor_probabilidad,\n" +
+            "    (\n" +
+            "        SELECT des_nombre\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 2 \n" +
+            "        AND des_campo_a = CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS varchar)\n" +
+            "        LIMIT 1\n" +
+            "    ) AS probabilidad,\n" +
+            "    SUM(r.rie_impacto_usd) AS impacto_por,\n" +
+            "    CAST(ROUND(AVG(CAST(imp.des_campo_a AS int))) AS int) AS impacto,\n" +
+            "    (\n" +
+            "        SELECT des_nombre\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 3\n" +
+            "        AND des_campo_a = CAST(ROUND(AVG(CAST(imp.des_campo_a AS int))) AS varchar)\n" +
+            "        LIMIT 1\n" +
+            "    ) AS valoracion_impacto,\n" +
+            "    (\n" +
+            "        SELECT des_campo_e\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 2 \n" +
+            "        AND des_campo_a = CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS varchar)\n" +
+            "        LIMIT 1\n" +
+            "    ) * SUM(r.rie_impacto_usd) AS monto_riesgo,\n" +
+            "    riesgos.fc_calcula_valoracion_riesgo(\n" +
+            "        CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS int),\n" +
+            "        CAST(ROUND(AVG(CAST(imp.des_campo_a AS int))) AS int)\n" +
+            "    ) AS valoracion_riesgo,\n" +
+            "    (\n" +
+            "        SELECT des_nombre\n" +
+            "        FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+            "        WHERE des_tabla_id = 3\n" +
+            "        AND CAST(des_campo_a AS int) = riesgos.fc_calcula_valoracion_riesgo(\n" +
+            "                            CAST(ROUND(AVG(CAST(prob.des_campo_a AS int))) AS int),\n" +
+            "                            CAST(ROUND(AVG(CAST(imp.des_campo_a AS int))) AS int)\n" +
+            "                        )\n" +
+            "        LIMIT 1\n" +
+            "    ) AS riesgo\n" +
+            "FROM \n" +
+            "    riesgos.tbl_matriz_riesgo r\n" +
+            "INNER JOIN riesgos.tbl_tabla_descripcion mac ON mac.des_id = r.rie_proceso_id\n" +
+            "INNER JOIN riesgos.tbl_tabla_descripcion_matriz_riesgo prob ON prob.des_id = r.rie_probabilidad_id\n" +
+            "INNER JOIN riesgos.tbl_tabla_descripcion_matriz_riesgo imp ON imp.des_id = r.rie_impacto_id\n" +
+            "WHERE mac.des_delete = FALSE \n" +
+            "    AND r.rie_probabilidad_id IS NOT NULL \n" +
+            "    AND rie_impacto_id IS NOT null\n" +
+            "GROUP BY mac.des_clave, mac.des_nombre, r.rie_proceso_id\n" +
+            "ORDER BY \n" +
+            "    CASE \n" +
+            "        WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PO' THEN 1\n" +
+            "        WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PA' THEN 2\n" +
+            "        WHEN SUBSTRING(mac.des_clave FROM '^[A-Z]+') = 'PE' THEN 3\n" +
+            "        ELSE 4\n" +
+            "    END,\n" +
+            "    CAST(SUBSTRING(mac.des_clave FROM '[0-9]+$') AS INTEGER)", nativeQuery = true)
+    List<Object[]> getValoracionExposicionInherente();
+
 }

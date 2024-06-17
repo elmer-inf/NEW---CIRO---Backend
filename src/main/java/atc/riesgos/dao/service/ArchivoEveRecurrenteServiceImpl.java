@@ -5,8 +5,10 @@ import atc.riesgos.exception.BadRequestException;
 import atc.riesgos.exception.NotFoundException;
 import atc.riesgos.exception.NotImplementedException;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
+import atc.riesgos.model.dto.ArchivoEveRecurrente.ArchivoEveRecurrentePostDTO;
 import atc.riesgos.model.entity.Archivo;
-import atc.riesgos.model.entity.EventoRiesgo;
+import atc.riesgos.model.entity.ArchivoEveRecurrente;
+import atc.riesgos.model.repository.ArchivoEveRecurrenteRepository;
 import atc.riesgos.model.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +22,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ArchivoServiceImpl implements ArchivoService {
+public class ArchivoEveRecurrenteServiceImpl implements ArchivoEveRecurrenteService {
 
     @Autowired
-    ArchivoRepository archivoRepository;
+    ArchivoEveRecurrenteRepository archivoRepository;
 
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
-    @Value("${fileEventoRiesgo.limit}")
+    @Value("${fileEventoRecurrente.limit}")
     private int fileLimit;
 
     public Boolean isEmptyList(MultipartFile[] data) {
@@ -42,15 +44,15 @@ public class ArchivoServiceImpl implements ArchivoService {
         return empty;
     }
 
-    public List<Archivo> create(ArchivoPostDTO data) {
-        List<Archivo> archivos = new ArrayList<>();
+    public List<ArchivoEveRecurrente> create(ArchivoEveRecurrentePostDTO data) {
+        List<ArchivoEveRecurrente> archivos = new ArrayList<>();
         try {
             if (data.getFile() != null && !isEmptyList(data.getFile())) {
                 List<MultipartFile> fileList = Arrays.asList(data.getFile());
 
                 if (fileList.size() <= fileLimit) {
                     for (MultipartFile f : fileList) {
-                        Archivo archivo = new Archivo();
+                        ArchivoEveRecurrente archivo = new ArchivoEveRecurrente();
                         archivo.setNombreArchivo(StringUtils.cleanPath(f.getOriginalFilename()));
                         archivo.setSize(f.getSize());
                         archivo.setArchivoBase64(f.getBytes());
@@ -79,8 +81,8 @@ public class ArchivoServiceImpl implements ArchivoService {
         return archivos;
     }
 
-    public List<Archivo> findAllByEvento(Long id) {
-        List<Archivo> archivos = new ArrayList<>();
+    public List<ArchivoEveRecurrente> findAllByEvento(Long id) {
+        List<ArchivoEveRecurrente> archivos = new ArrayList<>();
         try {
             archivos = archivoRepository.findByEventoId(id);
         } catch (Exception e) {
@@ -89,12 +91,12 @@ public class ArchivoServiceImpl implements ArchivoService {
         return archivos;
     }
 
-    public Archivo deleteByIdArchivo(Long id) {
-        Optional<Archivo> founded = archivoRepository.findById(id);
-        Archivo archivo = founded.get();
+    public ArchivoEveRecurrente deleteByIdArchivo(Long id) {
+        Optional<ArchivoEveRecurrente> founded = archivoRepository.findById(id);
+        ArchivoEveRecurrente archivo = founded.get();
         archivo.setDeleted(true);
 
-        Archivo archDel = archivoRepository.save(archivo);
+        ArchivoEveRecurrente archDel = archivoRepository.save(archivo);
         return archDel;
     }
 

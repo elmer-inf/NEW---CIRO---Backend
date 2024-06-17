@@ -14,8 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +34,8 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
     ObservacionService observacionService;
     @Autowired
     EventoRiesgoRepository eventoRiesgoRepository;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public ResponseEntity<MatrizRiesgo> create(MatrizRiesgoPostDTO data) {
 
@@ -330,6 +332,10 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         (String) result[8]))
                 .collect(Collectors.toList());
     }
+
+
+
+
 
 
 }

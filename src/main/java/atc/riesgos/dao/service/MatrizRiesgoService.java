@@ -18,7 +18,7 @@ public interface MatrizRiesgoService {
     String generaCodigo (Long id);
     MatrizRiesgo deleteByIdRiesgo(Long id);
     List<MatrizRiesgoGetDTOPlanesParaEvento> listRiesgosByIds(List<Long> filter);
-
+    // Notificaciones
     List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer5Dias();
     List<MatrizRiesgoGetDTONotificaciones> getPlanesAVencer10Dias();
     List<MatrizRiesgoGetDTONotificaciones> getPlanesVencidos();

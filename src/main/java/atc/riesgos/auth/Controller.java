@@ -2,6 +2,7 @@ package atc.riesgos.auth;
 
 
 import atc.riesgos.auth.util.JPA;
+import atc.riesgos.config.log.Log;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 
@@ -219,6 +220,9 @@ public abstract class Controller {
 
         private QueryHQL add(String col, Object val, String op, Long as) {
             map.put(String.format(JPA.RNAME, col, as), val);
+            System.out.println("printttttttttttt");
+            Log.log(map);
+            Log.log(String.format(JPA.RWHERE, col, op, as));
             return where(String.format(JPA.RWHERE, col, op, as));
         }
 

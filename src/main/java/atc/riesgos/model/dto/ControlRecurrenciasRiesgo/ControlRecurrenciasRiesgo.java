@@ -2,7 +2,6 @@ package atc.riesgos.model.dto.ControlRecurrenciasRiesgo;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Date;
 
 @Setter

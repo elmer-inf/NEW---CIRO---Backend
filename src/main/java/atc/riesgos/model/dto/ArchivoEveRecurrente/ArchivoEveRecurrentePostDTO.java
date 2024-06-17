@@ -1,4 +1,4 @@
-package atc.riesgos.model.dto.Archivo;
+package atc.riesgos.model.dto.ArchivoEveRecurrente;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,15 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Getter
 
-public class ArchivoPostDTOv2 {
+public class ArchivoEveRecurrentePostDTO {
     private MultipartFile[] file;
     private Long eventoId;
 
-    public ArchivoPostDTOv2(MultipartFile[] file,Long eventoId) {
+    public ArchivoEveRecurrentePostDTO(MultipartFile[] file, Long eventoId) {
         this.file = file;
         this.eventoId =eventoId;
     }
 
-    public ArchivoPostDTOv2() {
+    public ArchivoEveRecurrentePostDTO() {
     }
 }

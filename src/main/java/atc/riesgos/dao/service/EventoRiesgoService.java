@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoDTO;
+import atc.riesgos.model.dto.EventoRiesgo.EventoRecurrente.EventoRiesgoPutDTOrecurrente;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
@@ -25,7 +25,6 @@ public interface EventoRiesgoService {
     String generaCodigo(Long id);
     EventoRiesgo deleteByIdEvento(Long id);
 
-    //void sendMailPlanVencido (String pEmail);
-
-
+    List<EventoRiesgo> listEventoRiesgoRecurrentes();
+    ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteWithFiles(Long id, EventoRiesgoPutDTOrecurrente data, MultipartFile[] files);
 }

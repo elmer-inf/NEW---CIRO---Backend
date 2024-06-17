@@ -1,6 +1,5 @@
 package atc.riesgos.model.repository;
 
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
@@ -60,8 +58,8 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     String getDescripcionTipoEvento(@Param("tipo") String tipo);
 
 
-
-
+    @Query("SELECT e FROM EventoRiesgo e WHERE e.tipoEvento in ('A', 'C') and e.factorRiesgoId.nombre='Personas'")
+    List<EventoRiesgo> getEventosRecurrentes();
 
 
 }

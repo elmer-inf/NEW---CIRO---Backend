@@ -253,7 +253,6 @@ public class ReporteEventoServiceImpl implements ReporteEventoService {
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? String.valueOf(calcularMontoTotal(evento)) : "NA");
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? (evento.getCoberturaSeguro() ? "SI" : "NO") : "NA");
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getPolizaSeguroId() != null ? evento.getPolizaSeguroId().getNombre() : "NA" : "NA");
-
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getMontoRecuperadoSeguro() != null? evento.getMontoRecuperadoSeguro().toString() : "0.0" : "NA");
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getPerdidaMercado() != null ? evento.getPerdidaMercado().toString() : "NA" : "NA");
                 row.createCell(colIndex++).setCellValue("A".equals(evento.getTipoEvento()) ? evento.getRecuperacionActivoId() != null ? evento.getRecuperacionActivoId().getNombre() : "NA" : "NA");

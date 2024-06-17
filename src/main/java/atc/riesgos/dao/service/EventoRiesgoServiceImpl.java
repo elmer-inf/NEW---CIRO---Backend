@@ -2,7 +2,9 @@ package atc.riesgos.dao.service;
 
 import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
-import atc.riesgos.model.dto.Archivo.ArchivoPostDTOv2;
+import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
+import atc.riesgos.model.dto.ArchivoEveRecurrente.ArchivoEveRecurrentePostDTO;
+import atc.riesgos.model.dto.EventoRiesgo.EventoRecurrente.EventoRiesgoPutDTOrecurrente;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
@@ -19,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,8 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     MatrizRiesgoService matrizRiesgoService;
     @Autowired
     ArchivoService archivoService;
+    @Autowired
+    ArchivoEveRecurrenteService archivoEveRecurrenteService;
 
     private EventoRiesgo buildEventoToCreateUpdate(EventoRiesgo eventoRiesgo, EventoRiesgoDTO data){
         try{
@@ -167,7 +170,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         EventoRiesgo eventoRiesgo = new EventoRiesgo();
         try {
             BeanUtils.copyProperties(data, eventoRiesgo);
-            //eventoRiesgoToSave = buildEventoToCreateUpdate(eventoRiesgoToSave, data);
 
             TablaDescripcion tablaAgenciaId = tablaDescripcionService.findByIdTablaDesc(data.getAgenciaId());
             eventoRiesgo.setAgenciaId(tablaAgenciaId);
@@ -232,7 +234,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaDescServicioId = tablaDescripcionService.findByIdTablaDesc(data.getDescServicioId());
             eventoRiesgo.setDescServicioId(tablaDescServicioId);
 
-            // TablaDescripcion tablaTasaCambioId = tablaDescripcionService.findByIdTablaDesc(data.getTasaCambioId());
             eventoRiesgo.setTasaCambioId(data.getTasaCambioId());
 
             TablaDescripcion tablaMonedaId = tablaDescripcionService.findByIdTablaDesc(data.getMonedaId());
@@ -287,15 +288,11 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             eventoRiesgo.setEstadoRegistro("Pendiente");
 
-
-            //List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
-
-
+            //List<Archivo> archivos = archivoService.create(new ArchivoPostDTO(data.getFile(), eventoRiesgo.getId()));
             //  eventoRiesgo.setArchivoId(archivos);
 
             eventoRiesgoRepository.save(eventoRiesgo);
-            // List<Archivo> archivos = archivoService.create(new ArchivoPostDTOv2(data.getFile(), eventoRiesgo.getId()));
-
+            // List<Archivo> archivos = archivoService.create(new ArchivoPostDTO(data.getFile(), eventoRiesgo.getId()));
 
         }catch (Exception e){
             Log.log("Error en crear evento de riesgo: ", e);
@@ -303,7 +300,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
         }
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
     }
-
 
     public ResponseEntity<EventoRiesgo> createWithFiles(EventoRiesgoPostDTO data, MultipartFile[] files) {
         EventoRiesgo eventoRiesgo = new EventoRiesgo();
@@ -373,7 +369,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             TablaDescripcion tablaDescServicioId = tablaDescripcionService.findByIdTablaDesc(data.getDescServicioId());
             eventoRiesgo.setDescServicioId(tablaDescServicioId);
 
-            // TablaDescripcion tablaTasaCambioId = tablaDescripcionService.findByIdTablaDesc(data.getTasaCambioId());
             eventoRiesgo.setTasaCambioId(data.getTasaCambioId());
 
             TablaDescripcion tablaMonedaId = tablaDescripcionService.findByIdTablaDesc(data.getMonedaId());
@@ -429,18 +424,15 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             eventoRiesgo.setEstadoRegistro("Pendiente");
 
             eventoRiesgoRepository.save(eventoRiesgo);
-            archivoService.create(new ArchivoPostDTOv2(files, eventoRiesgo.getId()));
+            archivoService.create(new ArchivoPostDTO(files, eventoRiesgo.getId()));
 
             eventoRiesgo.setArchivoId(archivoService.findAllByEvento(eventoRiesgo.getId()));
-
-
         }catch (Exception e){
             Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
         }
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
     }
-
 
     public ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPutDTO data) {
         EventoRiesgo eventoRiesgoToEdit = eventoRiesgoRepository.findById(id).orElseThrow(() -> new DBException("Evento Riesgo: ", id));
@@ -713,7 +705,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             // Procesar nuevos archivos
             if (files != null && files.length > 0) {
-                archivoService.create(new ArchivoPostDTOv2(files, eventoRiesgoToEdit.getId()));
+                archivoService.create(new ArchivoPostDTO(files, eventoRiesgoToEdit.getId()));
                 eventoRiesgoToEdit.setArchivoId(archivoService.findAllByEvento(eventoRiesgoToEdit.getId()));
             }
 
@@ -858,5 +850,40 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     public List<EventoRiesgo> listEventoRiesgo() {
         return eventoRiesgoRepository.findAllByDeleted(false);
     }
+
+    public List<EventoRiesgo> listEventoRiesgoRecurrentes() {
+        return eventoRiesgoRepository.getEventosRecurrentes();
+    }
+
+
+    public ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteWithFiles(Long id, EventoRiesgoPutDTOrecurrente data, MultipartFile[] files) {
+
+        EventoRiesgo eventoRiesgoToEdit = eventoRiesgoRepository.findById(id).orElseThrow(() -> new DBException("Evento Riesgo no encontrado: " + id));
+
+        EventoRiesgoGetDTO eventoRiesgoGetDTO = new EventoRiesgoGetDTO();
+
+        try {
+            BeanUtils.copyProperties(data, eventoRiesgoToEdit);
+
+            eventoRiesgoRepository.save(eventoRiesgoToEdit);
+            BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
+
+            if (files != null && files.length > 0) {
+                archivoEveRecurrenteService.create(new ArchivoEveRecurrentePostDTO(files, eventoRiesgoToEdit.getId()));
+                eventoRiesgoToEdit.setArchivoEveRecId(archivoEveRecurrenteService.findAllByEvento(eventoRiesgoToEdit.getId()));
+            }
+
+            eventoRiesgoRepository.save(eventoRiesgoToEdit);
+            BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
+
+        } catch (Exception e) {
+            Log.log("Error en actualizacion del evento recurrente: ", e);
+            return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
+
+        }
+        return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoGetDTO);
+    }
+
+
 
 }

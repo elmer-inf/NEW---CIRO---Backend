@@ -3,7 +3,8 @@ package atc.riesgos.controller;
 import atc.riesgos.dao.service.MatrizRiesgoService;
 import atc.riesgos.model.dto.MatrizRiesgo.*;
 import atc.riesgos.auth.Controller;
-import atc.riesgos.model.entity.EventoRiesgo;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.PerfilRiesgoInherenteDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.ValoracionExposicionDTO;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class MatrizRiesgoController extends Controller {
         return matrizRiesgoService.listRiesgosByIds(filter);
     }
 
-
+    // Notificaciones
     @GetMapping("/planescincoavencer")
     public List<MatrizRiesgoGetDTONotificaciones> getPlanes5DiasAntes(){
         return matrizRiesgoService.getPlanesAVencer5Dias();
@@ -89,6 +90,4 @@ public class MatrizRiesgoController extends Controller {
     public List<MatrizRiesgoGetDTONotificaciones> getPlanesVencidos(){
         return matrizRiesgoService.getPlanesVencidos();
     }
-
-
 }

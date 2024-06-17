@@ -5,11 +5,17 @@ import java.sql.Time;
 import java.util.List;
 
 import atc.riesgos.model.entity.Archivo;
+import atc.riesgos.model.entity.ArchivoEveRecurrente;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Setter
 @Getter
@@ -94,4 +100,11 @@ public class EventoRiesgoGetDTO {
     private String responsableElaborador;
     private List<MatrizRiesgo> riesgoRelacionado;
     private boolean deleted;
+
+    // Comite
+    private String comiteSanciones;
+    private String comiteActa;
+    private String comiteDeterminacion;
+    private List<ArchivoEveRecurrente> archivoEveRecId;
+
 }
