@@ -7,6 +7,9 @@ import atc.riesgos.model.repository.MatrizRiesgoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +21,10 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public MapaInherenteDTO getValoracionExposicionInherente() {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public MapaInherenteDTO mapaInherente1() {
         List<Object[]> results = matrizRiesgoRepository.getValoracionExposicionInherente();
 
         /* ---------- PERFIL DE RIESGO ATC ----------- */
@@ -176,76 +182,118 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
     }
 
 
-    public Object[][] createRiskMatrix() {
+    public Object[][] mapaInherente2() {
         Object[][] matrix = new Object[8][8];
 
         // Llenar la matriz con valores por defecto o vacíos
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                matrix[i][j] = ""; // Inicializa con un valor vacío o adecuado
+                matrix[i][j] = "";
             }
         }
 
         // Llamar a los servicios necesarios y llenar la matriz
-        fillMatrixWithData(matrix);
+        // LLENA COLUMNA 1 Y 2 CON DATOS DE "PROB" Y "PROBABILIDAD"
+        String sqlProb = "SELECT des_campo_c as prob, des_nombre as probabilidad FROM riesgos.tbl_tabla_descripcion_matriz_riesgo  WHERE des_tabla_id = 2 ORDER BY des_id ASC LIMIT 5";
+        List<Object[]> resultsProb = jdbcTemplate.query(sqlProb, (rs, rowNum) -> new Object[]{rs.getString("prob"), rs.getString("probabilidad")});
 
-        return matrix;
-    }
-
-    private void fillMatrixWithData(Object[][] matrix) {
-        // Llenar las primeras dos filas con datos de servicios "probabilidad - prob" y "probabilidad"
         for (int i = 0; i < 5; i++) {
-            matrix[i][0] = "Probabilidad - prob " + (i + 1);  // Datos de "probabilidad - prob"
-            matrix[i][1] = "Probabilidad " + (i + 1);  // Datos de "probabilidad"
+            Object[] row = resultsProb.get(i);
+            matrix[i][0] = row[0];
+            matrix[i][1] = row[1];
         }
 
-        // Llenar las columnas con valores numéricos aleatorios y realizar las sumas
+        // LLENA TOTALES DE PROBABILIDAD E IMPACTO
+
+        List<Object[]> results = matrizRiesgoRepository.getListProbImp(); // Obtiene lista de probabilidad e impacto
+//        StringBuilder sql = new StringBuilder();
+//        sql.append("SELECT ");
+//        sql.append("(SELECT CAST(des_campo_a AS int) as prob FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_id = rie_probabilidad_id), ");
+//        sql.append("(SELECT CAST(des_campo_a AS int) as imp FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_id = rie_impacto_id) ");
+//        sql.append("FROM riesgos.tbl_matriz_riesgo r ");
+//        sql.append("WHERE rie_delete=false ");
+//
+//        if (procesoId != null) {
+//            sql.append("AND rie_proceso_id = :procesoId ");
+//        }
+//
+//        Query query = entityManager.createNativeQuery(sql.toString());
+//
+//        if (procesoId != null) {
+//            query.setParameter("procesoId", procesoId);
+//        }
+//
+//        List<Object[]> results  = query.getResultList();
+
+        // Inicializar la sección de la matriz que almacena los contadores
         for (int i = 0; i < 5; i++) {
             for (int j = 2; j < 7; j++) {
-                matrix[i][j] = (int) (Math.random() * 100); // Datos numéricos aleatorios
+                matrix[i][j] = 0;  // Inicializa con 0
             }
         }
 
-        // Establecer valores estáticos para filas específicas
+        // Sumar las coincidencias para cada combinación de probabilidad e impacto
+        for (Object[] result : results) {
+            if (result[0] != null && result[1] != null) {
+                int probabilidad = (int) result[0];
+                int impacto = (int) result[1];
+
+                // Asegurar que probabilidad e impacto estén en el rango [1,5]
+                if (probabilidad >= 1 && probabilidad <= 5 && impacto >= 1 && impacto <= 5) {
+                    // Calcula los índices para la matriz basados en la especificación dada
+                    int rowIndex = 5 - probabilidad; // Convierte probabilidad 5 a índice 0, probabilidad 1 a índice 4
+                    int columnIndex = impacto + 1; // Convierte impacto 1 a columna 2, impacto 5 a columna 6
+
+                    // Incrementar el contador en la matriz en la posición adecuada
+                    matrix[rowIndex][columnIndex] = (int) matrix[rowIndex][columnIndex] + 1;
+                }
+            }
+        }
+
+        // LLENA FILA 5 Y 6 CON DATOS DE "IMPACTO" y "LIMITE "SUPERIOR DE IMPACTO"
+        String sqlImp = "SELECT des_nombre AS impacto, des_campo_f AS limite FROM riesgos.tbl_tabla_descripcion_matriz_riesgo  WHERE des_tabla_id = 3 ORDER BY des_id DESC LIMIT 5";
+        List<Object[]> resultsImp = jdbcTemplate.query(sqlImp, (rs, rowNum) -> new Object[]{rs.getString("impacto"), rs.getString("limite")});
+        // Asignar valores de "impacto"
+        for (int i = 0; i < resultsImp.size(); i++) {
+            matrix[5][i + 2] = resultsImp.get(i)[0]; // Valores de "impacto" en la fila 5, columnas de 2 a 6
+        }
+        // Asignar valores de "limite"
+        for (int i = 0; i < resultsImp.size(); i++) {
+            matrix[6][i + 2] = resultsImp.get(i)[1]; // Valores de "limite" en la fila 6, columnas de 2 a 6
+        }
+
+        // LLENA VALORES FIJOS
         matrix[5][0] = "Probabilidad";
         matrix[6][1] = "Impacto en USD";
         matrix[7][0] = "TOTAL IMPACTO";
 
-        // Realizar cálculos de sumas
-        calculateSums(matrix);
-    }
-
-    private void calculateSums(Object[][] matrix) {
-        // Calcular sumas horizontales para las filas con datos numéricos
+        // LLENA CALCULOS DE SUMA
+        // Calcular sumas de "Probabilidad e Impacto" (horizontal)
         for (int i = 0; i < 5; i++) {
             int sum = 0;
             for (int j = 2; j < 7; j++) {
-                if (matrix[i][j] instanceof Integer) {  // Asegurar que el valor sea un Integer
-                    sum += (Integer) matrix[i][j];
-                }
+                sum += (Integer) matrix[i][j];
             }
-            matrix[i][7] = sum;  // Asignar la suma calculada
+            matrix[i][7] = sum;
         }
 
-        // Calcular sumas verticales para las columnas con datos numéricos
+        // Calcular sumas de "Probabilidad e Impacto" (vertical)
         for (int j = 2; j < 7; j++) {
             int sum = 0;
             for (int i = 0; i < 5; i++) {
-                if (matrix[i][j] instanceof Integer) {  // Asegurar que el valor sea un Integer
-                    sum += (Integer) matrix[i][j];
-                }
+                sum += (Integer) matrix[i][j];
             }
-            matrix[7][j] = sum;  // Asignar la suma calculada
+            matrix[7][j] = sum;
         }
 
-        // Calcular el total de impactos sumando las sumas horizontales
+        // Calcula suma de las sumas de "Probabilidad e Impacto" (vertical)
         int totalImpact = 0;
-        for (int j = 2; j < 8; j++) {
-            if (matrix[7][j] instanceof Integer) {  // Asegurar que el valor sea un Integer
-                totalImpact += (Integer) matrix[7][j];
-            }
+        for (int i = 0; i < 5; i++) {
+            totalImpact += (Integer) matrix[i][7];
         }
-        matrix[7][7] = totalImpact;  // Asignar el total de impactos
+        matrix[7][7] = totalImpact;
+
+        return matrix;
     }
 
 }

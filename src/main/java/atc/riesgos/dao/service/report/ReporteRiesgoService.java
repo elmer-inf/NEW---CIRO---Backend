@@ -5,7 +5,7 @@ import atc.riesgos.model.dto.MatrizRiesgo.mapas.PerfilRiesgoInherenteDTO;
 
 public interface ReporteRiesgoService {
 
-    MapaInherenteDTO getValoracionExposicionInherente();
+    MapaInherenteDTO mapaInherente1();
 
-    Object[][] createRiskMatrix();
+    Object[][] mapaInherente2();
 }

@@ -1,20 +1,12 @@
 package atc.riesgos.controller.report;
 
-import atc.riesgos.dao.service.MatrizRiesgoService;
-import atc.riesgos.dao.service.report.ReporteEventoService;
 import atc.riesgos.dao.service.report.ReporteRiesgoService;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.MapaInherenteDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.PerfilRiesgoInherenteDTO;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
+import atc.riesgos.model.entity.Archivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -25,15 +17,16 @@ public class ReporteRiesgoController {
     @Autowired
     ReporteRiesgoService reporteRiesgoService;
 
-    @GetMapping("/inherente")
-    public MapaInherenteDTO getValoracionExposicionInherente(){
-        return reporteRiesgoService.getValoracionExposicionInherente();
+    @GetMapping("/mapainherente1")
+    public MapaInherenteDTO getMapaInherente1(){
+        return reporteRiesgoService.mapaInherente1();
     }
 
 
-    @GetMapping("/inherente2")
-    public ResponseEntity<Object[][]> getRiskMatrix(){
-        Object[][] matrix = reporteRiesgoService.createRiskMatrix();
+    @GetMapping("/mapainherente2")
+    public ResponseEntity<Object[][]> getMapaInherente2(){
+        Object[][] matrix = reporteRiesgoService.mapaInherente2();
         return ResponseEntity.ok(matrix);
     }
+
 }

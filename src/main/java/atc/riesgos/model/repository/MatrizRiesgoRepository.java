@@ -257,4 +257,18 @@ public interface MatrizRiesgoRepository extends BaseRepository<MatrizRiesgo> {
             "    CAST(SUBSTRING(mac.des_clave FROM '[0-9]+$') AS INTEGER)", nativeQuery = true)
     List<Object[]> getValoracionExposicionInherente();
 
+    @Query(value="SELECT\n" +
+                "(SELECT CAST(des_campo_a AS int) as prob FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_id = rie_probabilidad_id),\n" +
+                "(SELECT CAST(des_campo_a AS int) as imp FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_id = rie_impacto_id)\n" +
+                "FROM riesgos.tbl_matriz_riesgo r\n" +
+                "WHERE rie_delete=false;", nativeQuery = true)
+    List<Object[]> getListProbImp();
+
+
+
+
+
+
+
+
 }
