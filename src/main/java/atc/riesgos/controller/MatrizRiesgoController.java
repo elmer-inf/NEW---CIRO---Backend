@@ -3,8 +3,6 @@ package atc.riesgos.controller;
 import atc.riesgos.dao.service.MatrizRiesgoService;
 import atc.riesgos.model.dto.MatrizRiesgo.*;
 import atc.riesgos.auth.Controller;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.PerfilRiesgoInherenteDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.ValoracionExposicionDTO;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

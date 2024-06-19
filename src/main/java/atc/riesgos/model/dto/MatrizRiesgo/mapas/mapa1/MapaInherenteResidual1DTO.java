@@ -1,5 +1,7 @@
-package atc.riesgos.model.dto.MatrizRiesgo.mapas;
+package atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1;
 
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.PerfilRiesgoDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.ValoracionExposicionDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +11,10 @@ import java.util.List;
 @Setter
 public class MapaInherenteResidual1DTO {
     private List<ValoracionExposicionDTO> listValoracionExposicionDTO;
-    private PerfilRiesgoDTO perfilRiesgoInherenteDTO;
+    private PerfilRiesgoDTO perfilRiesgoDTO;
 
-    public MapaInherenteResidual1DTO(List<ValoracionExposicionDTO> listValoracionExposicionDTO, PerfilRiesgoDTO perfilRiesgoInherenteDTO) {
+    public MapaInherenteResidual1DTO(List<ValoracionExposicionDTO> listValoracionExposicionDTO, PerfilRiesgoDTO perfilRiesgoDTO) {
         this.listValoracionExposicionDTO = listValoracionExposicionDTO;
-        this.perfilRiesgoInherenteDTO = perfilRiesgoInherenteDTO;
+        this.perfilRiesgoDTO = perfilRiesgoDTO;
     }
 }

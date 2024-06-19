@@ -1,4 +1,4 @@
-package atc.riesgos.model.dto.MatrizRiesgo.mapas;
+package atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2;
 
 import lombok.Getter;
 import lombok.Setter;
