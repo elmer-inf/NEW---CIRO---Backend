@@ -7,11 +7,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MapaInherenteDTO {
+public class MapaInherenteResidual1DTO {
     private List<ValoracionExposicionDTO> listValoracionExposicionDTO;
-    private PerfilRiesgoInherenteDTO perfilRiesgoInherenteDTO;
+    private PerfilRiesgoDTO perfilRiesgoInherenteDTO;
 
-    public MapaInherenteDTO(List<ValoracionExposicionDTO> listValoracionExposicionDTO, PerfilRiesgoInherenteDTO perfilRiesgoInherenteDTO) {
+    public MapaInherenteResidual1DTO(List<ValoracionExposicionDTO> listValoracionExposicionDTO, PerfilRiesgoDTO perfilRiesgoInherenteDTO) {
         this.listValoracionExposicionDTO = listValoracionExposicionDTO;
         this.perfilRiesgoInherenteDTO = perfilRiesgoInherenteDTO;
     }

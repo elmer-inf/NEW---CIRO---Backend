@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class PerfilRiesgoInherenteDTO {
+public class PerfilRiesgoDTO {
 
     private String prob;
     private int probabilidad;
@@ -19,9 +19,9 @@ public class PerfilRiesgoInherenteDTO {
     private int valoracionRiesgo;
     private String riesgo;
 
-    public PerfilRiesgoInherenteDTO(String prob, int probabilidad, Float factorProbabilidad, String probabilidadDesc,
-                                    Float impactoPor, int impacto, String valoracionImpacto, Float montoRiesgo,
-                                    int valoracionRiesgo, String riesgo) {
+    public PerfilRiesgoDTO(String prob, int probabilidad, Float factorProbabilidad, String probabilidadDesc,
+                           Float impactoPor, int impacto, String valoracionImpacto, Float montoRiesgo,
+                           int valoracionRiesgo, String riesgo) {
         this.prob = prob;
         this.probabilidad = probabilidad;
         this.factorProbabilidad = factorProbabilidad;
