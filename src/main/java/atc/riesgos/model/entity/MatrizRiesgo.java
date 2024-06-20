@@ -177,6 +177,12 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_delete")
     private boolean deleted;
 
+    @Column(name = "rie_probabilidad_residual")
+    private Integer probabilidadResidual;
+
+    @Column(name = "rie_impacto_residual")
+    private Integer impactoResidual;
+
     final public MatrizRiesgo deleteOnly() {
         this.deleted = true;
         return this;

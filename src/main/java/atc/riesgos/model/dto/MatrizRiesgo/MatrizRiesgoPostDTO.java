@@ -51,6 +51,9 @@ public class MatrizRiesgoPostDTO {
 
     private int usuario_id;
 
+    private Integer probabilidadResidual;
+    private Integer impactoResidual;
+
     private Boolean eventoMaterializado;
     private Long eventoRiesgoId;
 

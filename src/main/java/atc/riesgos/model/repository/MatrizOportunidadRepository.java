@@ -11,9 +11,9 @@ public interface MatrizOportunidadRepository extends BaseRepository<MatrizOportu
 
     List<MatrizOportunidad> findAllByDeleted(Boolean deleted);
 
-    @Query(nativeQuery=true, value = "SELECT COUNT(*) FROM riesgos.tbl_matriz_oportunidad e WHERE opo_codigo LIKE 'RO-' || ?1 || '\\_%' ESCAPE '\\'")
+    @Query(nativeQuery=true, value = "SELECT COUNT(*) FROM riesgos.tbl_matriz_oportunidad e WHERE opo_codigo LIKE 'OP-' || ?1 || '\\_%' ESCAPE '\\'")
     Integer countMatrizOportunidadCodigo(String sigla);
 
-    @Query(nativeQuery=true, value = "SELECT MAX(opo_id_macro_correlativo) FROM riesgos.tbl_matriz_oportunidad e WHERE opo_codigo LIKE 'RO-' || ?1 || '\\_%' ESCAPE '\\'")
+    @Query(nativeQuery=true, value = "SELECT MAX(opo_id_macro_correlativo) FROM riesgos.tbl_matriz_oportunidad e WHERE opo_codigo LIKE 'OP-' || ?1 || '\\_%' ESCAPE '\\'")
     Integer findUltimoIdMacro(String sigla);
 }

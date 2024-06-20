@@ -6,6 +6,7 @@ import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.sql.Date;
 
 @Setter
@@ -57,6 +58,9 @@ public class MatrizRiesgoGetDTO {
     // RELACION CON EVENTO DE RIESGO
     private Boolean eventoMaterializado;
     private EventoRiesgo eventoRiesgoId;
+
+    private Integer probabilidadResidual;
+    private Integer impactoResidual;
 
     private boolean deleted;
 }

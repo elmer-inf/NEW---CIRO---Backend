@@ -1,8 +1,6 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.MapaInherenteResidual1DTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.PerfilRiesgoDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.ValoracionExposicionDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.*;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherente2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherenteResidual2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaResidual2DTO;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,8 +27,10 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public MapaInherenteResidual1DTO mapaInherenteResidual1() {
-        List<Object[]> results = matrizRiesgoRepository.getValoracionExposicionInherente();
+    // MAPA 1
+    public MapaInherente1DTO mapaInherente1(Date fechaDesde, Date fechaHasta) {
+
+        List<Object[]> results = matrizRiesgoRepository.getValoracionExposicionInherente(fechaDesde, fechaHasta);
 
         /* ---------- PERFIL DE RIESGO ATC ----------- */
         // obtiene: Valoracion probabilidad (Calcula el promedio de probabilidad)
@@ -139,9 +140,123 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
                 perfilRiesgo
         );
 
-        return new MapaInherenteResidual1DTO(valoracionesExposicionDTO, perfilRiesgoInherenteDTO);
+        return new MapaInherente1DTO(valoracionesExposicionDTO, perfilRiesgoInherenteDTO);
     }
 
+    public MapaResidual1DTO mapaResidual1(Date fechaDesde, Date fechaHasta) {
+
+        List<Object[]> results = matrizRiesgoRepository.getValoracionExposicionResidual(fechaDesde, fechaHasta);
+
+        /* ---------- PERFIL DE RIESGO ATC ----------- */
+        // obtiene: Valoracion probabilidad (Calcula el promedio de probabilidad)
+        double probabilidadProm = results.stream()
+                .mapToInt(result -> (int) result[5])
+                .average()
+                .orElse(0);
+        int perfilProbabilidad = (int) Math.round(probabilidadProm);
+
+        // Obtiene: Prob
+        String sql1 = "SELECT des_campo_c FROM riesgos.tbl_tabla_descripcion_matriz_riesgo " +
+                "WHERE des_tabla_id = 2 AND des_campo_a = ? LIMIT 1";
+        String perfilProb = jdbcTemplate.queryForObject(sql1, new Object[]{String.valueOf(perfilProbabilidad)}, String.class);
+
+        // Obtiene: Factor probabilidad
+        String sql2 = "SELECT des_campo_e FROM riesgos.tbl_tabla_descripcion_matriz_riesgo " +
+                "WHERE des_tabla_id = 2 AND des_campo_a = ? LIMIT 1";
+        float perfilFactorProbabilidad = jdbcTemplate.queryForObject(sql2, new Object[]{String.valueOf(perfilProbabilidad)}, Float.class);
+
+        // Obtiene: Probabilidad Desc
+        String sql3 = "SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo " +
+                "WHERE des_tabla_id = 2 AND des_campo_a = ? LIMIT 1";
+        String perfilProbabilidadDesc = jdbcTemplate.queryForObject(sql3, new Object[]{String.valueOf(perfilProbabilidad)}, String.class);
+
+        // obtiene: Impacto por cada vez que ocurre el evento (USD)
+        double perfilImpactoPorCadaSuma = results.stream()
+                .mapToDouble(result -> (Float) result[8])
+                .sum();
+
+        // obtiene: Impacto
+        String sql6 = "SELECT CAST(des_campo_a AS int)\n" +
+                "FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+                "WHERE des_tabla_id = 3 \n" +
+                "  AND des_campo_e <= ? \n" +
+                "  AND des_campo_f >= ?\n" +
+                "UNION ALL\n" +
+                "SELECT CAST(des_campo_a AS int)\n" +
+                "FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+                "WHERE des_tabla_id = 3\n" +
+                "  AND des_campo_f = (SELECT MAX(des_campo_f) FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3)\n" +
+                "  AND ? > (SELECT MAX(des_campo_f) FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3)\n" +
+                "UNION ALL\n" +
+                "SELECT CAST(des_campo_a AS int)\n" +
+                "FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+                "WHERE des_tabla_id = 3\n" +
+                "  AND ? < 0\n" +
+                "  AND des_campo_e = (\n" +
+                "    SELECT MIN(des_campo_e)\n" +
+                "    FROM riesgos.tbl_tabla_descripcion_matriz_riesgo\n" +
+                "    WHERE des_tabla_id = 3\n" +
+                "  );";
+        int perfilImpacto = jdbcTemplate.queryForObject(sql6, new Object[]{
+                perfilImpactoPorCadaSuma,
+                perfilImpactoPorCadaSuma,
+                perfilImpactoPorCadaSuma,
+                perfilImpactoPorCadaSuma
+        }, int.class);
+
+        // Obtiene: Valoracion impacto
+        String sql4 = "SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo " +
+                "WHERE des_tabla_id = 3 AND des_campo_a = ? LIMIT 1";
+        String perfilValoracionImpacto = jdbcTemplate.queryForObject(sql4, new Object[]{String.valueOf(perfilImpacto)}, String.class);
+
+        // obtiene: Monto Riesgo de Pérdida (Anual)
+        double perfilMontoRiesgoPerdida = perfilFactorProbabilidad * perfilImpactoPorCadaSuma;
+
+        // obtiene: Valoración Riesgo (Matriz de Riesgo)
+        int perfilValoracionRiesgo = calcularValoracionRiesgo(perfilProbabilidad, perfilImpacto);
+
+        // Obtiene: Riesgo (Matriz de Riesgo)
+        String sql5 = "SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo " +
+                "WHERE des_tabla_id = 3 AND des_campo_a = ? LIMIT 1";
+        String perfilRiesgo = jdbcTemplate.queryForObject(sql5, new Object[]{String.valueOf(perfilValoracionRiesgo)}, String.class);
+        /* ---------- FIN PERFIL DE RIESGO ATC ----------- */
+
+
+        // Crear lista de ValoracionExposicionDTO
+        List<ValoracionExposicionDTO> valoracionesExposicionDTO = results.stream()
+                .map(result -> new ValoracionExposicionDTO(
+                        (int) result[0],
+                        (String) result[1],
+                        (String) result[2],
+                        (int) result[3],
+                        (String) result[4],
+                        (int) result[5],
+                        (Float) result[6],
+                        (String) result[7],
+                        (Float) result[8],
+                        (int) result[9],
+                        (String) result[10],
+                        (Float) result[11],
+                        (int) result[12],
+                        (String) result[13]
+                ))
+                .collect(Collectors.toList());
+
+        PerfilRiesgoDTO perfilRiesgoInherenteDTO = new PerfilRiesgoDTO(
+                perfilProb,
+                perfilProbabilidad,
+                perfilFactorProbabilidad,
+                perfilProbabilidadDesc,
+                (float) perfilImpactoPorCadaSuma,
+                perfilImpacto,
+                perfilValoracionImpacto,
+                (float) perfilMontoRiesgoPerdida,
+                perfilValoracionRiesgo,
+                perfilRiesgo
+        );
+
+        return new MapaResidual1DTO(valoracionesExposicionDTO, perfilRiesgoInherenteDTO);
+    }
 
     public int calcularValoracionRiesgo(int probabilidad, int impacto) {
         if (probabilidad == 1) {
@@ -185,7 +300,16 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
         }
     }
 
+    public MapaInherenteResidual1DTO mapaInherenteResidual1(Date fechaDesde, Date fechaHasta) {
+        MapaInherente1DTO mapaInherente1DTO = mapaInherente1(fechaDesde, fechaHasta);
+        MapaResidual1DTO mapaResidual1DTO = mapaResidual1(fechaDesde, fechaHasta);
 
+        MapaInherenteResidual1DTO mapaInherenteResidual1DTO = new MapaInherenteResidual1DTO(mapaInherente1DTO, mapaResidual1DTO);
+        return mapaInherenteResidual1DTO;
+    }
+
+
+    // MAPA 2
     public Object[][] mapaInherente2(Long procesoId) {
         Object[][] matrix = new Object[8][8];
 
@@ -296,7 +420,6 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
         return matrix;
     }
 
-
     public Object[][] mapaResidual2(Long procesoId) {
         Object[][] matrix = new Object[8][8];
         // Llenar la matriz con valores por defecto o vacíos
@@ -317,25 +440,12 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
         }
 
         // LLENA TOTALES DE PROBABILIDAD E IMPACTO
-        String baseSql = "SELECT " +
-                "CASE " +
-                "WHEN r.rie_control_objetivo = 'Ambos' THEN GREATEST(1, ROUND(CAST(p.des_campo_a AS int) - (CAST(p.des_campo_a AS int) * CAST(c.des_campo_b AS int) / 100))) " +
-                "WHEN r.rie_control_objetivo = 'Probabilidad' THEN GREATEST(1, ROUND(CAST(p.des_campo_a AS int) - (CAST(p.des_campo_a AS int) * CAST(c.des_campo_b AS int) / 100))) " +
-                "ELSE CAST(p.des_campo_a AS int) " +
-                "END AS probabilidad_residual, " +
-                "CASE " +
-                "WHEN r.rie_control_objetivo = 'Ambos' THEN GREATEST(1, ROUND(CAST(i.des_campo_a AS int) - (CAST(i.des_campo_a AS int) * CAST(c.des_campo_b AS int) / 100))) " +
-                "WHEN r.rie_control_objetivo = 'Impacto' THEN GREATEST(1, ROUND(CAST(i.des_campo_a AS int) - (CAST(i.des_campo_a AS int) * CAST(c.des_campo_b AS int) / 100))) " +
-                "ELSE CAST(i.des_campo_a AS int) " +
-                "END AS impacto_residual " +
-                "FROM riesgos.tbl_matriz_riesgo r " +
-                "INNER JOIN riesgos.tbl_tabla_descripcion_matriz_riesgo p ON r.rie_probabilidad_id = p.des_id " +
-                "INNER JOIN riesgos.tbl_tabla_descripcion_matriz_riesgo i ON r.rie_impacto_id = i.des_id " +
-                "INNER JOIN riesgos.tbl_tabla_descripcion_matriz_riesgo c ON r.rie_control_id = c.des_id " +
-                "WHERE r.rie_delete = FALSE ";
+        String baseSql = "SELECT r.rie_probabilidad_residual as probabilidad_residual, r.rie_impacto_residual as impacto_residual\n" +
+                            "FROM riesgos.tbl_matriz_riesgo r\n" +
+                            "WHERE r.rie_delete = FALSE ";
 
         if (procesoId != null) {
-            baseSql += "AND r.rie_proceso_id = :procesoId ";
+            baseSql += " AND r.rie_proceso_id = :procesoId ";
         }
 
         Query query = entityManager.createNativeQuery(baseSql);

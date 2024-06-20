@@ -211,7 +211,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
         MatrizOportunidad matrizOportunidad = matrizOportunidadRepository.findById(id).get();
 
         String codMacro = matrizOportunidad.getProcesoId().getClave();
-        String codigo = "RO-".concat(codMacro);
+        String codigo = "OP-".concat(codMacro);
 
         //System.out.println("COUNT:  " + matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getUnidadId().getClave()));
         int countCodigoMacro = matrizOportunidadRepository.countMatrizOportunidadCodigo(matrizOportunidad.getProcesoId().getClave());
