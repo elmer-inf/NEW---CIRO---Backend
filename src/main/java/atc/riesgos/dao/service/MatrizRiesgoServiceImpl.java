@@ -1,7 +1,6 @@
 package atc.riesgos.dao.service;
 
 import atc.riesgos.model.dto.MatrizRiesgo.*;
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
@@ -92,7 +91,6 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             matrizRiesgo.setEstadoRegistro("Pendiente");
             matrizRiesgoRepository.save(matrizRiesgo);
         }catch (Exception e) {
-            Log.log("Error al Guardar Matriz de riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizRiesgo);
@@ -151,7 +149,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
             matrizRiesgoRepository.save(matrizRiesgo);
             BeanUtils.copyProperties(matrizRiesgo, matrizRiesgoGetDTO);
         } catch (Exception e){
-            Log.log("Error al modificar Matriz de riesgo: ", e);
+            System.out.println("Error: " + e);
         }
         return matrizRiesgoGetDTO;
     }
@@ -236,7 +234,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                 }
             }
         }catch (Exception e){
-            Log.log("Error al evaluar Riesgo =>", e);
+            //Log.log("Error al evaluar Riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizRiesgo);
@@ -275,7 +273,7 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
         try{
             return matrizRiesgoRepository.matrizInById(in);
         }catch (Exception e){
-            Log.log("Error en getListMatrizInId : ", e);
+            System.out.println("Error: " + e);
         }
 
         return new ArrayList<>();
@@ -332,10 +330,4 @@ public class MatrizRiesgoServiceImpl implements MatrizRiesgoService {
                         (String) result[8]))
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
 }

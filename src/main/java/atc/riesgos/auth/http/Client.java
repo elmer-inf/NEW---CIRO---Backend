@@ -1,7 +1,5 @@
 package atc.riesgos.auth.http;
 
-
-import atc.riesgos.config.log.Log;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.http.config.Registry;
@@ -124,7 +122,7 @@ public class Client // extends HttpHeaders
 
 
          } catch (Exception e){
-             Log.error("CLIENT: " , e.getMessage());
+             System.out.println("Error client: " + e);
          }
 
          return http;

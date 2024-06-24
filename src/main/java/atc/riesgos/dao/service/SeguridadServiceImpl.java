@@ -7,7 +7,7 @@ import atc.riesgos.model.entity.Seguridad;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcionSeguridad;
 import atc.riesgos.model.repository.SeguridadRepository;
-import atc.riesgos.config.log.Log;
+//import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.entity.TablaDescripcion;
 import org.springframework.beans.BeanUtils;
@@ -51,7 +51,7 @@ public class SeguridadServiceImpl implements SeguridadService {
 
             seguridadRepository.save(seguridad);
         }catch (Exception e) {
-            Log.log("Error al guardar registro de Seguridad =>", e);
+            //Log.log("Error al guardar registro de Seguridad =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(seguridad);
@@ -97,7 +97,8 @@ public class SeguridadServiceImpl implements SeguridadService {
             seguridadRepository.save(seguridad);
             BeanUtils.copyProperties(seguridad, seguridadGetDTO);
         } catch (Exception e){
-            Log.log("Error al actualizar registro de Seguridad: ", e);
+            //Log.log("Error al actualizar registro de Seguridad: ", e);
+            System.out.println("Error al actualizar registro de Seguridad: " + e);
         }
         return seguridadGetDTO;
     }

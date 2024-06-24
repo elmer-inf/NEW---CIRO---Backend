@@ -1,6 +1,5 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
 import atc.riesgos.model.dto.TablaListaMatrizRiesgo.TablaListaMatrizRiesgoPostDTO;
 import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaListaMatrizRiesgo;
@@ -27,7 +26,6 @@ public class TablaListaMatrizRiesgoServiceImpl implements TablaListaMatrizRiesgo
             BeanUtils.copyProperties(data, tablaListaMatrizRiesgo);
             tablaListaMatrizRiesgoRepository.save(tablaListaMatrizRiesgo);
         } catch (Exception e) {
-        Log.log("Guardar Tabla lista Matriz fr riesgo =>", e);
         return ResponseEntity.badRequest().headers(responseHeaders).body(null);
 
         }
@@ -40,7 +38,7 @@ public class TablaListaMatrizRiesgoServiceImpl implements TablaListaMatrizRiesgo
             Optional<TablaListaMatrizRiesgo> founded = tablaListaMatrizRiesgoRepository.findById(id);
             return founded.get();
         }catch (Exception e){
-            Log.log("Error : " , e);
+            System.out.println("Error: " + e);
         }
         return null;
     }

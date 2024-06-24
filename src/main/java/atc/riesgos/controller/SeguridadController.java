@@ -1,7 +1,7 @@
 package atc.riesgos.controller;
 
 import atc.riesgos.auth.Controller;
-import atc.riesgos.config.log.Log;
+//import atc.riesgos.config.log.Log;
 import atc.riesgos.dao.service.SeguridadService;
 import atc.riesgos.model.dto.Seguridad.SeguridadGetDTO;
 import atc.riesgos.model.dto.Seguridad.SeguridadPostDTO;

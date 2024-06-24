@@ -62,20 +62,17 @@ public class ArchivoEveRecurrenteServiceImpl implements ArchivoEveRecurrenteServ
                         archivos.add(archivo);
                     }
                 } else {
-                    Log.error("Superó el límite de archivos a cargar");
+
                     throw new BadRequestException("Superó el límite de archivos a cargar");
                 }
             }
         } catch (NullPointerException e) {
-            Log.error("Error al intentar guardar un archivo: ", e);
+            System.out.println("Error: " + e);
         } catch (BadRequestException e) {
-            Log.error("Error al intentar guardar un archivo: ", e);
             throw new BadRequestException("Error al intentar guardar un archivo: " + e);
         } catch (NotFoundException e) {
-            Log.error("Error al intentar guardar un archivo: ", e);
             throw new NotFoundException("Error al intentar guardar un archivo: ", e);
         } catch (Exception e) {
-            Log.error("Error al intentar guardar un archivo: ", e);
             throw new NotImplementedException("Error al intentar guardar un archivo: " + e);
         }
         return archivos;
@@ -86,7 +83,7 @@ public class ArchivoEveRecurrenteServiceImpl implements ArchivoEveRecurrenteServ
         try {
             archivos = archivoRepository.findByEventoId(id);
         } catch (Exception e) {
-            Log.error("findAllByEvento => ", e);
+            System.out.println("Error: " + e);
         }
         return archivos;
     }

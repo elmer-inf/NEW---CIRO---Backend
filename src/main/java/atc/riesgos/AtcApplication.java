@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -31,7 +33,13 @@ public class AtcApplication {
 	 */
 	@Bean(name = "encryptor")
 	public StringEncryptor stringEncryptor() {
-
 		return StringPassword.get();
+	}
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
+		resolver.setResolveLazily(false);
+		return resolver;
 	}
 }

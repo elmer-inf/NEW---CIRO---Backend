@@ -1,6 +1,5 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.TablaLista.TablaListaGetDTO;
 import atc.riesgos.model.dto.TablaLista.TablaListaPostDTO;
@@ -45,7 +44,7 @@ public class TablaListaServiceImpl implements TablaListaService {
             tablaListaRepository.save(tablaLista);
             BeanUtils.copyProperties(tablaLista, tablaListaGetDTO);
         } catch (Exception e){
-            Log.log("Tabla Lista actualizada =>", e);
+            System.out.println("Error: " + e);
         }
         return tablaListaGetDTO;
     }

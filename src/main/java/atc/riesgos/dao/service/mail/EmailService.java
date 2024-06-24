@@ -44,6 +44,18 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendHtmlMessageEveRecurrente(String to, String subject, String htmlContent) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom("noreply@atc.com.bo");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlContent, true);
+
+        mailSender.send(message);
+    }
+
     @Transactional
     public void sendMailRiesgosPlanes5Dias(){
         List<Object[]> results = matrizRiesgoRepository.planesAVencer5Dias();
@@ -205,7 +217,7 @@ public class EmailService {
                 for (Object[] result : results) {
                     try {
                         String htmlContent = htmlTemplateRecurrenciasRiesgos(result);
-                        sendHtmlMessage(mailCc, "ALERTA EVENTO RECURRENTE", htmlContent);
+                        sendHtmlMessageEveRecurrente(mailCc, "ALERTA EVENTO RECURRENTE", htmlContent);
                         System.out.println("Correo enviado");
                         logger.info("Correo enviado - ID recurrencia : " + result[0].toString() + "ID Riesgo: " + result[1].toString() + ", Evento1: "+ result[3].toString() + ", Evento2: " + result[5].toString() + ", Evento3: " + result[7].toString());
 

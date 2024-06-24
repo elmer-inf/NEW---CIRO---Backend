@@ -3,7 +3,6 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.TablaListaSeguridad.TablaListaSeguridadPostDTO;
 import atc.riesgos.model.entity.TablaListaSeguridad;
 import atc.riesgos.model.repository.TablaListaSeguridadRepository;
-import atc.riesgos.config.log.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -26,9 +25,9 @@ public class TablaListaSeguridadServiceImpl implements TablaListaSeguridadServic
             BeanUtils.copyProperties(data, tablaListaSeguridad);
             tablaListaSeguridadRepository.save(tablaListaSeguridad);
         } catch (Exception e) {
-        Log.log("Error al guardar Tabla lista Seguridad =>", e);
-        return ResponseEntity.badRequest().headers(responseHeaders).body(null);
+            return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
+
         return ResponseEntity.ok().headers(responseHeaders).body(tablaListaSeguridad);
     }
 
@@ -37,7 +36,7 @@ public class TablaListaSeguridadServiceImpl implements TablaListaSeguridadServic
             Optional<TablaListaSeguridad> founded = tablaListaSeguridadRepository.findById(id);
             return founded.get();
         }catch (Exception e){
-            Log.log("Error : " , e);
+            System.out.println("Error: " + e);
         }
         return null;
     }

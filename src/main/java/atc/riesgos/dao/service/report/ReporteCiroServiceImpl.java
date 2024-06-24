@@ -165,7 +165,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             });
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Riesgo Operativo - A ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -188,7 +188,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             });
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Tipo de evento - B ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -212,7 +212,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
             });
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Tipo de evento - C ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -237,7 +237,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Atencion Financiera - D ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -262,7 +262,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Canal - E ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -287,7 +287,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Proceso - F ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -312,7 +312,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Operacion - G ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -337,7 +337,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Lugar - H ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }
@@ -361,7 +361,7 @@ public class ReporteCiroServiceImpl implements ReporteCiroService {
 
             return reportList;
         } catch (Exception e) {
-            Log.error("Error generando reporte Linea de negocio - I ==> ", e);
+            System.out.println("Error: " + e);
         }
         return reportList;
     }

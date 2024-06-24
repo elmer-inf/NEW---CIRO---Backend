@@ -11,6 +11,8 @@ import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import atc.riesgos.model.dto.EventoRiesgo.*;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +32,18 @@ public class EventoRiesgoController extends Controller {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
+    private static final Logger logger = LogManager.getLogger(EventoRiesgoController.class);
+
     @PostMapping("/registrar")
 
-    public ResponseEntity<EventoRiesgo>  save (@Valid @RequestBody EventoRiesgoPostDTO data){
+    public ResponseEntity<EventoRiesgo> save(@Valid @RequestBody EventoRiesgoPostDTO data) {
         return eventoRiesgoService.create(data);
     }
 
     @PostMapping("/registrarwithfiles")
-    public ResponseEntity<EventoRiesgo>  saveWithFiles (@ModelAttribute EventoRiesgoFilePostDTO data){
-       EventoRiesgoPostDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPostDTO(),EventoRiesgoPostDTO.class);
-       return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
+    public ResponseEntity<EventoRiesgo> saveWithFiles(@ModelAttribute EventoRiesgoFilePostDTO data) {
+        EventoRiesgoPostDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPostDTO(), EventoRiesgoPostDTO.class);
+        return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
     }
 
     /*@PutMapping(value = "/editarwithfiles/{id}")
@@ -52,17 +56,17 @@ public class EventoRiesgoController extends Controller {
     }*/
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<EventoRiesgoGetDTO> updateById (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data){
+    public ResponseEntity<EventoRiesgoGetDTO> updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data) {
         return eventoRiesgoService.updateById(id, data);
     }
 
     @PutMapping("/evaluaEvento/{id}")
-    public ResponseEntity<EventoRiesgo> evaluaEvento (@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTOevaluacion data){
+    public ResponseEntity<EventoRiesgo> evaluaEvento(@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTOevaluacion data) {
         return eventoRiesgoService.evaluaEvento(id, data);
     }
 
     @GetMapping("/generaCodigo/{id}")
-    public String generaCodigo (@PathVariable(value = "id") Long id){
+    public String generaCodigo(@PathVariable(value = "id") Long id) {
         return eventoRiesgoService.generaCodigo(id);
     }
 
@@ -148,8 +152,9 @@ public class EventoRiesgoController extends Controller {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(value = "/editarrecurrentewithfiles/{id}")
-    public ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteById(@PathVariable("id") Long id, @ModelAttribute EventoRiesgoFilePutDTO data) {
+    @PostMapping("/editarrecurrentewithfiles/{id}")
+    public ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteById(@ModelAttribute EventoRiesgoFilePutDTO data, @PathVariable("id") Long id) {
+
         EventoRiesgoPutDTOrecurrente dataDTO = Log.jsonToObject(data.getEventoRiesgoPutDTOrecurrente(), EventoRiesgoPutDTOrecurrente.class);
         return eventoRiesgoService.updateEventoRecurrenteWithFiles(id, dataDTO, data.getFile());
     }

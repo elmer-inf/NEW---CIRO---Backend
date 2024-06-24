@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
+//import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizRiesgo.TablaDescripcionMatrizRiesgoPostDTO;
@@ -36,7 +36,6 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
             tablaDescripcionMatrizRiesgo.setTablaId(tablaListaMatrizRiesgo);
             tablaDescripcionMatrizRiesgoRepository.save(tablaDescripcionMatrizRiesgo);
         } catch (Exception e) {
-            Log.log("Guardar Tabla descripcion Matriz de riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizRiesgo);
@@ -63,7 +62,6 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
             tablaDescripcionMatrizRiesgoRepository.save(tablaDescripcionMatrizR);
             BeanUtils.copyProperties(tablaDescripcionMatrizR, tablaDescripcionMatrizRGetDTO);
         } catch (Exception e){
-            Log.log("Tabla Descripcion actualizada =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizRGetDTO);
@@ -81,7 +79,7 @@ public class TablaDescripcionMatrizRiesgoServiceImpl implements TablaDescripcion
             Optional<TablaDescripcionMatrizRiesgo> founded = tablaDescripcionMatrizRiesgoRepository.findById(id);
             return founded.get();
         }catch (Exception e){
-            Log.log("Error : " , e);
+            System.out.println("Error: "+ e);
         }
         return null;
     }

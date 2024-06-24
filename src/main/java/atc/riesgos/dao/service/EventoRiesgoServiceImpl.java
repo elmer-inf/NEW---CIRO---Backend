@@ -1,6 +1,5 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
 import atc.riesgos.model.dto.ArchivoEveRecurrente.ArchivoEveRecurrentePostDTO;
@@ -160,7 +159,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             return eventoRiesgo;
         }catch (Exception e){
-            Log.log("Error al estructurar objeto ", e);
+            System.out.println("Error: " + e);
         }
 
         return null;
@@ -295,7 +294,6 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             // List<Archivo> archivos = archivoService.create(new ArchivoPostDTO(data.getFile(), eventoRiesgo.getId()));
 
         }catch (Exception e){
-            Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
         }
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
@@ -428,7 +426,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
             eventoRiesgo.setArchivoId(archivoService.findAllByEvento(eventoRiesgo.getId()));
         }catch (Exception e){
-            Log.log("Error en crear evento de riesgo: ", e);
+            //Log.log("Error en crear evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
         }
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgo);
@@ -561,7 +559,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
 
         } catch (Exception e) {
-            Log.log("Error en actualizacion del evento de riesgo: ", e);
+            //Log.log("Error en actualizacion del evento de riesgo: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
 
         }
@@ -790,7 +788,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
                 }
             }
         } catch (Exception e) {
-            Log.log("Error al evaluar evento =>", e);
+            //Log.log("Error al evaluar evento =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(eventoRiesgo);
@@ -834,7 +832,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
                 codigo = siglaArea.concat("-" + anio + "-001");
             }
         } catch (Exception e){
-            Log.error("Error en Funcion generaCodigo : ", e);
+            System.out.println("Error: " + e);
         }
         return codigo;
     }
@@ -877,12 +875,12 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
             BeanUtils.copyProperties(eventoRiesgoToEdit, eventoRiesgoGetDTO);
 
         } catch (Exception e) {
-            Log.log("Error en actualizacion del evento recurrente: ", e);
             return ResponseEntity.badRequest().headers(new HttpHeaders()).body(null);
 
         }
         return ResponseEntity.ok().headers(new HttpHeaders()).body(eventoRiesgoGetDTO);
     }
+
 
 
 

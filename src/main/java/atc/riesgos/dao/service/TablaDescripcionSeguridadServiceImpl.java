@@ -7,7 +7,6 @@ import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcionSeguridad;
 import atc.riesgos.model.entity.TablaListaSeguridad;
 import atc.riesgos.model.repository.TablaDescripcionSeguridadRepository;
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ public class TablaDescripcionSeguridadServiceImpl implements TablaDescripcionSeg
             tablaDescripcionSeguridad.setTablaId(tablaListaSeguridad);
             tablaDescripcionSeguridadRepository.save(tablaDescripcionSeguridad);
         } catch (Exception e) {
-            Log.log("Error al guardar Tabla descripcion Seguridad =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionSeguridad);
@@ -59,7 +57,6 @@ public class TablaDescripcionSeguridadServiceImpl implements TablaDescripcionSeg
             tablaDescripcionSeguridadRepository.save(tablaDescripcionMatrizR);
             BeanUtils.copyProperties(tablaDescripcionMatrizR, tablaDescripcionMatrizRGetDTO);
         } catch (Exception e){
-            Log.log("Tabla Descripcion actualizada =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizRGetDTO);
@@ -77,7 +74,7 @@ public class TablaDescripcionSeguridadServiceImpl implements TablaDescripcionSeg
             Optional<TablaDescripcionSeguridad> founded = tablaDescripcionSeguridadRepository.findById(id);
             return founded.get();
         }catch (Exception e){
-            Log.log("Error : " , e);
+            System.out.println("Error: " + e);
         }
         return null;
     }

@@ -3,7 +3,6 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPutDTO;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaListaMatrizOportunidad;
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO;
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadGetDTO2;
@@ -37,7 +36,6 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
             tablaDescripcionMatrizOportunidad.setTablaId(tablaListaMatrizOportunidad);
             tablaDescripcionMatrizOportunidadRepository.save(tablaDescripcionMatrizOportunidad);
         } catch (Exception e) {
-            Log.log("Guardar Tabla descripcion Matriz de riesgo =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizOportunidad);
@@ -64,7 +62,6 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
             tablaDescripcionMatrizOportunidadRepository.save(tablaDescripcionMatrizO);
             BeanUtils.copyProperties(tablaDescripcionMatrizO, tablaDescripcionMatrizOGetDTO);
         } catch (Exception e){
-            Log.log("Tabla Descripcion actualizada =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(tablaDescripcionMatrizOGetDTO);

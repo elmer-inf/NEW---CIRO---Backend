@@ -1,7 +1,7 @@
 package atc.riesgos.dao.service;
 
 import atc.riesgos.model.entity.MatrizOportunidad;
-import atc.riesgos.config.log.Log;
+//import atc.riesgos.config.log.Log;
 import atc.riesgos.model.dto.Observacion.ObservacionGetDTO;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
@@ -73,7 +73,8 @@ public class ObservacionServiceImpl implements ObservacionService {
                 return observacionGetDTO;
             }
         }catch(Exception e){
-            Log.log("Error al obtener ID de observacion =>", e);
+            //Log.log("Error al obtener ID de observacion =>", e);
+            System.out.println("Error al obtener ID de observacion:" + e);
         }
         return null;
     }
@@ -93,7 +94,7 @@ public class ObservacionServiceImpl implements ObservacionService {
                 return observacionGetDTO;
             }
         }catch(Exception e){
-            Log.log("Error al obtener ID de observacion =>", e);
+            System.out.println("Error: " + e);
         }
         return null;
     }
@@ -113,7 +114,7 @@ public class ObservacionServiceImpl implements ObservacionService {
                 return observacionGetDTO;
             }
         }catch(Exception e){
-            Log.log("Error al obtener ID de observacion =>", e);
+            System.out.println("Error: " + e);
         }
         return null;
     }

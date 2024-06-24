@@ -3,7 +3,6 @@ package atc.riesgos.dao.service;
 import atc.riesgos.model.dto.Observacion.ObservacionPostDTO;
 import atc.riesgos.model.entity.MatrizOportunidad;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.MatrizOportunidad.MatrizOportunidadGetDTO;
 import atc.riesgos.model.dto.MatrizOportunidad.MatrizOportunidadPostDTO;
@@ -79,7 +78,6 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
 
             matrizOportunidadRepository.save(matrizOportunidad);
         }catch (Exception e) {
-            Log.log("Guardar Matriz de oportunidad =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizOportunidad);
@@ -149,7 +147,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
             matrizOportunidadRepository.save(matrizOportunidad);
             BeanUtils.copyProperties(matrizOportunidad, matrizOportunidadGetDTO);
         } catch (Exception e){
-            Log.log("Error en Actualizar Matriz de oportunidad: ", e);
+            System.out.println("Error: " + e);
         }
         return matrizOportunidadGetDTO;
     }
@@ -200,7 +198,6 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
                 }
             }
         }catch (Exception e){
-            Log.log("Error al evaluar Oportunidad =>", e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizOportunidad);

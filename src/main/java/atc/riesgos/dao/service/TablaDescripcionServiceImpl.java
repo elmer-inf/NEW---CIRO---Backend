@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
+//import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.DBException;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO;
 import atc.riesgos.model.dto.TablaDescripcion.TablaDescripcionGetDTO2;
@@ -60,7 +60,8 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
             tablaDescripcionRepository.save(tablaDescripcion);
             BeanUtils.copyProperties(tablaDescripcion, tablaDescripcionGetDTO);
         } catch (Exception e){
-            Log.log("Tabla Descripcion actualizada =>", e);
+            //Log.log("Tabla Descripcion actualizada =>", e);
+            System.out.println("Tabla Descripcion actualizada: "+ e);
         }
         return tablaDescripcionGetDTO;
     }
@@ -124,7 +125,7 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
             }
 
         }catch (Exception e){
-            Log.log("Error findByIdTablaDesc: " , e);
+            System.out.println("Error: " + e);
         }
         return null;
     }
@@ -133,7 +134,7 @@ public class TablaDescripcionServiceImpl implements TablaDescripcionService {
         try{
             return tablaDescripcionRepository.descripcionInById(in);
         }catch (Exception e){
-            Log.log("Error en getListDescripcionInId : ", e);
+            System.out.println("Error: " + e);
         }
 
         return new ArrayList<>();

@@ -1,12 +1,7 @@
 package atc.riesgos.model.dto.report.ciro;
 
-// 2.3. Tipo de evento
-
-import atc.riesgos.config.log.Log;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Setter
 @Getter
