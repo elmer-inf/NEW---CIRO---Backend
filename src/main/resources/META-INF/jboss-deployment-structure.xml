@@ -1,0 +1,9 @@
+<jboss-deployment-structure>
+    <deployment>
+        <exclusions>
+            <module name="org.slf4j" />
+            <module name="org.apache.logging.log4j" />
+            <module name="org.slf4j.impl" />
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>
