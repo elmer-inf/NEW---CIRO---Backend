@@ -11,8 +11,6 @@ import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import atc.riesgos.model.dto.EventoRiesgo.*;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +30,7 @@ public class EventoRiesgoController extends Controller {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
-    private static final Logger logger = LogManager.getLogger(EventoRiesgoController.class);
-
     @PostMapping("/registrar")
-
     public ResponseEntity<EventoRiesgo> save(@Valid @RequestBody EventoRiesgoPostDTO data) {
         return eventoRiesgoService.create(data);
     }
