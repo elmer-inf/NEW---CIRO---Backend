@@ -1,17 +1,15 @@
 package atc.riesgos.config.log;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
 public class Log {
-    final public static Logger logger = LoggerFactory.getLogger(Log.class);
+
     final private static String JWT = "%s -> Message: {} ";
 
     final public static String toJSON(Object obj) {
@@ -73,42 +71,42 @@ public class Log {
         return s;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Logger">
+    //<editor-fold defaultstate="collapsed" desc="log.">
     final public static void log(Object obj) {
-        logger.info(Log.toJSON(obj));
+        log.info(Log.toJSON(obj));
     }
 
     final public static void log(String message) {
-        logger.info(message);
+        log.info(message);
     }
 
     final public static void auth(String msg, Object exception) {
-        logger.info(" ----------- JWT ----------- ");
-        logger.info(String.format(JWT, msg), exception);
-        logger.info(" ----------- END ----------- ");
+        log.info(" ----------- JWT ----------- ");
+        log.info(String.format(JWT, msg), exception);
+        log.info(" ----------- END ----------- ");
     }
 
     final public static void log(String message, Object exception) {
-        logger.info(message, exception);
+        log.info(message, exception);
     }
 
     final public static void log(String message, Object... exception) {
-        logger.info(message, exception);
+        log.info(message, exception);
     }
 
     final public static void warn(String message) {
-        logger.warn(message);
+        log.warn(message);
     }
 
     final public static void warn(String message, Object exception) {
-        logger.warn(message, exception);
+        log.warn(message, exception);
     }
 
     final public static void error(String message, Object exception) {
-        logger.error(message, exception);
+        log.error(message, exception);
     }
     final public static void error(String message) {
-        logger.error(message);
+        log.error(message);
     }
     //</editor-fold>
 

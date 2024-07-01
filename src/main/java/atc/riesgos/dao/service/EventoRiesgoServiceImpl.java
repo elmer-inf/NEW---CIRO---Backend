@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class EventoRiesgoServiceImpl implements EventoRiesgoService {
 
@@ -848,6 +850,7 @@ public class EventoRiesgoServiceImpl implements EventoRiesgoService {
     public List<EventoRiesgo> listEventoRiesgo() {
         return eventoRiesgoRepository.findAllByDeleted(false);
     }
+
 
     public List<EventoRiesgo> listEventoRiesgoRecurrentes() {
         return eventoRiesgoRepository.getEventosRecurrentes();

@@ -10,12 +10,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Configuration
+@Slf4j
 public class EmailService {
 
     @Autowired
@@ -26,8 +26,6 @@ public class EmailService {
 
     @Value("${mailCc}")
     private String mailCc;
-
-    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     public void sendHtmlMessage(String to, String subject, String htmlContent) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -77,33 +75,33 @@ public class EmailService {
                                 String htmlContent = htmlTemplatePlanesAVencer(result[3].toString(), result[4].toString(), "cinco");
                                 sendHtmlMessage(destinatario, "NOTIFICACIÓN PLAN DE ACCIÓN PENDIENTE", htmlContent);
                                 System.out.println("Correo enviado");
-                                logger.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                log.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
 
                                 int updateCount = matrizRiesgoRepository.updatePlanRiesgoInformado(Long.parseLong(result[0].toString()), Integer.parseInt(result[1].toString()));
                                 if (updateCount == 1) {
                                     System.out.println("Campo 'informadoPorCorreo' actualizado correctamente.");
                                 } else{
                                     System.out.println("Error al actualizar campo 'informadoPorCorreo'.");
-                                    logger.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                    log.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
                                 }
                             } catch (MessagingException e) {
                                 System.out.println("Error al enviar correo en 'sendMailRiesgosPlanes5Dias': " + e.getMessage());
-                                logger.error("Error al enviar correo en 'sendMailRiesgosPlanes5Dias': " + e.getMessage());
+                                log.error("Error al enviar correo en 'sendMailRiesgosPlanes5Dias': " + e.getMessage());
                             }
                         }
                         else{
                             System.out.println("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
-                            logger.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
+                            log.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
                         }
                     } else{
                         System.out.println("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
-                        logger.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
+                        log.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
                     }
                 }
             }
         } else {
             System.out.println("No hay planes a vencer en los próximos 5 días.");
-            logger.info("No hay planes a vencer en los próximos 5 días.");
+            log.info("No hay planes a vencer en los próximos 5 días.");
         }
     }
 
@@ -128,32 +126,32 @@ public class EmailService {
                                 String htmlContent = htmlTemplatePlanesAVencer(result[3].toString(), result[4].toString(), "diez");
                                 sendHtmlMessage(destinatario, "NOTIFICACIÓN PLAN DE ACCIÓN PENDIENTE", htmlContent);
                                 System.out.println("Correo enviado");
-                                logger.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                log.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
 
                                 int updateCount = matrizRiesgoRepository.updatePlanRiesgoInformado(Long.parseLong(result[0].toString()), Integer.parseInt(result[1].toString()));
                                 if (updateCount == 1) {
                                     System.out.println("Campo 'informadoPorCorreo' actualizado correctamente.");
                                 } else {
                                     System.out.println("Error al actualizar campo 'informadoPorCorreo'.");
-                                    logger.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                    log.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
                                 }
                             } catch (MessagingException e) {
                                 System.out.println("Error al enviar correo en 'sendMailRiesgosPlanes10Dias': " + e.getMessage());
-                                logger.error("Error al enviar correo en 'sendMailRiesgosPlanes10Dias': " + e.getMessage());
+                                log.error("Error al enviar correo en 'sendMailRiesgosPlanes10Dias': " + e.getMessage());
                             }
                         } else{
                             System.out.println("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
-                            logger.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
+                            log.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
                         }
                     } else{
                         System.out.println("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
-                        logger.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
+                        log.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
                     }
                 }
             }
         } else {
             System.out.println("No hay planes a vencer en los próximos 10 días.");
-            logger.info("No hay planes a vencer en los próximos 10 días.");
+            log.info("No hay planes a vencer en los próximos 10 días.");
         }
     }
 
@@ -178,32 +176,32 @@ public class EmailService {
                                 String htmlContent = htmlTemplatePlanesVencidos(result[3].toString(), result[4].toString());
                                 sendHtmlMessage(destinatario, "NOTIFICACIÓN PLAN DE ACCIÓN VENCIDO", htmlContent);
                                 System.out.println("Correo enviado");
-                                logger.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                log.info("Correo enviado - ID Riesgo " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
 
                                 int updateCount = matrizRiesgoRepository.updatePlanRiesgoInformado(Long.parseLong(result[0].toString()), Integer.parseInt(result[1].toString()));
                                 if (updateCount == 1) {
                                     System.out.println("Campo 'informadoPorCorreo' actualizado correctamente.");
                                 } else {
                                     System.out.println("Error al actualizar campo 'informadoPorCorreo'.");
-                                    logger.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
+                                    log.error("Error al actualizar campo 'informadoPorCorreo' - " + result[0].toString() + ", Codigo Riesgo: "+ result[2].toString() + ", Plan num: " + result[1].toString());
                                 }
                             } catch (MessagingException e) {
                                 System.out.println("Error al enviar correo en 'sendMailRiesgosPlanesVencidos': " + e);
-                                logger.error("Error al enviar correo en 'sendMailRiesgosPlanesVencidos': " + e.getMessage());
+                                log.error("Error al enviar correo en 'sendMailRiesgosPlanesVencidos': " + e.getMessage());
                             }
                         } else{
                             System.out.println("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
-                            logger.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
+                            log.warn("No se envio el correo por que el campo 'CorreoCargo' es nulo o está vacío.");
                         }
                     } else{
                         System.out.println("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
-                        logger.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
+                        log.warn("No se envio el correo por que el campo 'Cargo' es nulo o está vacío.");
                     }
                 }
             }
         } else {
             System.out.println("No hay planes vencidos.");
-            logger.info("No hay planes vencidos.");
+            log.info("No hay planes vencidos.");
         }
     }
 
@@ -219,28 +217,28 @@ public class EmailService {
                         String htmlContent = htmlTemplateRecurrenciasRiesgos(result);
                         sendHtmlMessageEveRecurrente(mailCc, "ALERTA EVENTO RECURRENTE", htmlContent);
                         System.out.println("Correo enviado");
-                        logger.info("Correo enviado - ID recurrencia : " + result[0].toString() + "ID Riesgo: " + result[1].toString() + ", Evento1: "+ result[3].toString() + ", Evento2: " + result[5].toString() + ", Evento3: " + result[7].toString());
+                        log.info("Correo enviado - ID recurrencia : " + result[0].toString() + "ID Riesgo: " + result[1].toString() + ", Evento1: "+ result[3].toString() + ", Evento2: " + result[5].toString() + ", Evento3: " + result[7].toString());
 
                         int updateCount = matrizRiesgoRepository.updateRecurrenciaRiesgoInformado(Long.parseLong(result[0].toString()));
                         if (updateCount == 1) {
                             System.out.println("Campo 'correEnviado' actualizado correctamente.");
                         } else {
                             System.out.println("Error al actualizar campo 'correEnviado'.");
-                            logger.error("Error al actualizar campo 'correEnviado' - ID recurrencia : " + result[0].toString() + "ID Riesgo: " + result[1].toString() + ", Evento1: "+ result[3].toString() + ", Evento2: " + result[5].toString() + ", Evento3: " + result[7].toString());
+                            log.error("Error al actualizar campo 'correEnviado' - ID recurrencia : " + result[0].toString() + "ID Riesgo: " + result[1].toString() + ", Evento1: "+ result[3].toString() + ", Evento2: " + result[5].toString() + ", Evento3: " + result[7].toString());
                         }
                     } catch (MessagingException e) {
                         System.out.println("Error al enviar correo en 'sendMailRiesgosRecurrentes': " + e);
-                        logger.error("Error al enviar correo en 'sendMailRiesgosRecurrentes': " + e);
+                        log.error("Error al enviar correo en 'sendMailRiesgosRecurrentes': " + e);
                     }
                 }
             } else {
                 System.out.println("No hay recurrencias en Riesgos.");
-                logger.info("No hay recurrencias en Riesgos");
+                log.info("No hay recurrencias en Riesgos");
             }
         } catch (Exception e) {
             e.printStackTrace(); // Imprime la pila completa de errores
             System.err.println("Error en insertaVerificaRecurrenciasRiesgo: " + e);
-            logger.error("Error en insertaVerificaRecurrenciasRiesgo: " + e);
+            log.error("Error en insertaVerificaRecurrenciasRiesgo: " + e);
         }
     }
 

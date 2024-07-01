@@ -1,25 +1,21 @@
 package atc.riesgos.dao.service;
 
-import atc.riesgos.config.log.Log;
 import atc.riesgos.exception.BadRequestException;
 import atc.riesgos.exception.NotFoundException;
 import atc.riesgos.exception.NotImplementedException;
-import atc.riesgos.model.dto.Archivo.ArchivoPostDTO;
 import atc.riesgos.model.dto.ArchivoEveRecurrente.ArchivoEveRecurrentePostDTO;
-import atc.riesgos.model.entity.Archivo;
 import atc.riesgos.model.entity.ArchivoEveRecurrente;
 import atc.riesgos.model.repository.ArchivoEveRecurrenteRepository;
-import atc.riesgos.model.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ArchivoEveRecurrenteServiceImpl implements ArchivoEveRecurrenteService {
