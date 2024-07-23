@@ -27,11 +27,14 @@ public class EmailService {
     @Value("${mailCc}")
     private String mailCc;
 
+    @Value("${mailFrom}")
+    private String mailFrom;
+
     public void sendHtmlMessage(String to, String subject, String htmlContent) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        helper.setFrom("noreply@atc.com.bo");
+        helper.setFrom(mailFrom);
         helper.setTo(to);
         if (mailCc != null && !mailCc.isEmpty()) {
             helper.addCc(mailCc);
@@ -46,7 +49,7 @@ public class EmailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        helper.setFrom("noreply@atc.com.bo");
+        helper.setFrom(mailFrom);
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlContent, true);

@@ -27,11 +27,11 @@ public class QuartzConfig {
 
     @Bean
     public Trigger trigger(JobDetail jobDetail) {
-        TimeZone.setDefault(TimeZone.getTimeZone("America/La_Paz"));
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity("sendMailTrigger")
-                .withSchedule(CronScheduleBuilder.cronSchedule(cronSchedule))
+                .withSchedule(CronScheduleBuilder.cronSchedule(cronSchedule)
+                .inTimeZone(TimeZone.getTimeZone("America/La_Paz")))
                 .build();
     }
 }
