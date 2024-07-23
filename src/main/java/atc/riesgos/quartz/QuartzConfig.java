@@ -33,6 +33,6 @@ public class QuartzConfig {
                 .withSchedule(CronScheduleBuilder.cronSchedule(cronSchedule)
                 .inTimeZone(TimeZone.getTimeZone("America/La_Paz")))
                 .build();
-    }
+    } 
 }
 
