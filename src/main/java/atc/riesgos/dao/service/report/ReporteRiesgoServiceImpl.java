@@ -5,6 +5,10 @@ import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherente2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherenteResidual2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaResidual2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaResumenDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosDTO;
+import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
 import atc.riesgos.model.repository.MatrizRiesgoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -619,6 +624,91 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
 
         // Crear y devolver el DTO combinado
         return new MapaInherenteResidual2DTO(listMapaInherente2DTO, listMapaResidual2DTO, listMapaResumenDTO);
+    }
+
+
+    // Mapa inherente con Riesgos
+    public MapaInherente2ConRiesgosListDTO getMapaInherente2ConRiesgos(Long procesoId) {
+        MapaInherente2ConRiesgosListDTO finalListDTO = new MapaInherente2ConRiesgosListDTO();
+
+        // Definir los IDs de probabilidad e impacto
+        int[] probabilidadIds = {5, 6, 7, 8, 9};  // Probabilidad 5 a 1 (ids en tabla parametrizada)
+        int[] impactoIds = {14, 13, 12, 11, 10};  // Impacto de 1 a 5 (ids en tabla parametrizada)
+
+        // Iterar sobre cada probabilidad
+        for (int probId : probabilidadIds) {
+            MapaInherente2ConRiesgosDTO dto = new MapaInherente2ConRiesgosDTO();
+
+            // Iterar sobre cada impacto para la probabilidad actual
+            for (int i = 0; i < impactoIds.length; i++) {
+                int impId = impactoIds[i];
+                String sql = "SELECT rie_id, rie_codigo FROM riesgos.tbl_matriz_riesgo WHERE rie_probabilidad_id = ? AND rie_impacto_id = ?";
+                List<Object> params = new ArrayList<>(Arrays.asList(probId, impId));
+
+                if (procesoId != null) {
+                    sql += " AND rie_proceso_id = ?";
+                    params.add(procesoId);
+                }
+
+                List<String> results = jdbcTemplate.query(sql, params.toArray(), (rs, rowNum) ->
+                        rs.getLong("rie_id") + ", " + rs.getString("rie_codigo")
+                );
+
+                // Asignar los resultados a la columna correspondiente basada en el índice del impacto
+                switch (i) {
+                    case 0: dto.getCol1().addAll(results); break;
+                    case 1: dto.getCol2().addAll(results); break;
+                    case 2: dto.getCol3().addAll(results); break;
+                    case 3: dto.getCol4().addAll(results); break;
+                    case 4: dto.getCol5().addAll(results); break;
+                }
+            }
+            finalListDTO.getListMapaInherente2ConRiesgosDTO().add(dto);
+        }
+
+        return finalListDTO;
+    }
+
+    // Mapa residual con Riesgos
+    public MapaResidual2ConRiesgosListDTO getMapaResidual2ConRiesgos(Long procesoId) {
+        MapaResidual2ConRiesgosListDTO finalListDTO = new MapaResidual2ConRiesgosListDTO();
+
+        // Definir los IDs de probabilidad e impacto
+        int[] probabilidadIds = {5, 4, 3, 2, 1};  // Probabilidad 5 a 1
+        int[] impactoIds = {1, 2, 3, 4, 5};  // Impacto de 1 a 5
+
+        // Iterar sobre cada probabilidad
+        for (int probId : probabilidadIds) {
+            MapaResidual2ConRiesgosDTO dto = new MapaResidual2ConRiesgosDTO();
+
+            // Iterar sobre cada impacto para la probabilidad actual
+            for (int i = 0; i < impactoIds.length; i++) {
+                int impId = impactoIds[i];
+                String sql = "SELECT rie_id, rie_codigo FROM riesgos.tbl_matriz_riesgo WHERE rie_probabilidad_residual = ? AND rie_impacto_residual = ?";
+                List<Object> params = new ArrayList<>(Arrays.asList(probId, impId));
+
+                if (procesoId != null) {
+                    sql += " AND rie_proceso_id = ?";
+                    params.add(procesoId);
+                }
+
+                List<String> results = jdbcTemplate.query(sql, params.toArray(), (rs, rowNum) ->
+                        rs.getLong("rie_id") + ", " + rs.getString("rie_codigo")
+                );
+
+                // Asignar los resultados a la columna correspondiente basada en el índice del impacto
+                switch (i) {
+                    case 0: dto.getCol1().addAll(results); break;
+                    case 1: dto.getCol2().addAll(results); break;
+                    case 2: dto.getCol3().addAll(results); break;
+                    case 3: dto.getCol4().addAll(results); break;
+                    case 4: dto.getCol5().addAll(results); break;
+                }
+            }
+            finalListDTO.getListMapaResidual2ConRiesgosDTO().add(dto);
+        }
+
+        return finalListDTO;
     }
 
 }
