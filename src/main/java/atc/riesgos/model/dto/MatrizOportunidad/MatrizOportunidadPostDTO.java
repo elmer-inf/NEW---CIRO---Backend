@@ -24,6 +24,8 @@ public class MatrizOportunidadPostDTO {
 
     // Planes
     private String planesAccion;
+    private String planesAccionAvance;
+    private String planesAccionEstado;
 
     private Long areaId;
     private Long unidadId;

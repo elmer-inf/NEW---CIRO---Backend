@@ -1,6 +1,7 @@
 package atc.riesgos.dao.service;
 
 import atc.riesgos.model.dto.TablaDescripcionMatrizOportunidad.TablaDescripcionMatrizOportunidadPutDTO;
+import atc.riesgos.model.entity.TablaDescripcion;
 import atc.riesgos.model.entity.TablaDescripcionMatrizRiesgo;
 import atc.riesgos.model.entity.TablaListaMatrizOportunidad;
 import atc.riesgos.exception.DBException;
@@ -92,15 +93,17 @@ public class TablaDescripcionMatrizOportunidadServiceImpl implements TablaDescri
     }
 
     public TablaDescripcionMatrizOportunidad findByIdTablaDesc(Long id){
-        //try {
-            //return repository.findById(id).orElseThrow(() -> new DBException("Rol", id));
-            //TablaDescripcionMatrizOportunidad founded =
-              return tablaDescripcionMatrizOportunidadRepository.findById(id).orElseThrow(() -> new DBException("Tabla oportunudad", id));
-         //   return founded;
-      //  }catch (Exception e){
-          //  Log.error("Error : " , e);
-        //}
-       // return null;
+        try {
+            if(id!=null && id!=0){
+                Optional<TablaDescripcionMatrizOportunidad> founded = tablaDescripcionMatrizOportunidadRepository.findById(id);
+                //System.out.printf("ENCONTRADO :: " + Log.toJSON(founded.get()));
+                return founded.get();
+            }
+
+        }catch (Exception e){
+            System.out.println("Error: " + e);
+        }
+        return null;
     }
 
 

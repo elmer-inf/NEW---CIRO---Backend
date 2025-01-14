@@ -30,6 +30,8 @@ public class MatrizOportunidadGetDTO {
 
     // Planes
     private String planesAccion;
+    private String planesAccionAvance;
+    private String planesAccionEstado;
 
     private TablaDescripcion areaId;
     private TablaDescripcion unidadId;

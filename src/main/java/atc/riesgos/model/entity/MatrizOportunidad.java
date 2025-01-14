@@ -64,6 +64,12 @@ public class MatrizOportunidad implements Serializable {
     @Column(name = "opo_planes_accion", columnDefinition = "text")
     private String planesAccion;
 
+    @Column(name = "opo_planes_accion_avance")
+    private String planesAccionAvance;
+
+    @Column(name = "opo_planes_accion_estado")
+    private String planesAccionEstado;
+
     /* -------- RELACION DE PARAMETROS --------- */
     @ManyToOne
     @JoinColumn(name = "opo_area_id")

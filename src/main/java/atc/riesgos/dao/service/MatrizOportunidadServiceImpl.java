@@ -78,6 +78,7 @@ public class MatrizOportunidadServiceImpl implements MatrizOportunidadService {
 
             matrizOportunidadRepository.save(matrizOportunidad);
         }catch (Exception e) {
+            System.out.println("exception: " + e);
             return ResponseEntity.badRequest().headers(responseHeaders).body(null);
         }
         return ResponseEntity.ok().headers(responseHeaders).body(matrizOportunidad);
