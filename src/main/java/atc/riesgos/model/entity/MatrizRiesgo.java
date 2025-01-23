@@ -73,6 +73,12 @@ public class MatrizRiesgo implements Serializable {
     @Column(name = "rie_planes_accion", columnDefinition = "text")
     private String planesAccion;
 
+    @Column(name = "rie_planes_accion_avance")
+    private String planesAccionAvance;
+
+    @Column(name = "rie_planes_accion_estado")
+    private String planesAccionEstado;
+
     // Valoracion
     @Column(name = "rie_criterio_impacto", columnDefinition = "text")
     private String criterioImpacto;

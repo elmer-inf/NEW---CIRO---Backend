@@ -6,10 +6,14 @@ import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherenteResidual2DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigRiesgo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 
@@ -46,6 +50,14 @@ public class ReporteRiesgoController {
     public ResponseEntity<MapaResidual2ConRiesgosListDTO> getMapaResidual2ConRiesgos(@RequestParam(required = false) Long procesoId) {
         MapaResidual2ConRiesgosListDTO dto = reporteRiesgoService.getMapaResidual2ConRiesgos(procesoId);
         return ResponseEntity.ok(dto);
+    }
+
+    @PostMapping("/riesgoconfigexcel")
+    public byte[] reporteRiesgoExcel(HttpServletResponse response, @RequestBody FiltroReporteConfigRiesgo filter) {
+        byte[] excelContent = reporteRiesgoService.reporteConfigRiesgo(filter);
+        response.setHeader("Content-Disposition", "attachment; filename=ReporteConfiguradoRiesgo.xlsx");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        return excelContent;
     }
 
 }

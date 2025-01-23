@@ -33,6 +33,8 @@ public class MatrizRiesgoGetDTO {
     private String controlComentario;
     // Planes
     private String planesAccion;
+    private String planesAccionAvance;
+    private String planesAccionEstado;
 
     // Valoracion
     private String criterioImpacto;

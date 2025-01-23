@@ -27,6 +27,8 @@ public class MatrizRiesgoPostDTO {
 
     // Planes
     private String planesAccion;
+    private String planesAccionAvance;
+    private String planesAccionEstado;
 
     // Valoracion
     private String criterioImpacto;

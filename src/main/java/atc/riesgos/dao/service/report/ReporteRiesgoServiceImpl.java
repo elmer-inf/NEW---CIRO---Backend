@@ -9,17 +9,19 @@ import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2C
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
+import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigRiesgo;
 import atc.riesgos.model.repository.MatrizRiesgoRepository;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -710,5 +712,262 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
 
         return finalListDTO;
     }
+
+
+    // REPORTE DINAMICO MATRIZ DE RIESGOS
+    @Override
+    public byte[] reporteConfigRiesgo(FiltroReporteConfigRiesgo filter)  {
+        List<Map<String, Object>> results = getDataRiesgosColumns(filter);
+
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Matriz de Riesgos");
+
+            // Estilo para cabecera: texto en negrita, fondo azul claro
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+            headerCellStyle.setFillForegroundColor(IndexedColors.PALE_BLUE.getIndex());
+            headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            headerCellStyle.setBorderTop(BorderStyle.THIN);
+            headerCellStyle.setBorderBottom(BorderStyle.THIN);
+            headerCellStyle.setBorderLeft(BorderStyle.THIN);
+            headerCellStyle.setBorderRight(BorderStyle.THIN);
+            headerCellStyle.setWrapText(true); // Habilitar salto de línea en la cabecera
+
+            // Estilo para las celdas de datos: con bordes
+            CellStyle cellStyle = workbook.createCellStyle();
+            cellStyle.setBorderTop(BorderStyle.THIN);
+            cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setBorderLeft(BorderStyle.THIN);
+            cellStyle.setBorderRight(BorderStyle.THIN);
+
+            // Crear fila de cabecera y establecer ancho fijo para todas las columnas
+            Row headerRow = sheet.createRow(0);
+            for (int colIdx = 0; colIdx < filter.getDataColumns().size(); colIdx++) {
+                FiltroReporteConfigRiesgo.DataColumn column = filter.getDataColumns().get(colIdx);
+                Cell cell = headerRow.createCell(colIdx);
+                cell.setCellValue(column.getLabel());
+                cell.setCellStyle(headerCellStyle);
+                sheet.setColumnWidth(colIdx, 20 * 256); // Ancho fijo (20 caracteres)
+            }
+
+            // Llenado de datos
+            int rowIdx = 1;
+            for (Map<String, Object> result : results) {
+                Row row = sheet.createRow(rowIdx++);
+                int colIdx = 0;
+                for (FiltroReporteConfigRiesgo.DataColumn column : filter.getDataColumns()) {
+                    Cell cell = row.createCell(colIdx++);
+                    Object value = result.get(column.getLabel());
+                    cell.setCellValue(value != null ? value.toString() : "");
+                    cell.setCellStyle(cellStyle);
+                }
+            }
+
+            workbook.write(outputStream);
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el reporte", e);
+        }
+    }
+
+
+
+    public List<Map<String, Object>> getDataRiesgosColumns(FiltroReporteConfigRiesgo filter) {
+        StringBuilder query = new StringBuilder("SELECT ");
+        List<String> columns = filter.getDataColumns().stream()
+                .map(column -> {
+                    switch (column.getId()) {
+                        case 1:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_area_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 2:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_unidad_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 3:
+                            return "(SELECT d.des_clave FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_proceso_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 4:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_proceso_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 5:
+                            return "(SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_procedimiento_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 6:
+                            return "(SELECT ROUND(CAST(REPLACE(d.des_descripcion, ',', '.') AS NUMERIC)) FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_proceso_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 7:
+                            return "(SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_proceso_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 8:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_dueno_cargo_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 9:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_responsable_cargo_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 10:
+                            return "TO_CHAR(r.rie_fecha_evaluacion, 'DD/MM/YYYY') AS \"" + column.getLabel() + "\"";
+                        case 11:
+                            return "CASE WHEN rie_evento_materializado = TRUE THEN 'SI' ELSE 'NO' END AS \"" + column.getLabel() + "\"";
+                        case 12:
+                            return "COALESCE((SELECT eve_codigo FROM riesgos.tbl_evento_riesgo e WHERE e.eve_id = (SELECT rie_evento_riesgo_id FROM riesgos.tbl_matriz_riesgo WHERE rie_id = r.rie_id)), '') AS \"" + column.getLabel() + "\"";
+                        case 13:
+                            return "COALESCE((SELECT eve_descripcion FROM riesgos.tbl_evento_riesgo e WHERE e.eve_id = (SELECT rie_evento_riesgo_id FROM riesgos.tbl_matriz_riesgo WHERE rie_id = r.rie_id)), '') AS \"" + column.getLabel() + "\"";
+                        case 14:
+                            return "COALESCE((SELECT TO_CHAR(eve_fecha_desc, 'DD/MM/YYYY') FROM riesgos.tbl_evento_riesgo e WHERE e.eve_id = (SELECT rie_evento_riesgo_id FROM riesgos.tbl_matriz_riesgo WHERE rie_id = r.rie_id)), '') AS \"" + column.getLabel() + "\"";
+                        case 15:
+                            return "rie_codigo AS \"" + column.getLabel() + "\"";
+                        case 16:
+                            return "rie_definicion AS \"" + column.getLabel() + "\"";
+                        case 17:
+                            return "rie_causa AS \"" + column.getLabel() + "\"";
+                        case 18:
+                            return "rie_consecuencia AS \"" + column.getLabel() + "\"";
+                        case 19:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_efecto_perdida_id = d.des_id), rie_efecto_perdida_otro) AS \"" + column.getLabel() + "\"";
+                        case 20:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_perdida_asfi_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 21:
+                            return "CASE WHEN rie_monetario = TRUE THEN 'Monetario' ELSE 'No monetario' END AS \"" + column.getLabel() + "\"";
+                        case 22:
+                            return "'Riesgo de ' || rie_definicion || ' debido a ' || rie_causa || ' puede ocasionar ' || rie_consecuencia AS \"" + column.getLabel() + "\"";
+                        case 23:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_factor_riesgo_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 24:
+                            return "CASE WHEN (SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_tipo_fraude_interno = d.des_id) is null THEN 'NO' ELSE 'SI' END AS \"" + column.getLabel() + "\"";
+                        case 25:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_tipo_fraude_interno = d.des_id), '') AS \"" + column.getLabel() + "\"";
+                        case 26:
+                            return "COALESCE((SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_subtipo_fraude_interno = d.des_id), '') AS \"" + column.getLabel() + "\"";
+                        case 27:
+                            return "(SELECT d.des_campo_d FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 28:
+                            return "(SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 29:
+                            return "(SELECT d.des_campo_g FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) || '%' AS \"" + column.getLabel() + "\"";
+                        case 30:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 31:
+                            return "(SELECT d.des_campo_d FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 32:
+                            return "(SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 33:
+                            return "(SELECT d.des_campo_g FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) || '%' AS \"" + column.getLabel() + "\"";
+                        case 34:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 35:
+                            return "riesgos.fc_calcula_valoracion_riesgo(CAST((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) AS INTEGER), CAST((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) AS INTEGER)) AS \"" + column.getLabel() + "\"";
+                        case 36:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND CAST(des_campo_a AS INTEGER) = riesgos.fc_calcula_valoracion_riesgo(CAST((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_probabilidad_id = d.des_id) AS INTEGER), CAST((SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_impacto_id = d.des_id) AS INTEGER))) AS \"" + column.getLabel() + "\"";
+                        case 37:
+                            return "CASE WHEN rie_controles_tiene = TRUE THEN 'SI' ELSE 'NO' END AS \"" + column.getLabel() + "\"";
+                        case 38:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'descripcion' AS campo, row_number() OVER (ORDER BY elem->>'nroControl') AS rn FROM jsonb_array_elements(r.rie_controles::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 39:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT CASE WHEN elem->>'formalizado'='true' THEN 'SI' ELSE 'NO' END AS campo, row_number() OVER (ORDER BY elem->>'nroControl') AS rn FROM jsonb_array_elements(r.rie_controles::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 40:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'norma' AS campo, row_number() OVER (ORDER BY elem->>'nroControl') AS rn FROM jsonb_array_elements(r.rie_controles::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 41:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'tipo' AS campo, row_number() OVER (ORDER BY elem->>'nroControl') AS rn FROM jsonb_array_elements(r.rie_controles::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 42:
+                            return "(SELECT d.des_campo_a FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_control_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 43:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_control_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 44:
+                            return "(SELECT d.des_campo_b || '%' FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_control_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 45:
+                            return "rie_control_objetivo AS \"" + column.getLabel() + "\"";
+                        case 46:
+                            return "rie_probabilidad_residual AS \"" + column.getLabel() + "\"";
+                        case 47:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) =r.rie_probabilidad_residual) AS \"" + column.getLabel() + "\"";
+                        case 48:
+                            return "(SELECT des_campo_g || '%' FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) =r.rie_probabilidad_residual) AS \"" + column.getLabel() + "\"";
+                        case 49:
+                            return "rie_impacto_residual AS \"" + column.getLabel() + "\"";
+                        case 50:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND CAST(des_campo_a AS integer) =r.rie_impacto_residual) AS \"" + column.getLabel() + "\"";
+                        case 51:
+                            return "(SELECT des_campo_g || '%' FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND CAST(des_campo_a AS integer) =r.rie_impacto_residual) AS \"" + column.getLabel() + "\"";
+                        case 52:
+                            return "riesgos.fc_calcula_valoracion_riesgo(rie_probabilidad_residual, rie_impacto_residual) AS \"" + column.getLabel() + "\"";
+                        case 53:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND CAST(des_campo_a AS INTEGER) = riesgos.fc_calcula_valoracion_riesgo(rie_probabilidad_residual, rie_impacto_residual)) AS \"" + column.getLabel() + "\"";
+                        case 54:
+                            return "jsonb_array_length(rie_planes_accion::jsonb) AS \"" + column.getLabel() + "\"";
+                        case 55:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'estrategia' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 56:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'descripcion' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 57:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'cargo' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 58:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'fechaImpl' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 59:
+                            return "riesgos.fc_obtiene_fecha_implementacion(r.rie_fecha_evaluacion, r.rie_id) AS \"" + column.getLabel() + "\"";
+                        case 60:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion d WHERE r.rie_efecto_perdida_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 61:
+                            return "(SELECT d.des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo d WHERE r.rie_perdida_asfi_id = d.des_id) AS \"" + column.getLabel() + "\"";
+                        case 62:
+                            return "rie_criterio_impacto AS \"" + column.getLabel() + "\"";
+                        case 63:
+                            return "rie_criterio_probabilidad AS \"" + column.getLabel() + "\"";
+                        case 64:
+                            return "(SELECT des_campo_e FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) =r.rie_probabilidad_residual) AS \"" + column.getLabel() + "\"";
+                        case 65:
+                            return "rie_probabilidad_residual AS \"" + column.getLabel() + "\"";
+                        case 66:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) =r.rie_probabilidad_residual) AS \"" + column.getLabel() + "\"";
+                        case 67:
+                            return "rie_impacto_usd AS \"" + column.getLabel() + "\"";
+                        case 68:
+                            return "rie_impacto_residual AS \"" + column.getLabel() + "\"";
+                        case 69:
+                            return "(SELECT des_nombre FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND CAST(des_campo_a AS integer) =r.rie_impacto_residual) AS \"" + column.getLabel() + "\"";
+                        case 70:
+                            return "(SELECT des_campo_e FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) =r.rie_probabilidad_residual) * rie_impacto_usd AS \"" + column.getLabel() + "\"";
+                        case 71:
+                            return "(SELECT riesgos.fc_calcula_valoracion_cuantitativa(CAST((SELECT des_campo_e FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) = r.rie_probabilidad_residual) * rie_impacto_usd AS numeric), 'valoracionRiesgo'::varchar)) AS \"" + column.getLabel() + "\"";
+                        case 72:
+                            return "(SELECT riesgos.fc_calcula_valoracion_cuantitativa(CAST((SELECT des_campo_e FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 2 AND CAST(des_campo_a AS integer) = r.rie_probabilidad_residual) * rie_impacto_usd AS numeric), 'riesgo'::varchar)) AS \"" + column.getLabel() + "\"";
+                        case 73:
+                            return "jsonb_array_length(r.rie_planes_accion::jsonb) AS \"" + column.getLabel() + "\"";
+                        case 74:
+                            return "(SELECT (SELECT COUNT(*) FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem WHERE elem->>'estado' = 'No iniciado')) AS \"" + column.getLabel() + "\"";
+                        case 75:
+                            return "(SELECT (SELECT COUNT(*) FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem WHERE elem->>'estado' = 'En proceso')) AS \"" + column.getLabel() + "\"";
+                        case 76:
+                            return "(SELECT (SELECT COUNT(*) FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem WHERE elem->>'estado' = 'Concluido')) AS \"" + column.getLabel() + "\"";
+                        case 77:
+                            return "rie_planes_accion_avance AS \"" + column.getLabel() + "\"";
+                        case 78:
+                            return "COALESCE(rie_planes_accion_estado, '') AS \"" + column.getLabel() + "\"";
+                        case 79:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'fechaSeg' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 80:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'comenPropuesta' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 81:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'comenEnProceso' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        case 82:
+                            return "(SELECT string_agg(format('%s. %s', rn, campo), E'\n' ORDER BY rn) AS lista FROM (SELECT elem->>'fechaImpl' AS campo, row_number() OVER (ORDER BY elem->>'nroPlan') AS rn FROM jsonb_array_elements(r.rie_planes_accion::jsonb) AS elem) sub) AS \"" + column.getLabel() + "\"";
+                        default:
+                            return null;
+                    }
+                })
+                .filter(column -> column != null)
+                .collect(Collectors.toList());
+
+        query.append(String.join(", ", columns));
+        query.append(" FROM riesgos.tbl_matriz_riesgo r ");
+        query.append("WHERE r.rie_fecha_evaluacion >= ? AND r.rie_fecha_evaluacion <= ? ");
+
+        if (filter.getEstadoPlan() != null && !filter.getEstadoPlan().equalsIgnoreCase("Todos")) {
+            query.append("AND r.rie_planes_accion_estado = ? ");
+        }
+        query.append("ORDER BY r.rie_id ASC");
+
+        if (filter.getEstadoPlan() != null && !filter.getEstadoPlan().equalsIgnoreCase("Todos")) {
+            return jdbcTemplate.queryForList(query.toString(), filter.getDataFilter().getFechaDesde(), filter.getDataFilter().getFechaHasta(), filter.getEstadoPlan());
+        } else {
+            return jdbcTemplate.queryForList(query.toString(), filter.getDataFilter().getFechaDesde(), filter.getDataFilter().getFechaHasta());
+        }
+    }
+
 
 }

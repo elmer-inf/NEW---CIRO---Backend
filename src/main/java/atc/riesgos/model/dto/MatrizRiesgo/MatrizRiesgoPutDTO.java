@@ -24,8 +24,11 @@ public class MatrizRiesgoPutDTO {
     private String controles;
     private String controlObjetivo;
     private String controlComentario;
+
     // Planes
     private String planesAccion;
+    private String planesAccionAvance;
+    private String planesAccionEstado;
 
     // Valoracion
     private String criterioImpacto;
