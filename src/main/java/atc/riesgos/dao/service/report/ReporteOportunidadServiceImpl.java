@@ -1,9 +1,6 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.eventos.*;
-import atc.riesgos.model.entity.EventoRiesgo;
-import atc.riesgos.model.entity.MatrizRiesgo;
-import atc.riesgos.model.entity.TablaDescripcion;
+import atc.riesgos.model.dto.report.ciro.oportunidades.FiltroReporteConfigOportunidad;
 import atc.riesgos.model.repository.EventoRiesgoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,11 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 

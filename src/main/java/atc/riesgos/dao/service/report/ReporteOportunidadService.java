@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.eventos.*;
+import atc.riesgos.model.dto.report.ciro.oportunidades.FiltroReporteConfigOportunidad;
 
 public interface ReporteOportunidadService {
 

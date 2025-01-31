@@ -1,6 +1,7 @@
 package atc.riesgos.model.repository;
 
 import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
+import atc.riesgos.model.dto.report.ciro.riesgos.ResponseReporteGerencialDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -61,5 +62,27 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
     @Query("SELECT e FROM EventoRiesgo e WHERE e.tipoEvento in ('A', 'C') and e.factorRiesgoId.nombre='Personas'")
     List<EventoRiesgo> getEventosRecurrentes();
 
+    //  Reporte gerencial
+    @Query(value="SELECT \n" +
+            "    CAST(EXTRACT(YEAR FROM e.eve_fecha_desc) AS integer) AS año,\n" +
+            "    CAST(EXTRACT(MONTH FROM e.eve_fecha_desc) AS integer) AS mes,\n" +
+            "    COALESCE(SUM(riesgos.fc_calcula_total_perdida_usd_evento(e.eve_id)), 0) AS total_perdida,\n" +
+            "    ROUND(\n" +
+            "        COALESCE(\n" +
+            "            (SUM(riesgos.fc_calcula_total_perdida_usd_evento(e.eve_id)) * 100) / NULLIF((SELECT CAST(des_campo_f AS NUMERIC) FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND des_campo_a = '2'), 0),\n" +
+            "            0\n" +
+            "        ), 3\n" +
+            "    ) AS porcentaje_total_perdida\n" +
+            "FROM riesgos.tbl_evento_riesgo e\n" +
+            "WHERE e.eve_tipo_evento = 'A'\n" +
+            "    AND e.eve_fecha_desc >= :fechaDesde AND e.eve_fecha_desc <= :fechaHasta\n" +
+            "GROUP BY EXTRACT(YEAR FROM e.eve_fecha_desc), EXTRACT(MONTH FROM e.eve_fecha_desc)\n" +
+            "ORDER BY EXTRACT(YEAR FROM e.eve_fecha_desc), EXTRACT(MONTH FROM e.eve_fecha_desc)", nativeQuery = true)
+    List<Object[]> getTotalPerdidaUsdPorcentaje(@Param("fechaDesde") Date fechaDesde, @Param("fechaHasta") Date fechaHasta);
+
+
+
+    @Query(value = "SELECT CAST((SELECT des_campo_f FROM riesgos.tbl_tabla_descripcion_matriz_riesgo WHERE des_tabla_id = 3 AND des_campo_a = '2') AS NUMERIC)", nativeQuery = true)
+    Long getApetitoRiesgo();
 
 }

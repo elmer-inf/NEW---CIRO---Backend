@@ -1,4 +1,4 @@
-package atc.riesgos.model.dto.report.ciro.eventos;
+package atc.riesgos.model.dto.report.ciro.oportunidades;
 
 import lombok.Getter;
 import lombok.Setter;

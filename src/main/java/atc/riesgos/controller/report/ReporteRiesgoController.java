@@ -3,11 +3,10 @@ package atc.riesgos.controller.report;
 import atc.riesgos.dao.service.report.ReporteRiesgoService;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.MapaInherenteResidual1DTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherenteResidual2DTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigRiesgo;
+import atc.riesgos.model.dto.report.ciro.riesgos.FiltroReporteConfigRiesgo;
+import atc.riesgos.model.dto.report.ciro.riesgos.ResponseReporteGerencialDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -60,4 +59,10 @@ public class ReporteRiesgoController {
         return excelContent;
     }
 
+    @GetMapping("/reportegerencial")
+    public ResponseReporteGerencialDTO generarReporteGerencial(
+            @RequestParam(value = "fechaDesde", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaDesde,
+            @RequestParam(value = "fechaHasta", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaHasta) {
+        return reporteRiesgoService.generarReporteGerencial(fechaDesde, fechaHasta);
+    }
 }

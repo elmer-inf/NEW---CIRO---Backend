@@ -9,8 +9,10 @@ import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2C
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosDTO;
 import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigRiesgo;
+import atc.riesgos.model.dto.report.ciro.riesgos.FiltroReporteConfigRiesgo;
+import atc.riesgos.model.dto.report.ciro.riesgos.FiltroReporteGerencialDTO;
+import atc.riesgos.model.dto.report.ciro.riesgos.ResponseReporteGerencialDTO;
+import atc.riesgos.model.repository.EventoRiesgoRepository;
 import atc.riesgos.model.repository.MatrizRiesgoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +32,8 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
 
     @Autowired
     MatrizRiesgoRepository matrizRiesgoRepository;
+    @Autowired
+    EventoRiesgoRepository eventoRiesgoRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @PersistenceContext
@@ -775,8 +780,6 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
         }
     }
 
-
-
     public List<Map<String, Object>> getDataRiesgosColumns(FiltroReporteConfigRiesgo filter) {
         StringBuilder query = new StringBuilder("SELECT ");
         List<String> columns = filter.getDataColumns().stream()
@@ -968,6 +971,44 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
             return jdbcTemplate.queryForList(query.toString(), filter.getDataFilter().getFechaDesde(), filter.getDataFilter().getFechaHasta());
         }
     }
+
+    // REPORTE GERENCIAL
+    public ResponseReporteGerencialDTO generarReporteGerencial(Date fechaDesde, Date fechaHasta) {
+        List<Object[]> results = eventoRiesgoRepository.getTotalPerdidaUsdPorcentaje(fechaDesde, fechaHasta);
+        ResponseReporteGerencialDTO response = new ResponseReporteGerencialDTO();
+        List<ResponseReporteGerencialDTO.DatoMeses> datoMesesList = new ArrayList<>();
+        for (Object[] result : results) {
+            ResponseReporteGerencialDTO.DatoMeses datoMes = new ResponseReporteGerencialDTO.DatoMeses();
+            datoMes.setAnio(((Integer) result[0]));
+            datoMes.setMes(getNombreMes(((Integer) result[1])));
+            datoMes.setTotalPerdida((BigDecimal) result[2]);
+            datoMes.setPorcentajeTotalPerdida((BigDecimal) result[3]);
+            datoMesesList.add(datoMes);
+        }
+        response.setDatoMeses(datoMesesList);
+        response.setApetitoRiesgo(eventoRiesgoRepository.getApetitoRiesgo());
+        return response;
+    }
+
+    public static String getNombreMes(int numeroMes) {
+        switch (numeroMes) {
+            case 1: return "Enero";
+            case 2: return "Febrero";
+            case 3: return "Marzo";
+            case 4: return "Abril";
+            case 5: return "Mayo";
+            case 6: return "Junio";
+            case 7: return "Julio";
+            case 8: return "Agosto";
+            case 9: return "Septiembre";
+            case 10: return "Octubre";
+            case 11: return "Noviembre";
+            case 12: return "Diciembre";
+            default: return "Desconocido";
+        }
+    }
+
+
 
 
 }

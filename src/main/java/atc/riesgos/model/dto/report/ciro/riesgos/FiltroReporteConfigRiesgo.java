@@ -1,4 +1,4 @@
-package atc.riesgos.model.dto.report.ciro.eventos;
+package atc.riesgos.model.dto.report.ciro.riesgos;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,5 +38,13 @@ public class FiltroReporteConfigRiesgo {
         public DataFilter() {
             // Constructor vacío
         }
+    }
+
+    @Setter
+    @Getter
+    public static class FiltroReporteGerencial {
+
+        private Date fechaDesde;
+        private Date fechaHasta;
     }
 }
