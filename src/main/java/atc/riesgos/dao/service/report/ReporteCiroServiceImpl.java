@@ -1,13 +1,12 @@
 package atc.riesgos.dao.service.report;
 
 import atc.riesgos.config.log.Log;
-import atc.riesgos.model.dto.report.ciro.*;
+import atc.riesgos.model.dto.Reporte.eventos.ciro.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;

@@ -1,12 +1,11 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa1.MapaInherenteResidual1DTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.MapaInherenteResidual2DTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
-import atc.riesgos.model.dto.MatrizRiesgo.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
-import atc.riesgos.model.dto.report.ciro.riesgos.FiltroReporteConfigRiesgo;
-import atc.riesgos.model.dto.report.ciro.riesgos.FiltroReporteGerencialDTO;
-import atc.riesgos.model.dto.report.ciro.riesgos.ResponseReporteGerencialDTO;
+import atc.riesgos.model.dto.Reporte.riesgos.mapas.mapa1.MapaInherenteResidual1DTO;
+import atc.riesgos.model.dto.Reporte.riesgos.mapas.mapa2.MapaInherenteResidual2DTO;
+import atc.riesgos.model.dto.Reporte.riesgos.mapas.mapa2.conRiesgos.MapaInherente2ConRiesgosListDTO;
+import atc.riesgos.model.dto.Reporte.riesgos.mapas.mapa2.conRiesgos.MapaResidual2ConRiesgosListDTO;
+import atc.riesgos.model.dto.Reporte.riesgos.FiltroReporteConfigRiesgo;
+import atc.riesgos.model.dto.Reporte.riesgos.ResponseReporteGerencialDTO;
 
 import java.util.Date;
 

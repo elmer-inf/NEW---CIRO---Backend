@@ -1,9 +1,9 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteAuditoria;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteConfigEvento;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteEvento;
+import atc.riesgos.model.dto.Reporte.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.MatrizRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;

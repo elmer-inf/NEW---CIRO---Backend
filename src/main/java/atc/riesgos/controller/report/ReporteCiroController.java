@@ -1,16 +1,12 @@
 package atc.riesgos.controller.report;
 
 import atc.riesgos.dao.service.report.ReporteCiroService;
-import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
-import atc.riesgos.model.dto.report.ciro.*;
-import atc.riesgos.model.entity.EventoRiesgo;
 //import org.json.JSONException;
 //import org.json.JSONObject;
+import atc.riesgos.model.dto.Reporte.eventos.ciro.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 

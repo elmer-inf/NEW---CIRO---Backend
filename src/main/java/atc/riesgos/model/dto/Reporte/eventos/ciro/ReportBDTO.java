@@ -1,0 +1,34 @@
+package atc.riesgos.model.dto.Reporte.eventos.ciro;
+//2.2.  Cuentas Contables (Revisar con el solicitante)
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Date;
+
+@Setter
+@Getter
+public class ReportBDTO extends MainReport{
+    private String cuentaContable;
+    private Date fechaRegistroCuenta;
+
+    public ReportBDTO() {
+    }
+
+    public ReportBDTO(String cuentaContable, Date fechaRegistroCuenta) {
+        this.cuentaContable = cuentaContable;
+        this.fechaRegistroCuenta = fechaRegistroCuenta;
+    }
+
+
+    public ReportBDTO(Integer idRegister, Object[] columns, String fechaCorteSend) {
+        id = idRegister;
+        codigoEnvio = (String) columns[0];
+        fechaCorte = fechaCorteSend;
+        codigoEvento = (String) columns[1];
+        this.cuentaContable = (String) columns[2];
+        this.fechaRegistroCuenta = (Date) columns[3];
+        tipoEnvio = (String) columns[4];
+
+    }
+}

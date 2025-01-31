@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.*;
+import atc.riesgos.model.dto.Reporte.eventos.ciro.*;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.oportunidades.FiltroReporteConfigOportunidad;
+import atc.riesgos.model.dto.Reporte.oportunidades.FiltroReporteConfigOportunidad;
 import atc.riesgos.model.repository.EventoRiesgoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -83,7 +83,6 @@ public class ReporteOportunidadServiceImpl implements ReporteOportunidadService 
             throw new RuntimeException("Error al generar el reporte oportunidad", e);
         }
     }
-
 
     private List<Map<String, Object>> getDataOportunidadColumns(FiltroReporteConfigOportunidad filter) {
         StringBuilder query = new StringBuilder("SELECT ");

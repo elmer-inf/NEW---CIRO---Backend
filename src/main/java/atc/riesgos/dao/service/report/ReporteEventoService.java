@@ -1,13 +1,11 @@
 package atc.riesgos.dao.service.report;
 
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteAuditoria;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteConfigEvento;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteEvento;
+import atc.riesgos.model.dto.Reporte.eventos.ReporteEventoGralDTO;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public interface ReporteEventoService {
 

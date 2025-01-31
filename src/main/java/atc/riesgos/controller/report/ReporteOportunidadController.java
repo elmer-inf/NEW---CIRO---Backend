@@ -1,7 +1,7 @@
 package atc.riesgos.controller.report;
 
 import atc.riesgos.dao.service.report.ReporteOportunidadService;
-import atc.riesgos.model.dto.report.ciro.oportunidades.FiltroReporteConfigOportunidad;
+import atc.riesgos.model.dto.Reporte.oportunidades.FiltroReporteConfigOportunidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;

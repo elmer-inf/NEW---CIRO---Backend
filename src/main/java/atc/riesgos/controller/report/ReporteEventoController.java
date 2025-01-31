@@ -1,10 +1,10 @@
 package atc.riesgos.controller.report;
 
 import atc.riesgos.dao.service.report.ReporteEventoService;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteAuditoria;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteConfigEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.FiltroReporteEvento;
-import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteAuditoria;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteConfigEvento;
+import atc.riesgos.model.dto.Reporte.eventos.FiltroReporteEvento;
+import atc.riesgos.model.dto.Reporte.eventos.ReporteEventoGralDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;

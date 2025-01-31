@@ -1,7 +1,6 @@
 package atc.riesgos.model.repository;
 
-import atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO;
-import atc.riesgos.model.dto.report.ciro.riesgos.ResponseReporteGerencialDTO;
+import atc.riesgos.model.dto.Reporte.eventos.ReporteEventoGralDTO;
 import atc.riesgos.model.entity.EventoRiesgo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,7 +39,7 @@ public interface EventoRiesgoRepository extends BaseRepository<EventoRiesgo> {
 
     // REPORTES DE EVENTOS DE RIESGO
 
-    @Query("SELECT new atc.riesgos.model.dto.report.ciro.eventos.ReporteEventoGralDTO(e.codigo, e.descripcion, e.estadoEvento, e.fechaDesc, e.fechaFin) " +
+    @Query("SELECT new atc.riesgos.model.dto.Reporte.eventos.ReporteEventoGralDTO(e.codigo, e.descripcion, e.estadoEvento, e.fechaDesc, e.fechaFin) " +
             "FROM EventoRiesgo e " +
             "WHERE e.fechaDesc >= :fechaDesde AND e.fechaDesc <= :fechaHasta AND e.estadoEvento in :estadoEvento " +
             "ORDER BY eve_id ASC")
