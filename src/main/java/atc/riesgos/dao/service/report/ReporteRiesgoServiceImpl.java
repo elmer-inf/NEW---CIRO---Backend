@@ -38,7 +38,7 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    // MAPA 1
+    // MAPA 1 - Perfil de riesgo
     public MapaInherente1DTO mapaInherente1(Date fechaDesde, Date fechaHasta) {
 
         List<Object[]> results = matrizRiesgoRepository.getValoracionExposicionInherente(fechaDesde, fechaHasta);
@@ -320,7 +320,7 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
     }
 
 
-    // MAPA 2
+    // MAPA 2 - Mapa de riesgo
     public Object[][] mapaInherente2(Long procesoId) {
         Object[][] matrix = new Object[8][8];
 
@@ -537,7 +537,6 @@ public class ReporteRiesgoServiceImpl implements ReporteRiesgoService {
 
         return matrix;
     }
-
 
     public MapaInherenteResidual2DTO mapaInherenteResidual2 (Long procesoId){
         Object[][] matrizInherente = mapaInherente2(procesoId);
