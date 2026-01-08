@@ -13,6 +13,10 @@ import lombok.Setter;
 
 public class EventoRiesgoPutDTO {
 
+
+    private String codigo;
+    private String estadoRegistro;
+
     private String tipoEvento;
     private String estadoEvento;
     private Date fechaIni;
@@ -83,4 +87,6 @@ public class EventoRiesgoPutDTO {
     private Long lgiId;
     private Long cuentaContableId;
     private List<Long> listMatrizRiesgo;
+
+    private String responsableElaborador;
 }

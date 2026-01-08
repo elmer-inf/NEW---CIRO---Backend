@@ -7,5 +7,7 @@ import java.util.List;
 public interface ArchivoService {
     List<Archivo> create(ArchivoPostDTO data);
     List<Archivo> findAllByEvento(Long id);
-    Archivo deleteByIdArchivo(Long id);
+    //Archivo deleteByIdArchivo(Long id);
+
+    int softDeleteByIdsAndEvento(List<Long> ids, Long eventoId);
 }

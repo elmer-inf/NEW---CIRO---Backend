@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,20 +80,27 @@ public class ArchivoServiceImpl implements ArchivoService {
     public List<Archivo> findAllByEvento(Long id) {
         List<Archivo> archivos = new ArrayList<>();
         try {
-            archivos = archivoRepository.findByEventoId(id);
+            archivos = archivoRepository.findAllByEventoIdAndDeletedFalse(id);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
         return archivos;
     }
 
-    public Archivo deleteByIdArchivo(Long id) {
+    /*public Archivo deleteByIdArchivo(Long id) {
         Optional<Archivo> founded = archivoRepository.findById(id);
         Archivo archivo = founded.get();
         archivo.setDeleted(true);
 
         Archivo archDel = archivoRepository.save(archivo);
         return archDel;
+    }*/
+
+    @Transactional
+    public int softDeleteByIdsAndEvento(List<Long> ids, Long eventoId) {
+        if (ids == null || ids.isEmpty()) return 0;
+        return archivoRepository.softDeleteByIdsAndEvento(ids, eventoId);
     }
+
 
 }

@@ -3,7 +3,7 @@ package atc.riesgos.controller;
 import atc.riesgos.dao.service.EventoRiesgoService;
 import atc.riesgos.auth.Controller;
 import atc.riesgos.config.log.Log;
-import atc.riesgos.model.dto.EventoRiesgo.EventoRecurrente.EventoRiesgoFilePutDTO;
+import atc.riesgos.model.dto.EventoRiesgo.EventoRecurrente.EventoRiesgoFilePutDTOrecurrente;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRecurrente.EventoRiesgoPutDTOrecurrente;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoGetDTO;
 import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPostDTO;
@@ -11,9 +11,16 @@ import atc.riesgos.model.dto.EventoRiesgo.EventoRiesgoPutDTOevaluacion;
 import atc.riesgos.model.dto.EventoRiesgo.*;
 import atc.riesgos.model.entity.EventoRiesgo;
 import atc.riesgos.model.entity.TablaDescripcion;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -30,6 +37,8 @@ public class EventoRiesgoController extends Controller {
     @Autowired
     EventoRiesgoService eventoRiesgoService;
 
+    private static final Logger log = LoggerFactory.getLogger(EventoRiesgoController.class);
+
     @PostMapping("/registrar")
     public ResponseEntity<EventoRiesgo> save(@Valid @RequestBody EventoRiesgoPostDTO data) {
         return eventoRiesgoService.create(data);
@@ -41,7 +50,8 @@ public class EventoRiesgoController extends Controller {
         return eventoRiesgoService.createWithFiles(dataDTO, data.getFile());
     }
 
-    /*@PutMapping(value = "/editarwithfiles/{id}")
+    /* otro
+    @PutMapping(value = "/editarwithfiles/{id}")
     public ResponseEntity<EventoRiesgoGetDTO> updateById(@PathVariable("id") Long id, @ModelAttribute EventoRiesgoFilePutDTO data) {
         System.out.println("data.getFiles() " + data.getFile());
         EventoRiesgoPutDTO dataDTO = Log.jsonToObject(data.getEventoRiesgoPutDTO(),EventoRiesgoPutDTO.class);
@@ -49,6 +59,46 @@ public class EventoRiesgoController extends Controller {
         System.out.println("DAAATTAAA desseria: " + Log.toJSON(dataDTO));
         return eventoRiesgoService.updateById(id, dataDTO, data.getFile() , data.getFilesToDelete());
     }*/
+
+    /*@PutMapping(value = "/editarwithfiles/{id}")
+    public ResponseEntity<EventoRiesgoGetDTO> updateByIdWithFiles(@PathVariable("id") Long id, @ModelAttribute EventoRiesgoFilePutDTO data) {
+        EventoRiesgoPutDTO dto = Log.jsonToObject(data.getEventoRiesgoPutDTO(), EventoRiesgoPutDTO.class);
+
+        return eventoRiesgoService.updateByIdWithFiles(id, dto, data.getFile(), data.getFilesToDelete()
+        );
+    }*/
+
+    @PutMapping(value = "/editarwithfiles/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateByIdWithFiles(
+            @PathVariable("id") Long id,
+            @RequestPart("eventoRiesgoPutDTO") String eventoRiesgoPutDTOJson,
+            @RequestPart(value = "filesToDelete", required = false) String filesToDeleteJsonOrCsv,
+            @RequestPart(value = "file", required = false) MultipartFile[] files
+    ) {
+        try {
+            log.info("PUT editarwithfiles id={} jsonLen={} filesToDeleteRaw={} filesCount={}",
+                    id,
+                    eventoRiesgoPutDTOJson == null ? 0 : eventoRiesgoPutDTOJson.length(),
+                    filesToDeleteJsonOrCsv,
+                    files == null ? 0 : files.length
+            );
+
+            EventoRiesgoPutDTO dto = Log.jsonToObject(eventoRiesgoPutDTOJson, EventoRiesgoPutDTO.class);
+
+            // Si te llega JSON tipo "[207,208]" o CSV "207,208" tu parseIds actual lo soporta.
+            return eventoRiesgoService.updateByIdWithFiles(id, dto, files, filesToDeleteJsonOrCsv);
+
+        } catch (Exception e) {
+            log.error("Error updateByIdWithFiles id={}", id, e);
+            Map<String, Object> body = new HashMap<>();
+            body.put("code", "ERROR");
+            body.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(body);
+        }
+    }
+
+
+
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<EventoRiesgoGetDTO> updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody EventoRiesgoPutDTO data) {
@@ -148,7 +198,7 @@ public class EventoRiesgoController extends Controller {
     }
 
     @PostMapping("/editarrecurrentewithfiles/{id}")
-    public ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteById(@ModelAttribute EventoRiesgoFilePutDTO data, @PathVariable("id") Long id) {
+    public ResponseEntity<EventoRiesgoGetDTO> updateEventoRecurrenteById(@ModelAttribute EventoRiesgoFilePutDTOrecurrente data, @PathVariable("id") Long id) {
 
         EventoRiesgoPutDTOrecurrente dataDTO = Log.jsonToObject(data.getEventoRiesgoPutDTOrecurrente(), EventoRiesgoPutDTOrecurrente.class);
         return eventoRiesgoService.updateEventoRecurrenteWithFiles(id, dataDTO, data.getFile());

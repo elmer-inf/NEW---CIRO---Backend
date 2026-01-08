@@ -26,9 +26,9 @@ public class ArchivoController {
         return archivoService.findAllByEvento(id);
     }
 
-    @PutMapping("/eliminar/{id}")
+    /*@PutMapping("/eliminar/{id}")
     public Archivo deleteById(@PathVariable(value = "id") Long id) {
         return archivoService.deleteByIdArchivo(id);
-    }
+    }*/
 
 }

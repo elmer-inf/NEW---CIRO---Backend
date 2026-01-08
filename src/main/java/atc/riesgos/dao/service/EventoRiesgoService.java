@@ -18,6 +18,7 @@ public interface EventoRiesgoService {
     ResponseEntity<EventoRiesgo> createWithFiles(EventoRiesgoPostDTO data, MultipartFile[] files);
     //ResponseEntity<EventoRiesgoGetDTO> updateById(Long id, EventoRiesgoPutDTO data, MultipartFile[] files, String idsEliminar);
     ResponseEntity<EventoRiesgoGetDTO> updateById (Long id, EventoRiesgoPutDTO data);
+    ResponseEntity<EventoRiesgoGetDTO> updateByIdWithFiles(Long id, EventoRiesgoPutDTO data, MultipartFile[] files, String filesToDelete);
     EventoRiesgo findByIdEvento(Long id);
     ResponseEntity<EventoRiesgo> evaluaEvento (Long id, EventoRiesgoPutDTOevaluacion data);
     EventoRiesgoGetDTO findEventoByID(Long id);

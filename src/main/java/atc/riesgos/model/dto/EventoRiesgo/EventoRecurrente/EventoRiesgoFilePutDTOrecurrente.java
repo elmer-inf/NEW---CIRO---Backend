@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class EventoRiesgoFilePutDTO   {
+public class EventoRiesgoFilePutDTOrecurrente {
 
     private String eventoRiesgoPutDTOrecurrente;
     private MultipartFile[] file;
