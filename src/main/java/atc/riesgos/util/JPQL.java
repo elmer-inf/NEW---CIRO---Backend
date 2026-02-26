@@ -63,7 +63,7 @@ public interface JPQL {
             "    case when e.eve_recuperacion_activo_id is null then '3' else (select a.des_codigo_asfi from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_recuperacion_activo_id) end as eve_recuperacion_activo_id,\n" +
             "    '2' as relacion_riesgo_credito,\n" +
             "    case when e.eve_evento_critico = 'Crítico' then 1 when e.eve_evento_critico = 'No crítico' then 2  end as eve_evento_critico,\n" +
-            "    case when e.eve_evento_critico = 'Crítico' then e.eve_detalle_evento_critico else '' end  as eve_detalle_evento_critico,\n" +
+            "    case when e.eve_evento_critico = 'Crítico' then regexp_replace(e.eve_detalle_evento_critico,E'(\\r?\\n)+$','') else '' end  as eve_detalle_evento_critico,\n" +
             "    case\n" +
             "    when (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) = 'BOB' \n" +
             "    then case when coalesce(e.eve_monto_perdida,0) <> 0 then cast(cast(coalesce(e.eve_monto_perdida,0) as varchar) as decimal(12,2))  || (select a.des_clave from riesgos.tbl_tabla_descripcion a where a.des_id = e.eve_moneda_id) else '0.00' end\n" +
@@ -85,7 +85,7 @@ public interface JPQL {
             "    when e.eve_estado_evento ='Seguimiento' then 2\n" +
             "    when e.eve_estado_evento ='Solución' then 3\n" +
             "    end as eve_estado_evento,\n" +
-            "    e.eve_detalle_estado as eve_detalle_estado,\n" +
+            "    regexp_replace(e.eve_detalle_estado,E'(\\r?\\n)+$','') as eve_detalle_estado,\n" +
             "    (select tmr.rie_codigo from riesgos.tbl_matriz_riesgo tmr  where tmr.rie_id = (select em.id_matriz_riesgo  from riesgos.eventoriesgo_matriz em where em.id_evento_riesgo = e.eve_id LIMIT 1)) as codigo_evento_relacionado,\n" +
             "    '' as tipo_envio\n" +
             "FROM riesgos.tbl_evento_riesgo e\n" +
